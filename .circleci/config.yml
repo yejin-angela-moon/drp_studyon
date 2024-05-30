@@ -20,17 +20,33 @@ jobs:
           command: bundle install
 
       - run:
+          name: Install ncurses
+          command: brew install ncurses
+
+      - run:
+          name: Set Environment Variables
+          command: |
+            echo 'export TERMINFO=/usr/share/terminfo' >> $BASH_ENV
+            echo 'export TERM=xterm-256color' >> $BASH_ENV
+            echo 'export PATH="/usr/local/opt/ncurses/bin:$PATH"' >> $BASH_ENV
+            echo 'export LDFLAGS="-L/usr/local/opt/ncurses/lib"' >> $BASH_ENV
+            echo 'export CPPFLAGS="-I/usr/local/opt/ncurses/include"' >> $BASH_ENV
+            echo 'export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"' >> $BASH_ENV
+            source $BASH_ENV
+
+      - run:
           name: Verify Fastlane Installation
           command: bundle exec fastlane -v
 
       - run:
           name: Build Unsigned IPA
+          shell: /bin/bash
           command: bundle exec fastlane ios build_unsigned
 
       - persist_to_workspace:
           root: .
           paths:
-            - output/ipa
+            - fastlane/output/ipa
 
 workflows:
   version: 2.1

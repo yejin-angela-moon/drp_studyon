@@ -4,7 +4,7 @@ platform :ios do
   desc "Build an unsigned IPA"
   lane :build_unsigned do
     gym(
-      output_directory: "./output/ipa",  # Ensure this path matches the CircleCI config
+      output_directory: "./fastlane/output/ipa",
       output_name: "MyApp.ipa",
       export_method: "development",  # or "ad-hoc"
       export_options: {
