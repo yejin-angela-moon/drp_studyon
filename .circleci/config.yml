@@ -12,8 +12,8 @@ jobs:
       - checkout
 
       - run:
-          name: Install Bundler
-          command: gem install bundler
+          name: Install Specific Bundler Version
+          command: gem install bundler -v 2.5.11
 
       - run:
           name: Install Dependencies
@@ -33,10 +33,6 @@ jobs:
             echo 'export CPPFLAGS="-I/usr/local/opt/ncurses/include"' >> $BASH_ENV
             echo 'export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"' >> $BASH_ENV
             source $BASH_ENV
-
-      - run:
-          name: Verify Fastlane Installation
-          command: bundle exec fastlane -v
 
       - run:
           name: Build Unsigned IPA
