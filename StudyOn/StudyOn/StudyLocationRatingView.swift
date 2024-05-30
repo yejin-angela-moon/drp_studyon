@@ -1,18 +1,21 @@
-//
-//  StudyLocationRatingView.swift
-//  StudyOn
-//
-//  Created by Victor Kang on 5/29/24.
-//
-
 import SwiftUI
 
 struct StudyLocationRatingView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    @State private var rating: Double = 3
+    var studyLocation: StudyLocation
 
-#Preview {
-    StudyLocationRatingView()
+    var body: some View {
+        VStack {
+            Text("Rate \(studyLocation.name)")
+            Slider(value: $rating, in: 1...5, step: 1)
+            Text("Rating: \(Int(rating))")
+            Button(action: {
+                // Save rating to your backend or local storage
+                print("Rating for \(studyLocation.name): \(Int(rating))")
+            }) {
+                Text("Submit Rating")
+            }
+        }
+        .padding()
+    }
 }
