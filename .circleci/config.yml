@@ -1,13 +1,10 @@
 version: 2.1
 
-executors:
-  macos_executor:
+jobs:
+  build_unsigned_ipa:
     macos:
       xcode: "15.3.0"
 
-jobs:
-  build_unsigned_ipa:
-    executor: macos_executor
     steps:
       - checkout
 
@@ -29,7 +26,7 @@ jobs:
             - output/ipa
 
 workflows:
-  version: 2
+  version: 2.1
   build:
     jobs:
       - build_unsigned_ipa
