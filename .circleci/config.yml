@@ -10,7 +10,8 @@ jobs:
 
       - run:
           name: test
-          command: | echo "Hi"
+          command: |
+            echo "Hi"
 
 workflows:
   version: 2
