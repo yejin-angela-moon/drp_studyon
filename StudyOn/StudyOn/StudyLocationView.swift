@@ -50,10 +50,9 @@ struct StudyLocationView: View {
                 // Should save rating to the backend
                 print("Rating for \(studyLocation?.name ?? "nil"): \(Int(rating))")
                 
-                if var location = studyLocation {
-                    location.rating = rating
-                    studyLocation = location
-                }
+                studyLocation?.rating = rating
+                show.toggle()
+                studyLocation = nil
             }) {
                 Text("Submit Rating")
             }.padding(10)
