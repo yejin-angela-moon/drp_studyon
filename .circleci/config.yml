@@ -18,3 +18,40 @@ workflows:
   build:
     jobs:
       - build
+
+
+version: 2.1
+
+executors:
+  macos_executor:
+    macos:
+      xcode: "15.3.0"
+
+jobs:
+  build_unsigned_ipa:
+    executor: macos_executor
+    steps:
+      - checkout
+
+      - run:
+          name: Install Bundler
+          command: gem install bundler
+
+      - run:
+          name: Install Dependencies
+          command: bundle install
+
+      - run:
+          name: Build Unsigned IPA
+          command: bundle exec fastlane ios build_unsigned
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - output/ipa
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build_unsigned_ipa
