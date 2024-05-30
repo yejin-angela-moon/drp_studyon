@@ -1,28 +1,40 @@
 import SwiftUI
 
 struct LocationDetailView: View {
-    @Binding var studyLocation: StudyLocation
+    @Binding var studyLocation: StudyLocation?
+    @Binding var show: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(studyLocation.name)
+            Button {
+                show.toggle()
+            } label: {
+                Image(systemName: "arrowtriangle.left.fill")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(.gray, Color(.systemGray6))
+            }
+            .padding(.leading, 15)
+            .padding(.bottom, 8)
+            
+            Text(studyLocation?.name ?? "")
                             .font(.largeTitle)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding([.leading, .trailing], 18)
                             .padding([.top, .bottom], 5)
             
             HStack(alignment: .center) {
-                let score = String(format: "%.1f", studyLocation.rating)
+                let score = String(format: "%.1f", studyLocation?.rating ?? 0)
                 Text("\(score)")
                     .font(.title2)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .foregroundStyle(.orange)
                     
                 
-                Text("(\(studyLocation.comments.count))").font(.title3).fontWeight(.medium)
+                Text("(\(studyLocation?.comments.count ?? 0))").font(.title3).fontWeight(.medium)
             }
             .padding([.leading, .trailing], 20)
             
-            ImageSliderView(images: studyLocation.images).frame(height: 300)
+            ImageSliderView(images: studyLocation?.images ?? []).frame(height: 300)
                 .padding([.leading, .trailing], 8)
                 .padding([.top, .bottom], 12)
             
@@ -96,5 +108,5 @@ struct CommentRow: View {
 }
 
 #Preview {
-    LocationDetailView(studyLocation: .constant(previewStudyLocation))
+    LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
 }

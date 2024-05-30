@@ -6,7 +6,8 @@ struct ContentView: View {
     @State private var searchText = "" // Search text in the search text field
     @State private var results = [MKMapItem]()
     @State private var locationSelection: StudyLocation?
-    @State private var showPopup = false // Show details about the locationSelection (StudyLocationView)
+    @State private var showPopup = false // Show small pop up of StudyLocationView
+    @State private var showDetails = false // Show LocationDetailView
     
     @State private var libraries = librariesDummy
     
@@ -47,8 +48,13 @@ struct ContentView: View {
                 print("Show details")
                 showPopup = newValue != nil
             })
+            .sheet(isPresented: $showDetails, content: {
+                LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
+                    .presentationBackgroundInteraction(.disabled)
+                
+            })
             .sheet(isPresented: $showPopup, content: {
-                StudyLocationView(studyLocation: $locationSelection, show: $showPopup)
+                StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
                     .presentationDetents([.height(340)])
                     .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
                     .presentationCornerRadius(12)
@@ -65,9 +71,15 @@ struct ContentView: View {
     }
 }
 
+let sampleComments = [
+    Comment(name: "Alice", content: "Great place to study!", date: Date()),
+    Comment(name: "Bob", content: "Quite noisy during peak hours.", date: Date()),
+    Comment(name: "Charlie", content: "Friendly staff and good resources.", date: Date())
+]
+
 // Dummy data and supporting structs for this example
 let librariesDummy = [
-    StudyLocation(name: "Imperial College London - Abdus Salam Library", title: "Imperial College London, South Kensington Campus, London SW7 2AZ", latitude: 51.49805710, longitude: -0.17824890, rating: 5.0, comments: [], images: []),
+    StudyLocation(name: "Imperial College London - Abdus Salam Library", title: "Imperial College London, South Kensington Campus, London SW7 2AZ", latitude: 51.49805710, longitude: -0.17824890, rating: 5.0, comments: sampleComments, images: ["imperial1", "imperial2", "imperial3"]),
     StudyLocation(name: "The London Library", title: "14 St James's Square, St. James's, London SW1Y 4LG", latitude: 51.50733901, longitude: -0.13698200, rating: 2.1, comments: [], images: []),
     StudyLocation(name: "Chelsea Library", title: "Chelsea Old Town Hall, King's Rd, London SW3 5EZ", latitude: 51.48738370, longitude: -0.16837240, rating: 0.7, comments: [], images: []),
     StudyLocation(name: "Fulham Library", title: "598 Fulham Rd., London SW6 5NX", latitude: 51.478, longitude: -0.2028, rating: 3.5, comments: [], images: []),

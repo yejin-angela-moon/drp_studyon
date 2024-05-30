@@ -11,6 +11,7 @@ import MapKit
 struct StudyLocationView: View {
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
+    @Binding var showDetails: Bool
     @State private var rating: Double = 3
     
     var body: some View {
@@ -37,6 +38,7 @@ struct StudyLocationView: View {
                 
                 Button {
                     show.toggle()
+                    showDetails.toggle()
                     studyLocation = nil
                 } label: {
                     Image(systemName: "xmark.circle.fill")
@@ -46,6 +48,10 @@ struct StudyLocationView: View {
                 }
                 .padding(10)
             }
+            
+            Button("View Details", action: {
+                showDetails.toggle()
+            })
             
             //            Slider(value: $rating, in: 1...5, step: 1).padding([.leading, .trailing], 30)
             //            Text("Rating: \(Int(rating))")
@@ -64,14 +70,7 @@ struct StudyLocationView: View {
 }
 
 
-
-let sampleComments = [
-    Comment(name: "Alice", content: "Great place to study!", date: Date()),
-    Comment(name: "Bob", content: "Quite noisy during peak hours.", date: Date()),
-    Comment(name: "Charlie", content: "Friendly staff and good resources.", date: Date())
-]
-
 let previewStudyLocation = StudyLocation(name: "Imperial College London - Abdus Salam Library", title: "Imperial College London, South Kensington Campus, London SW7 2AZ", latitude: 51.49805710, longitude: -0.17824890, rating: 5.0, comments: sampleComments, images: ["imperial1", "imperial2", "imperial3"])
 #Preview {
-    StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
+    StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))
 }
