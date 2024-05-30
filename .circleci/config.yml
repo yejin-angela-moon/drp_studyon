@@ -1,27 +1,5 @@
 version: 2.1
 
-jobs:
-  build:
-    macos:
-      xcode: "15.3.0"
-
-    steps:
-      - checkout
-
-      - run:
-          name: test
-          command: |
-            echo "Hi"
-
-workflows:
-  version: 2
-  build:
-    jobs:
-      - build
-
-
-version: 2.1
-
 executors:
   macos_executor:
     macos:
