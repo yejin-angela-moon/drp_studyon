@@ -7,7 +7,9 @@ struct StudyLocation: Identifiable, Hashable {
     let title: String
     let latitude: Double
     let longitude: Double
-    var rating: Double
+    let rating: Double
+    let comments: [Comment]
+    let images: [String]
     
     var markerColor: Color {
         colorForRating(rating)
