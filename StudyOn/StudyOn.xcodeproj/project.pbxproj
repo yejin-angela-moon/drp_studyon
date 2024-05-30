@@ -17,6 +17,7 @@
 		577347052C07BBF100758655 /* StudyLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577347042C07BBF100758655 /* StudyLocation.swift */; };
 		577347072C07BC9700758655 /* StudyLocationRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577347062C07BC9700758655 /* StudyLocationRatingView.swift */; };
 		57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC272C080F56009D0FAA /* ContentView.swift */; };
+		57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		577347042C07BBF100758655 /* StudyLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocation.swift; sourceTree = "<group>"; };
 		577347062C07BC9700758655 /* StudyLocationRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocationRatingView.swift; sourceTree = "<group>"; };
 		57CEEC272C080F56009D0FAA /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				577347042C07BBF100758655 /* StudyLocation.swift */,
 				57CEEC272C080F56009D0FAA /* ContentView.swift */,
 				577347062C07BC9700758655 /* StudyLocationRatingView.swift */,
+				57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */,
 			);
 			path = StudyOn;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				577347052C07BBF100758655 /* StudyLocation.swift in Sources */,
 				57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */,
 				577347072C07BC9700758655 /* StudyLocationRatingView.swift in Sources */,
+				57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */,
 				577346D72C07B82700758655 /* StudyOnApp.swift in Sources */,
 				577347012C07BA9E00758655 /* LocationManager.swift in Sources */,
 			);

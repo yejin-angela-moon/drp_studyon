@@ -1,13 +1,13 @@
 import SwiftUI
 import MapKit
 
-struct StudyLocation: Hashable {
+struct StudyLocation: Identifiable, Hashable {
     let id = UUID()
     let name: String
+    let title: String
     let latitude: Double
     let longitude: Double
-    
-    let rating: Double
+    var rating: Double
     
     var markerColor: Color {
         colorForRating(rating)
@@ -15,6 +15,15 @@ struct StudyLocation: Hashable {
     
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func ==(lhs: StudyLocation, rhs: StudyLocation) -> Bool {
+        lhs.id == rhs.id
     }
 }
 
