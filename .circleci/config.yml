@@ -6,46 +6,34 @@ executors:
       xcode: "15.3.0"
 
 jobs:
+  executor: macos_executor
   build_unsigned_ipa:
-    executor: macos_executor
+    macos:
+      xcode: "15.3.0"
+
     steps:
       - checkout
 
       - run:
-          name: Install Specific Bundler Version
-          command: gem install bundler -v 2.5.11
+          name: Install Bundler
+          command: gem install bundler
 
       - run:
           name: Install Dependencies
           command: bundle install
 
       - run:
-          name: Install ncurses
-          command: brew install ncurses
-
-      - run:
-          name: Set Environment Variables
-          command: |
-            echo 'export TERMINFO=/usr/share/terminfo' >> $BASH_ENV
-            echo 'export TERM=xterm-256color' >> $BASH_ENV
-            echo 'export PATH="/usr/local/opt/ncurses/bin:$PATH"' >> $BASH_ENV
-            echo 'export LDFLAGS="-L/usr/local/opt/ncurses/lib"' >> $BASH_ENV
-            echo 'export CPPFLAGS="-I/usr/local/opt/ncurses/include"' >> $BASH_ENV
-            echo 'export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"' >> $BASH_ENV
-            source $BASH_ENV
-
-      - run:
           name: Build Unsigned IPA
-          shell: /bin/bash
           command: bundle exec fastlane ios build_unsigned
 
       - persist_to_workspace:
           root: .
           paths:
-            - fastlane/output/ipa
+            - output/ipa
 
 workflows:
   version: 2.1
   build:
     jobs:
       - build_unsigned_ipa
+
