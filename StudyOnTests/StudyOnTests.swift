@@ -1,9 +1,3 @@
-//
-//  StudyOnTests.swift
-//  StudyOnTests
-//
-//  Created by Victor Kang on 5/29/24.
-//
 
 import XCTest
 @testable import StudyOn
