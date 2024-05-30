@@ -6,13 +6,6 @@ executors:
       xcode: "15.3.0"
 
 jobs:
-  deploy-job:
-    executor: macos_executor
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "5f:59:6a:5d:1a:04:0e:a8:d7:74:04:0f:0c:66:b2:7d"
-
   build_unsigned_ipa:
     executor: macos_executor
     steps:
@@ -39,7 +32,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - deploy-job
-      - build_unsigned_ipa:
-          requires:
-            - deploy-job
+      - build_unsigned_ipa
