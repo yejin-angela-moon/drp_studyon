@@ -49,16 +49,8 @@ jobs:
           at: .
 
       - run:
-          name: Install Bundler
-          command: gem install bundler
-
-      - run:
-          name: Install Dependencies
-          command: bundle install
-
-      - run:
-          name: Create Unsigned IPA
-          command: bundle exec fastlane ios create_unsigned_ipa --verbose
+          name: Generate unsigned ipa
+          command: ./generate_unsigned_ipa
 
       - store_artifacts:
           path: output/ipa
