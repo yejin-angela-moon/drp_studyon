@@ -10,6 +10,7 @@ struct StudyLocation: Identifiable, Hashable {
     let rating: Double
     let comments: [Comment]
     let images: [String]
+    let hours: [String: (open: String, close: String)]
     
     var markerColor: Color {
         colorForRating(rating)

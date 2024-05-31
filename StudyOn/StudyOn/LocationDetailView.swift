@@ -38,15 +38,37 @@ struct LocationDetailView: View {
                 .padding([.leading, .trailing], 8)
                 .padding([.top, .bottom], 12)
             
+            VStack(alignment: .leading) {
+                            Text("Open Hours")
+                                .font(.largeTitle)
+                                .padding()
+                            
+                            ForEach(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self) { day in
+                                HStack {
+                                    Text(day)
+                                        .font(.headline)
+                                    Spacer()
+                                    if let hours = studyLocation?.hours[day] {
+                                        Text("\(hours.open) - \(hours.close)")
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                .padding([.leading, .trailing], 18)
+                            }
+                        }
+            
             
             VStack {
                 Text("Comments")
                     .font(.largeTitle)
                     .padding()
                 
-                CommentsView(comments: sampleComments)
+                CommentsView(comments: studyLocation?.comments ?? [])
             }
+            .padding(.bottom, 20)
         }
+        .scrollable()
     }
 }
 
@@ -109,4 +131,12 @@ struct CommentRow: View {
 
 #Preview {
     LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
+}
+
+extension View {
+    func scrollable() -> some View {
+        ScrollView {
+            self
+        }
+    }
 }
