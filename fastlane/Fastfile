@@ -6,10 +6,10 @@ platform :ios do
     gym(
       output_directory: "./output/ipa",
       output_name: "MyApp.ipa",
-      export_method: "development",
+      export_method: "ad-hoc",
       export_options: {
         compileBitcode: false,
-        method: "development",  # or "ad-hoc", this won't matter since we're skipping signing
+        method: "ad-hoc",
         signingStyle: "manual",
         provisioningProfiles: {},
         signingCertificate: "",  # Leave empty for unsigned

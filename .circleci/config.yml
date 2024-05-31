@@ -25,7 +25,7 @@ jobs:
 
       - run:
           name: Build Unsigned IPA
-          command: bundle exec fastlane ios build_unsigned
+          command: bundle exec fastlane ios build_unsigned --verbose
 
       - persist_to_workspace:
           root: .
