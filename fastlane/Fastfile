@@ -3,8 +3,12 @@ default_platform(:ios)
 platform :ios do
   desc "Run unit tests"
   lane :unit_tests do
-    run_tests(
-      scheme: "StudyOn"
+    scan(
+      scheme: "StudyOn",
+      workspace: "StudyOn.xcworkspace",
+      clean: true,
+      code_coverage: true,
+      skip_testing: ["StudyOnUITests"]
     )
   end
 
