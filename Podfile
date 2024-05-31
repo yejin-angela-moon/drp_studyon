@@ -9,5 +9,5 @@ target 'StudyOn' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/FirestoreSwift'
-
+  
 end
