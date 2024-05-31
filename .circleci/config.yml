@@ -21,7 +21,7 @@ jobs:
 
       - run:
           name: Run Unit Tests
-          command: bundle exec fastlane ios run_tests --verbose
+          command: bundle exec fastlane ios unit_tests --verbose
 
       - persist_to_workspace:
           root: .
