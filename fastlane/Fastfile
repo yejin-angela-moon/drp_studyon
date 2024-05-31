@@ -5,12 +5,12 @@ platform :ios do
   lane :build_unsigned do
     gym(
       configuration: "Release",
-      project: "StudyOn.xcodeproj",  # Update with your actual project path if different
+      project: "StudyOn.xcodeproj",
       output_directory: "./output/archive",
-      archive_path: "./output/archive/MyApp.xcarchive",
+      archive_path: "./output/archive/StudyOn.xcarchive",
       export_method: "ad-hoc",  # This is required, but won't affect since we're not exporting an IPA
       skip_codesigning: true,
-      skip_package_ipa: true,  # Skip the IPA packaging
+      skip_package_ipa: true,
       export_options: {
         compileBitcode: false,
         method: "ad-hoc",

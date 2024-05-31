@@ -32,6 +32,17 @@ jobs:
           paths:
             - output/archive
 
+      - run:
+          name: Install curl_PROJ
+          command: brew install curl
+
+      - run:
+          name: Upload xcarchive to GitLab
+          command: |
+            curl --request POST --header "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" \
+              --form "file=@output/archive/StudyOn.xcarchive" \
+              "https://gitlab.com/api/v4/projects/$GITLAB_PROJECT_ID/uploads"
+
 workflows:
   version: 2.1
   build:
