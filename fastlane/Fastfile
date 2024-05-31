@@ -31,6 +31,7 @@ platform :ios do
     archive_path = "./output/archive/StudyOn.xcarchive"
     ipa_output_path = "./output/ipa"
     sh "mkdir -p #{ipa_output_path}/Payload"
+    sh "echo 'Contents of #{archive_path}:' && ls -R #{archive_path}"
 
     # Ensure the .app directory exists
     app_path = "#{archive_path}/Products/Applications/StudyOn.app"
