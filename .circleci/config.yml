@@ -19,9 +19,9 @@ jobs:
           name: Install Dependencies
           command: bundle install
 
-      - run:
-          name: Set Deployment Target
-          command: /usr/libexec/PlistBuddy -c "Set :IPHONEOS_DEPLOYMENT_TARGET 17.4" "StudyOn/Info.plist"
+      # - run:
+      #     name: Set Deployment Target
+      #     command: /usr/libexec/PlistBuddy -c "Set :IPHONEOS_DEPLOYMENT_TARGET 17.4" "StudyOn/Info.plist"
 
       - run:
           name: Build Unsigned IPA
