@@ -29,9 +29,11 @@ platform :ios do
   desc "Create unsigned IPA from xarchive"
   lane :create_unsigned_ipa do
     archive_path = "./output/archive/StudyOn.xcarchive"
-    ipa_output_path = "./output/archive"
-    sh "mkdir -p #{ipa_output_path}"
-    sh "cp -R #{archive_path}/Products/Applications/StudyOn.app #{ipa_output_path}/Payload/StudyOn.app"
+    ipa_output_path = "./output/ipa"
+    sh "mkdir -p #{ipa_output_path}/Payload"
+    app_path = Dir["#{archive_path}/Products/Applications/*.app"].first
+    raise "App bundle not found in xcarchive" unless app_path
+    sh "cp -R #{app_path} #{ipa_output_path}/Payload/"
     sh "cd #{ipa_output_path} && zip -r StudyOn.ipa Payload"
   end
 end
