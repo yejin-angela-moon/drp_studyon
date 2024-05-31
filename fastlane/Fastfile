@@ -20,7 +20,6 @@ platform :ios do
         iCloudContainerEnvironment: "Production"  # Use the production iCloud container environment
       },
       include_bitcode: false,
-      use_legacy_build_api: false,
       codesigning_identity: "",
       skip_package_ipa: false,
       skip_profile_detection: true,
