@@ -10,10 +10,18 @@ jobs:
     executor: macos_executor
     steps:
       - checkout
-
+      
       - run:
           name: Install Bundler
           command: gem install bundler
+
+      - run:
+          name: Install CocoaPods
+          command: sudo gem install cocoapods
+
+      - run:
+          name: Install Pods
+          command: pod install
 
       - run:
           name: Install Dependencies
@@ -44,6 +52,14 @@ jobs:
       - run:
           name: Install Bundler
           command: gem install bundler
+      
+      - run:
+          name: Install CocoaPods
+          command: sudo gem install cocoapods
+
+      - run:
+          name: Install Pods
+          command: pod install
 
       - run:
           name: Install Dependencies
@@ -69,6 +85,14 @@ jobs:
 
       - attach_workspace:
           at: .
+
+      - run:
+          name: Install CocoaPods
+          command: sudo gem install cocoapods
+
+      - run:
+          name: Install Pods
+          command: pod install
 
       - run:
           name: Generate unsigned ipa
