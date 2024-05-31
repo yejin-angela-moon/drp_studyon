@@ -4,7 +4,7 @@ platform :ios do
   desc "Run unit tests"
   lane :unit_tests do
     run_tests(
-      scheme: "StudyOnTests"
+      scheme: "StudyOn"
     )
   end
 
