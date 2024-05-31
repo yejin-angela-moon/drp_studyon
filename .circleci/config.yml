@@ -22,11 +22,7 @@ jobs:
       - run:
           name: Install Pods
           command: pod install --repo-update
-
-      - run:
-          name: Lint Podspec and Skip Tests
-          command: pod lib lint CoconutLib.podspec --skip-tests
-
+          
       - run:
           name: Install Dependencies
           command: bundle install
@@ -64,10 +60,6 @@ jobs:
       - run:
           name: Install Pods
           command: pod install --repo-update
-      
-      - run:
-          name: Lint Podspec and Skip Tests
-          command: pod lib lint CoconutLib.podspec --skip-tests
 
       - run:
           name: Install Dependencies
@@ -101,10 +93,6 @@ jobs:
       - run:
           name: Install Pods
           command: pod install --repo-update
-      
-      - run:
-          name: Lint Podspec and Skip Tests
-          command: pod lib lint CoconutLib.podspec --skip-tests
 
       - run:
           name: Generate unsigned ipa
