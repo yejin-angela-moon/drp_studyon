@@ -2,7 +2,7 @@ default_platform(:ios)
 
 platform :ios do
   desc "Build an unsigned xcarchive"
-  lane :build_unsigned do
+  lane :build_unsigned_xarchive do
     gym(
       configuration: "Release",
       project: "StudyOn.xcodeproj",
