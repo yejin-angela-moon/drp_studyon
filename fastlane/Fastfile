@@ -24,6 +24,7 @@ platform :ios do
         iCloudContainerEnvironment: "Production"
       }
     )
+    sh "echo 'Contents of output/archive after build:' && ls -R ./output/archive"
   end
 
   desc "Create unsigned IPA from xcarchive"
