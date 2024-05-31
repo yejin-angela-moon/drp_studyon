@@ -10,19 +10,7 @@ jobs:
     executor: macos_executor
     steps:
       - checkout
-
-      - run:
-          name: Install xcodes tool
-          command: |
-            brew tap robotsandpencils/made
-            brew install robotsandpencils/made/xcodes
-      - run:
-          name: Install iOS Simulator runtime
-          command: xcodes runtimes install 'iOS 16.0'
-      - run:
-          name: Create iPhone 15 Simulator
-          command: xcrun simctl create "iPhone 15 with iOS 16" "iPhone 15" iOS16.0
-
+      
       - run:
           name: Install Bundler
           command: gem install bundler

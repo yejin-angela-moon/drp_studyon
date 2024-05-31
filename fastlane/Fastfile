@@ -4,11 +4,11 @@ platform :ios do
   desc "Run unit tests"
   lane :unit_tests do
     scan(
-      project: "StudyOn.xcodeproj",
       scheme: "StudyOn",
+      workspace: "StudyOn.xcodeproj/project.xcworkspace",
+      device: "iPhone 15",
       clean: true,
-      devices: ["iPhone 15 with iOS 16"],
-      output_directory: "./output/test_results"
+      code_coverage: true
     )
   end
 
