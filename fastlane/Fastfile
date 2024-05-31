@@ -5,7 +5,6 @@ platform :ios do
   lane :unit_tests do
     scan(
       scheme: "StudyOn",
-      workspace: "StudyOn.xcworkspace",
       clean: true,
       code_coverage: true,
       skip_testing: ["StudyOnUITests"]
