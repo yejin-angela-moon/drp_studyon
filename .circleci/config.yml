@@ -6,7 +6,7 @@ executors:
       xcode: "15.3.0"
 
 jobs:
-  build_unsigned_ipa:
+  build_unsigned_xcarchive:
     executor: macos_executor
     steps:
       - checkout
@@ -21,19 +21,19 @@ jobs:
 
       # - run:
       #     name: Set Deployment Target
-      #     command: /usr/libexec/PlistBuddy -c "Set :IPHONEOS_DEPLOYMENT_TARGET 17.4" "StudyOn/Info.plist"
+      #     command: /usr/libexec/PlistBuddy -c "Set :IPHONEOS_DEPLOYMENT_TARGET 12.0" "StudyOn/Info.plist"
 
       - run:
-          name: Build Unsigned IPA
+          name: Build Unsigned xcarchive
           command: bundle exec fastlane ios build_unsigned --verbose
 
       - persist_to_workspace:
           root: .
           paths:
-            - output/ipa
+            - output/archive
 
 workflows:
   version: 2.1
   build:
     jobs:
-      - build_unsigned_ipa
+      - build_unsigned_xcarchive

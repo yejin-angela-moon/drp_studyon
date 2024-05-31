@@ -1,29 +1,28 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Build an unsigned IPA"
+  desc "Build an unsigned xcarchive"
   lane :build_unsigned do
     gym(
-      output_directory: "./output/ipa",
-      output_name: "MyApp.ipa",
-      export_method: "ad-hoc",
+      configuration: "Release",
+      project: "StudyOn.xcodeproj",  # Update with your actual project path if different
+      output_directory: "./output/archive",
+      archive_path: "./output/archive/MyApp.xcarchive",
+      export_method: "ad-hoc",  # This is required, but won't affect since we're not exporting an IPA
+      skip_codesigning: true,
+      skip_package_ipa: true,  # Skip the IPA packaging
       export_options: {
         compileBitcode: false,
         method: "ad-hoc",
         signingStyle: "manual",
         provisioningProfiles: {},
-        signingCertificate: "",  # Leave empty for unsigned
-        teamID: "",  # Leave empty for unsigned
-        uploadSymbols: false,  # Do not upload symbols
-        stripSwiftSymbols: true,  # Strip Swift symbols from the binary
-        thinning: "<none>",  # Do not thin the app
-        iCloudContainerEnvironment: "Production"  # Use the production iCloud container environment
-      },
-      include_bitcode: false,
-      codesigning_identity: "",
-      skip_package_ipa: false,
-      skip_profile_detection: true,
-      skip_codesigning: true  # Explicitly skip code signing
+        signingCertificate: "",
+        teamID: "",
+        uploadSymbols: false,
+        stripSwiftSymbols: true,
+        thinning: "<none>",
+        iCloudContainerEnvironment: "Production"
+      }
     )
   end
 end
