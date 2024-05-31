@@ -6,13 +6,18 @@ platform :ios do
     gym(
       output_directory: "./output/ipa",
       output_name: "MyApp.ipa",
-      export_method: "none",  # No signing
+      export_method: "development",
       export_options: {
         compileBitcode: false,
         method: "development",  # or "ad-hoc", this won't matter since we're skipping signing
         signingStyle: "manual",
         provisioningProfiles: {},
-        sign: false  # Disable signing
+        signingCertificate: "",  # Leave empty for unsigned
+        teamID: "",  # Leave empty for unsigned
+        uploadSymbols: false,  # Do not upload symbols
+        stripSwiftSymbols: true,  # Strip Swift symbols from the binary
+        thinning: "<none>",  # Do not thin the app
+        iCloudContainerEnvironment: "Production"  # Use the production iCloud container environment
       },
       include_bitcode: false,
       use_legacy_build_api: false,
