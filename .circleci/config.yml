@@ -19,10 +19,6 @@ jobs:
           name: Install Dependencies
           command: bundle install
 
-      # - run:
-      #     name: Set Deployment Target
-      #     command: /usr/libexec/PlistBuddy -c "Set :IPHONEOS_DEPLOYMENT_TARGET 12.0" "StudyOn/Info.plist"
-
       - run:
           name: Build Unsigned xcarchive
           command: bundle exec fastlane ios build_unsigned_xcarchive --verbose
