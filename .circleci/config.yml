@@ -6,6 +6,32 @@ executors:
       xcode: "15.3.0"
 
 jobs:
+  run_unit_tests:
+    executor: macos_executor
+    steps:
+      - checkout
+
+      - run:
+          name: Install Bundler
+          command: gem install bundler
+
+      - run:
+          name: Install Dependencies
+          command: bundle install
+
+      - run:
+          name: Run Unit Tests
+          command: bundle exec fastlane ios run_tests --verbose
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - output/test_results
+
+      - store_artifacts:
+          path: output/test_results
+          destination: test_results
+  
   build_unsigned_xcarchive:
     executor: macos_executor
     steps:
@@ -52,7 +78,10 @@ workflows:
   version: 2.1
   build:
     jobs:
-      - build_unsigned_xcarchive
+      - run_unit_tests
+      - build_unsigned_xcarchive:
+          requires:
+            - run_unit_tests
       - create_unsigned_ipa:
           requires:
             - build_unsigned_xcarchive

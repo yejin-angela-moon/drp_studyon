@@ -1,6 +1,17 @@
 default_platform(:ios)
 
 platform :ios do
+  desc "Run unit tests"
+  lane :run_tests do
+    scan(
+      project: "StudyOn.xcodeproj",
+      scheme: "StudyOn",  # Replace with your actual scheme name
+      clean: true,
+      devices: ["iPhone 15"],  # Replace with your desired device
+      output_directory: "./output/test_results"
+    )
+  end
+
   desc "Build an unsigned xcarchive"
   lane :build_unsigned_xcarchive do
     gym(
