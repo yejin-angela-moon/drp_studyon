@@ -7,7 +7,7 @@ platform :ios do
       project: "StudyOn.xcodeproj",
       scheme: "StudyOn",
       clean: true,
-      devices: ["iPhone 15"],
+      devices: ["iPhone 15 with iOS 16"],
       output_directory: "./output/test_results"
     )
   end
