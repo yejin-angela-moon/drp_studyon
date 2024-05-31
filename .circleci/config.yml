@@ -36,10 +36,6 @@ jobs:
           path: output/archive
           destination: archive
 
-      - run:
-          name: Check if output/archive Exists After Storing Artifacts
-          command: echo "Checking if output/archive exists after storing artifacts:" && ls -R ./output/archive
-
   create_unsigned_ipa:
     executor: macos_executor
     steps:
@@ -50,7 +46,7 @@ jobs:
 
       - run:
           name: Generate unsigned ipa
-          command: ./generate_unsigned_ipa
+          command: ./generate_unsigned_ipa.sh
 
       - store_artifacts:
           path: output/ipa
