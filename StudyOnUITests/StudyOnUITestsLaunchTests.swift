@@ -13,11 +13,11 @@ final class StudyOnUITestsLaunchTests: XCTestCase {
     //     true
     // }
 
-    // override func setUpWithError() throws {
+    override func setUpWithError() throws {
     //     continueAfterFailure = false
-    // }
+    }
 
-    // func testLaunch() throws {
+    func testLaunch() throws {
     //     let app = XCUIApplication()
     //     app.launch()
 
@@ -28,5 +28,5 @@ final class StudyOnUITestsLaunchTests: XCTestCase {
     //     attachment.name = "Launch Screen"
     //     attachment.lifetime = .keepAlways
     //     add(attachment)
-    // }
+    }
 }
