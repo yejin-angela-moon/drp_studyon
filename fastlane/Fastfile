@@ -3,12 +3,11 @@ default_platform(:ios)
 platform :ios do
   desc "Run unit tests"
   lane :unit_tests do
-    clean_derived_data
-    shutdown_simulator
-    reset_simulator
+    # clean_derived_data
+    # shutdown_simulator
+    # reset_simulator
     run_tests(
-      scheme: "StudyOn",
-      device: "iPhone SE (3rd generation)",
+      scheme: "StudyOnTests",
       clean: true
     )
   end
