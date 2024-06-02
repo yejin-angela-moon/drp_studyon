@@ -21,6 +21,7 @@
 		577347012C07BA9E00758655 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577347002C07BA9E00758655 /* LocationManager.swift */; };
 		577347052C07BBF100758655 /* StudyLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577347042C07BBF100758655 /* StudyLocation.swift */; };
 		577347072C07BC9700758655 /* StudyLocationRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577347062C07BC9700758655 /* StudyLocationRatingView.swift */; };
+		57A614892C0CFCA6009D378F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57A614882C0CFCA6009D378F /* GoogleService-Info.plist */; };
 		57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC272C080F56009D0FAA /* ContentView.swift */; };
 		57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */; };
 		57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2B2C08BF84009D0FAA /* Comment.swift */; };
@@ -58,6 +59,7 @@
 		577347002C07BA9E00758655 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		577347042C07BBF100758655 /* StudyLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocation.swift; sourceTree = "<group>"; };
 		577347062C07BC9700758655 /* StudyLocationRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocationRatingView.swift; sourceTree = "<group>"; };
+		57A614882C0CFCA6009D378F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57CEEC272C080F56009D0FAA /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocationView.swift; sourceTree = "<group>"; };
 		57CEEC2B2C08BF84009D0FAA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				577347002C07BA9E00758655 /* LocationManager.swift */,
 				577347042C07BBF100758655 /* StudyLocation.swift */,
 				57CEEC272C080F56009D0FAA /* ContentView.swift */,
+				57A614882C0CFCA6009D378F /* GoogleService-Info.plist */,
 				8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */,
 				577347062C07BC9700758655 /* StudyLocationRatingView.swift */,
 				57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */,
@@ -274,6 +277,7 @@
 			files = (
 				577346DE2C07B82800758655 /* Preview Assets.xcassets in Resources */,
 				577346DB2C07B82800758655 /* Assets.xcassets in Resources */,
+				57A614892C0CFCA6009D378F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
