@@ -25,7 +25,7 @@ jobs:
 
       - run:
           name: Run Unit Tests
-          command: bundle exec fastlane ios unit_tests skip_ui_tests:true --verbose
+          command: bundle exec fastlane ios unit_tests skip_unit_tests:false --verbose
 
       - run:
           name: Create Test Results Directory

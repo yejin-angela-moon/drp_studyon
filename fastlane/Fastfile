@@ -3,9 +3,9 @@ default_platform(:ios)
 platform :ios do
   desc "Run unit tests"
   lane :unit_tests do |options|
-    skip_ui_tests = options[:skip_ui_tests] || false
+    skip_unit_tests = options[:skip_unit_tests] || false
 
-    unless skip_ui_tests
+    unless skip_unit_tests
       scan(
         scheme: 'StudyOn',
         device: "iPhone SE (3rd generation)",
