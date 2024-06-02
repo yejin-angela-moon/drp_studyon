@@ -82,21 +82,27 @@ jobs:
           path: output/ipa
           destination: ipa
 
-  deploy_firebase_backend:
+  export_firestore_data:
     executor: node_executor
     steps:
       - checkout
 
       - run:
-          name: Install Firebase CLI
-          command: sudo npm install -g firebase-tools
+          name: Create Service Account Key File
+          command: |
+            echo "$FIREBASE_SERVICE_ACCOUNT" > serviceAccountKey.json
 
       - run:
-          name: Authenticate and Deploy Firebase
-          command: |
-            echo $FIREBASE_SERVICE_ACCOUNT > ${HOME}/firebase-key.json
-            export FIREBASE_TOKEN=$FIREBASE_TOKEN
-            firebase deploy --only functions,firestore --token "$FIREBASE_TOKEN"
+          name: Install Firebase Admin SDK
+          command: sudo npm install firebase-admin
+
+      - run:
+          name: Export Firestore Data to JSON
+          command: node exportFirestoreData.js
+
+      - store_artifacts:
+          path: firestoreData.json
+          destination: firestore_data
 
 workflows:
   version: 2.1
@@ -109,6 +115,6 @@ workflows:
       - create_unsigned_ipa:
           requires:
             - build_unsigned_xcarchive
-      - deploy_firebase_backend:
+      - export_firestore_data:
           requires:
             - run_unit_tests
