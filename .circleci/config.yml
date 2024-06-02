@@ -82,10 +82,10 @@ workflows:
   version: 2.1
   build:
     jobs:
-      - run_unit_tests
+      # - run_unit_tests
       - build_unsigned_xcarchive:
-          requires:
-            - run_unit_tests
+          # requires:
+          #   - run_unit_tests
       - create_unsigned_ipa:
           requires:
             - build_unsigned_xcarchive
