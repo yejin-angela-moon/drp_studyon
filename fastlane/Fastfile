@@ -8,7 +8,8 @@ platform :ios do
     # reset_simulator
     scan(
       scheme: 'StudyOn',
-      only_testing: 'StudyOnTests'
+      device: "iPhone SE (3rd generation)",
+      clean: true
     )
   end
 
