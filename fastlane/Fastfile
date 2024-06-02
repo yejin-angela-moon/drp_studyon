@@ -6,9 +6,9 @@ platform :ios do
     # clean_derived_data
     # shutdown_simulator
     # reset_simulator
-    run_tests(
-      scheme: "StudyOnTests",
-      clean: true
+    scan(
+      scheme: 'StudyOn',
+      only_testing: 'StudyOnTests'
     )
   end
 
