@@ -8,7 +8,7 @@ executors:
 jobs:
   run_unit_tests:
     executor: macos_executor
-    steps:1`
+    steps:
       - checkout
       
       - run:
