@@ -6,36 +6,36 @@ executors:
       xcode: "15.3.0"
 
 jobs:
-  # run_unit_tests:
-  #   executor: macos_executor
-  #   steps:
-  #     - checkout
-      
-  #     - run:
-  #         name: Install Bundler
-  #         command: gem install bundler
-          
-  #     - run:
-  #         name: Install Dependencies
-  #         command: bundle install
+  run_unit_tests:
+    executor: macos_executor
+    steps:
+      - checkout
 
-  #     - run:
-  #         name: Run Unit Tests
-  #         command: bundle exec fastlane ios unit_tests --verbose
+      - run:
+          name: Install Bundler
+          command: gem install bundler
 
-  #     - run:
-  #         name: Create Test Results Directory
-  #         command: mkdir -p output/test_results
+      - run:
+          name: Install Dependencies
+          command: bundle install
 
-  #     - persist_to_workspace:
-  #         root: .
-  #         paths:
-  #           - output/test_results
+      - run:
+          name: Run Unit Tests
+          command: bundle exec fastlane ios unit_tests skip_ui_tests:true --verbose
 
-  #     - store_artifacts:
-  #         path: output/test_results
-  #         destination: test_results
-  
+      - run:
+          name: Create Test Results Directory
+          command: mkdir -p output/test_results
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - output/test_results
+
+      - store_artifacts:
+          path: output/test_results
+          destination: test_results
+
   build_unsigned_xcarchive:
     executor: macos_executor
     steps:
@@ -82,18 +82,10 @@ workflows:
   version: 2.1
   build:
     jobs:
-      # - run_unit_tests
+      - run_unit_tests
       - build_unsigned_xcarchive:
-          # requires:
-          #   - run_unit_tests
+          requires:
+            - run_unit_tests
       - create_unsigned_ipa:
           requires:
             - build_unsigned_xcarchive
-
-      # - run:
-      #     name: Install CocoaPods
-      #     command: sudo gem install cocoapods
-
-      # - run:
-      #     name: Install Pods
-      #     command: pod install --repo-update
