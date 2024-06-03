@@ -78,6 +78,11 @@ let previewStudyLocation = StudyLocation(name: "Imperial College London - Abdus 
     "Friday": ("09:00", "18:00"),
     "Saturday": ("10:00", "16:00"),
     "Sunday": ("Closed", "Closed")
+], ratingFactors: [
+    "wifi speed": 4.0,
+    "crowdness": 2.5,
+    "noise": 3.0,
+    "spaciousness": 4.5
 ])
 #Preview {
     StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))

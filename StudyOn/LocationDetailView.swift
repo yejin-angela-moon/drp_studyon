@@ -1,5 +1,34 @@
 import SwiftUI
 
+struct RatingView: View {
+    let ratingFactors: [String: Double]
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            ForEach(ratingFactors.sorted(by: >), id: \.key) { key, value in
+                HStack {
+                    Text(key)
+                        .font(.headline)
+                    Spacer()
+                    HStack {
+                        ForEach(0..<5) { index in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(index < Int(value.rounded()) ? .yellow : .gray)
+                                .frame(width: 24, height: 24)
+                        }
+                        Text(String(format: "%.1f", value))
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.orange)
+                    }
+                }
+                .padding([.leading, .trailing], 18)
+                .padding(.vertical, 5)
+            }
+        }
+        .padding()
+    }
+}
 struct LocationDetailView: View {
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
@@ -37,6 +66,10 @@ struct LocationDetailView: View {
             ImageSliderView(images: studyLocation?.images ?? []).frame(height: 300)
                 .padding([.leading, .trailing], 8)
                 .padding([.top, .bottom], 12)
+            
+            if let ratingFactors = studyLocation?.ratingFactors {
+                            RatingView(ratingFactors: ratingFactors)
+                        }
             
             VStack(alignment: .leading) {
                             Text("Open Hours")
