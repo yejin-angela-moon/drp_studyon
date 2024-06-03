@@ -79,9 +79,7 @@ struct ContentView: View {
                     .presentationCornerRadius(12)
             })
             .onAppear {
-                viewModel.addSampleData {
-                    viewModel.fetchData()
-                }
+                viewModel.fetchData()
             }
         }
     }
