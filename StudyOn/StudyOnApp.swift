@@ -162,7 +162,8 @@ func addSampleData() {
                     "rating": location.rating,
                     "images": location.images,
                     "comments": location.comments.map { ["name": $0.name, "content": $0.content, "date": Timestamp(date: Date())] },
-                    "hours": location.hours.mapValues { ["open": $0.open, "close": $0.close] }
+                    "hours": location.hours.mapValues { ["open": $0.open, "close": $0.close] },
+                    "ratingFactors": location.ratingFactors
                 ]
                 db.collection("studyLocations").addDocument(data: locationData) { error in
                     if let error = error {
