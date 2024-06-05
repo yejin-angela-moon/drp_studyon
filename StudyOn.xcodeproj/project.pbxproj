@@ -27,6 +27,8 @@
 		57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2B2C08BF84009D0FAA /* Comment.swift */; };
 		57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */; };
 		8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */; };
+		F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDD2C0E2685002861D2 /* LocationsView.swift */; };
+		F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		57CEEC2B2C08BF84009D0FAA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyLocationViewModel.swift; sourceTree = "<group>"; };
+		F20F4FDD2C0E2685002861D2 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
+		F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,17 +125,14 @@
 			isa = PBXGroup;
 			children = (
 				577346D62C07B82700758655 /* StudyOnApp.swift */,
+				57CEEC272C080F56009D0FAA /* ContentView.swift */,
+				F20F4FD62C0E1C85002861D2 /* Models */,
+				F20F4FD52C0E1C3E002861D2 /* ViewModels */,
+				F20F4FD42C0E1BA4002861D2 /* Views */,
 				577346DA2C07B82800758655 /* Assets.xcassets */,
 				577346DC2C07B82800758655 /* Preview Content */,
 				577347002C07BA9E00758655 /* LocationManager.swift */,
-				577347042C07BBF100758655 /* StudyLocation.swift */,
-				57CEEC272C080F56009D0FAA /* ContentView.swift */,
 				57A614882C0CFCA6009D378F /* GoogleService-Info.plist */,
-				8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */,
-				577347062C07BC9700758655 /* StudyLocationRatingView.swift */,
-				57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */,
-				57CEEC2B2C08BF84009D0FAA /* Comment.swift */,
-				57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */,
 			);
 			path = StudyOn;
 			sourceTree = "<group>";
@@ -159,6 +160,35 @@
 				577346F32C07B82800758655 /* StudyOnUITestsLaunchTests.swift */,
 			);
 			path = StudyOnUITests;
+			sourceTree = "<group>";
+		};
+		F20F4FD42C0E1BA4002861D2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */,
+				57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */,
+				577347062C07BC9700758655 /* StudyLocationRatingView.swift */,
+				F20F4FDD2C0E2685002861D2 /* LocationsView.swift */,
+				F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F20F4FD52C0E1C3E002861D2 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F20F4FD62C0E1C85002861D2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				577347042C07BBF100758655 /* StudyLocation.swift */,
+				57CEEC2B2C08BF84009D0FAA /* Comment.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,7 +333,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				577347052C07BBF100758655 /* StudyLocation.swift in Sources */,
+				F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */,
 				57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */,
+				F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */,
 				57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */,
 				8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */,
 				577347072C07BC9700758655 /* StudyLocationRatingView.swift in Sources */,
