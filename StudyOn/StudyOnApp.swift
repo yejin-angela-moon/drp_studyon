@@ -84,7 +84,7 @@ func addSampleData() {
                     "crowdness": 2.5,
                     "noise": 3.0,
                     "spaciousness": 4.5
-                ], atmosphere: ["Calm", "Nice music", "Pet-friendly"], num: 4),
+                ], atmosphere: ["Calm", "Nice music", "Pet-friendly", "Quiet"], num: 4),
                 StudyLocation(name: "Chelsea Library", title: "Chelsea Old Town Hall, King's Rd, London SW3 5EZ", latitude: 51.48738370, longitude: -0.16837240, rating: 0.7, comments: [], images: [], hours: [
                     "Monday": ("09:00", "18:00"),
                     "Tuesday": ("09:00", "18:00"),
