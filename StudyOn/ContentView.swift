@@ -40,7 +40,7 @@ struct ContentView: View {
             }
             .onSubmit(of: .text) { // Handling search query
                 print("Search for location: \(searchText)")
-//                Task { await searchPlacesOnline() }
+                    Task { await searchPlacesOnline() }
                 print(self.results)
             }
             .mapControls {
@@ -66,6 +66,38 @@ struct ContentView: View {
                     viewModel.fetchData()
                 }
             }
+        }
+    private func searchPlacesOnline() async {
+        let query: Query
+        if searchText.isEmpty {
+                query = db.collection("studyLocations")
+            } else {
+                query = db.collection("studyLocations").whereField("atmosphere", arrayContains: searchText)
+            }
+        do {
+            let snapshot = try await query.getDocuments()
+            self.viewModel.studyLocations = snapshot.documents.map { document -> StudyLocation in
+                let data = document.data()
+                let name = data["name"] as? String ?? ""
+                let title = data["title"] as? String ?? ""
+                let latitude = data["latitude"] as? Double ?? 0
+                let longitude = data["longitude"] as? Double ?? 0
+                let rating = data["rating"] as? Double ?? 0
+                let images = data["images"] as? [String] ?? []
+                let commentsData = data["comments"] as? [[String: Any]] ?? []
+                let comments = commentsData.map { Comment(name: $0["name"] as? String ?? "", content: $0["content"] as? String ?? "", date: Date()) }
+                let hoursData = data["hours"] as? [String: [String: String]] ?? [:]
+                            let hours = hoursData.mapValues {
+                                (open: $0["open"] ?? "Closed", close: $0["close"] ?? "Closed")
+                            }
+                let ratingFactorsData = data["ratingFactors"] as? [String: Double] ?? [:]
+                let atmosphere = data["atmosphere"] as? [String] ?? [""]
+                let num = data["num"] as? Int ?? 0
+                return StudyLocation(name: name, title: title, latitude: latitude, longitude: longitude, rating: rating, comments: comments, images: images, hours: hours, ratingFactors: ratingFactorsData, atmosphere: atmosphere, num:num)
+            }
+        } catch {
+            print("Error getting documents: \(error)")
+        }
         }
     }
 
