@@ -79,7 +79,8 @@ struct ContentView: View {
                     .presentationCornerRadius(12)
             })
             .onAppear {
-                viewModel.fetchData()
+                    viewModel.fetchData()
+                }
             }
         }
     }
@@ -105,7 +106,7 @@ struct ContentView: View {
 //            return StudyLocation(name: name, title: title, latitude: latitude, longitude: longitude, rating: rating, comments: comments, images: images)
 //        } ?? []
 //    }
-}
+
 
 let sampleComments = [
     Comment(name: "Alice", content: "Great place to study!", date: Date()),
