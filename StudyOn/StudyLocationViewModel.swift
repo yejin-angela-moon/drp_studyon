@@ -34,7 +34,9 @@ class StudyLocationViewModel: ObservableObject {
                                     (open: $0["open"] ?? "Closed", close: $0["close"] ?? "Closed")
                                 }
                     let ratingFactorsData = data["ratingFactors"] as? [String: Double] ?? [:]
-                    return StudyLocation(name: name, title: title, latitude: latitude, longitude: longitude, rating: rating, comments: comments, images: images, hours: hours, ratingFactors: ratingFactorsData)
+                    let atmosphere = data["atmosphere"] as? [String] ?? [""]
+                    let num = data["num"] as? Int ?? 0
+                    return StudyLocation(name: name, title: title, latitude: latitude, longitude: longitude, rating: rating, comments: comments, images: images, hours: hours, ratingFactors: ratingFactorsData, atmosphere: atmosphere, num:num)
                 }
             }
         }

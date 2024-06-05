@@ -13,6 +13,8 @@ struct StudyLocation: Identifiable, Hashable {
     let hours: [String: (open: String, close: String)
     ]
     let ratingFactors: [String:Double]
+    let atmosphere: [String]
+    let num: Int
     
     var markerColor: Color {
         colorForRating(rating)
