@@ -27,9 +27,6 @@
 		57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2B2C08BF84009D0FAA /* Comment.swift */; };
 		57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */; };
 		8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */; };
-		F20F4FD82C0E1DB4002861D2 /* LibraryStudyLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FD72C0E1DB4002861D2 /* LibraryStudyLocationsView.swift */; };
-		F20F4FDA2C0E1FB4002861D2 /* LibraryAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FD92C0E1FB4002861D2 /* LibraryAnnotationView.swift */; };
-		F20F4FDC2C0E24DA002861D2 /* CafeAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDB2C0E24DA002861D2 /* CafeAnnotationView.swift */; };
 		F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDD2C0E2685002861D2 /* LocationsView.swift */; };
 		F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */; };
 /* End PBXBuildFile section */
@@ -70,9 +67,6 @@
 		57CEEC2B2C08BF84009D0FAA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyLocationViewModel.swift; sourceTree = "<group>"; };
-		F20F4FD72C0E1DB4002861D2 /* LibraryStudyLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryStudyLocationsView.swift; sourceTree = "<group>"; };
-		F20F4FD92C0E1FB4002861D2 /* LibraryAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAnnotationView.swift; sourceTree = "<group>"; };
-		F20F4FDB2C0E24DA002861D2 /* CafeAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeAnnotationView.swift; sourceTree = "<group>"; };
 		F20F4FDD2C0E2685002861D2 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
 		F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,9 +168,6 @@
 				57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */,
 				57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */,
 				577347062C07BC9700758655 /* StudyLocationRatingView.swift */,
-				F20F4FD72C0E1DB4002861D2 /* LibraryStudyLocationsView.swift */,
-				F20F4FD92C0E1FB4002861D2 /* LibraryAnnotationView.swift */,
-				F20F4FDB2C0E24DA002861D2 /* CafeAnnotationView.swift */,
 				F20F4FDD2C0E2685002861D2 /* LocationsView.swift */,
 				F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */,
 			);
@@ -341,16 +332,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F20F4FDA2C0E1FB4002861D2 /* LibraryAnnotationView.swift in Sources */,
 				577347052C07BBF100758655 /* StudyLocation.swift in Sources */,
 				F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */,
 				57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */,
 				F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */,
 				57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */,
-				F20F4FDC2C0E24DA002861D2 /* CafeAnnotationView.swift in Sources */,
 				8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */,
 				577347072C07BC9700758655 /* StudyLocationRatingView.swift in Sources */,
-				F20F4FD82C0E1DB4002861D2 /* LibraryStudyLocationsView.swift in Sources */,
 				57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */,
 				57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */,
 				577346D72C07B82700758655 /* StudyOnApp.swift in Sources */,

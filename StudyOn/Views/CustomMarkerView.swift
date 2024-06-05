@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CustomMarkerView: View {
     var rating: Double
+    var category: String
+    
     var body: some View {
         libraryIcon
             .shadow(radius: 3)
@@ -21,16 +23,27 @@ struct CustomMarkerView: View {
         let red = (5.0 - clampedRating) / 5.0
         return Color(red: red, green: green, blue: 0.0)
     }
+    
+    private func imageForCategory(_ category: String) -> String {
+        switch category {
+        case "library":
+            return "book.fill"
+        case "cafe":
+            return "cup.and.saucer.fill"
+        default:
+            return "book.fill"
+        }
+    }
 }
 
 #Preview {
-    CustomMarkerView(rating: previewStudyLocation.rating)
+    CustomMarkerView(rating: previewStudyLocation.rating, category: previewStudyLocation.category)
 }
 
 extension CustomMarkerView {
     private var libraryIcon: some View {
         VStack(spacing: 0) {
-            Image(systemName: "book.fill")
+            Image(systemName: imageForCategory(previewStudyLocation.category))
                 .resizable()
                 .scaledToFit()
                 .frame(width: 30, height: 30)

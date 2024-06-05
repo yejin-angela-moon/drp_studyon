@@ -18,14 +18,29 @@ struct LocationsView: View {
     @State private var locationSelection: StudyLocation?
     @State private var showPopup = false // Show small pop up of StudyLocationView
     @State private var showDetails = false // Show LocationDetailView
+    @State private var selectedFilter: String? = nil
+    @State private var isLibrarySelected: Bool = false
+    @State private var isCafeSelected: Bool = false
+    
     
     var body: some View {
         
-        ZStack {
+            
+        ZStack(alignment: .top) {
             maplayer
-            .overlay(alignment: .top) { // Search Text Field
-            searchTextField
+                .ignoresSafeArea()
+            VStack(spacing: 0) {
+                searchTextField
+                    
+                HStack {
+                    libraryToggleButton
+                    cafeToggleButton
+                    Spacer()
+                }
+                .padding()
+                
             }
+            
             .onSubmit(of: .text) { // Handling search query
                 print("Search for location: \(searchText)")
                 //                Task { await searchPlacesOnline() }
@@ -63,15 +78,42 @@ struct LocationsView: View {
     LocationsView()
 }
 
+struct ButtonToggleStyle: ToggleStyle {
+    @Binding var filter: String?
+    var category: String
+    @Binding var isCategorySelected: Bool
+    var otherCategory: String
+    @Binding var isOtherCategorySelected: Bool
+    
+    func makeBody(configuration: Configuration) -> some View {
+        Button(action: {
+            isCategorySelected.toggle()
+            if isCategorySelected {
+                isOtherCategorySelected = false
+                filter = category
+            } else {
+                filter = nil
+            }
+        }) {
+            configuration.label
+                .padding(8)
+                .font(.system(size: 14))
+                .background(isCategorySelected ? Color.orange : Color.gray)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+        }
+    }
+}
+
 extension LocationsView {
     private var maplayer: some View {
         Map(position: $cameraPosition, selection: $locationSelection) {
             UserAnnotation()
             
-            ForEach(viewModel.studyLocations) { item in
+            ForEach(filteredLocations) { item in
                 Annotation(item.name, coordinate: item.coordinate) {
                     
-                    CustomMarkerView(rating: item.rating)
+                    CustomMarkerView(rating: item.rating, category: item.category)
                         .onTapGesture {
                             locationSelection = item
                             showPopup = true // show popup when an annotation is tapped
@@ -81,15 +123,35 @@ extension LocationsView {
         }
     }
     
+    private var filteredLocations: [StudyLocation] {
+        if let selectedFilter = selectedFilter {
+            return viewModel.studyLocations.filter { $0.category.lowercased() == selectedFilter }
+        } else {
+            return viewModel.studyLocations
+        }
+    }
+    
     private var searchTextField: some View {
         TextField("Search For Study Location", text: $searchText)
             .font(.subheadline)
-            .padding(12)
+            .padding()
             .background(Color.white)
+            .cornerRadius(8)
             .padding(.top, 6)
-            .padding(.leading, 8)
-            .padding(.trailing, 58)
+            .padding(.horizontal)
             .shadow(radius: 10)
+    }
+    
+    private var libraryToggleButton: some View {
+        Toggle("Library", isOn: $isLibrarySelected)
+            .toggleStyle(ButtonToggleStyle(filter: $selectedFilter, category: "library", isCategorySelected: $isLibrarySelected, otherCategory: "cafe", isOtherCategorySelected: $isCafeSelected))
+            .font(.headline)
+
+    }
+    
+    private var cafeToggleButton: some View {
+        Toggle("Cafe", isOn: $isCafeSelected)
+                            .toggleStyle(ButtonToggleStyle(filter: $selectedFilter, category: "cafe", isCategorySelected: $isCafeSelected, otherCategory: "library", isOtherCategorySelected: $isLibrarySelected))
     }
     
 

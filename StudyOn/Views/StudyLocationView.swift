@@ -15,55 +15,89 @@ struct StudyLocationView: View {
     @State private var rating: Double = 3
     
     var body: some View {
-        VStack {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
-                    nameSection
+        Spacer()
+        HStack(alignment: .bottom, spacing: 0) {
+            VStack(alignment: .leading, spacing: 16.0) {
+                imageSection
+                nameSection
+                titleSection
                 
-                    titleSection
-                    
-                    let score = String(format: "%.1f", studyLocation?.rating ?? 0)
-                    Text("\(score) / 5.0")
-                }
-                .padding([.leading, .trailing], 6)
-                .padding([.top, .bottom], 15)
-                
-                Spacer()
-                
-                Button {
-                    show.toggle()
-                    showDetails.toggle()
-                    studyLocation = nil
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(.gray, Color(.systemGray6))
-                }
-                .padding(10)
+                let score = String(format: "%.1f", studyLocation?.rating ?? 0)
+                Text("\(score) / 5.0")
             }
-            
-            Button("View Details", action: {
-                showDetails.toggle()
-            })
-            
-            //            Slider(value: $rating, in: 1...5, step: 1).padding([.leading, .trailing], 30)
-            //            Text("Rating: \(Int(rating))")
-            //            Button(action: {
-            //                // Should save rating to the backend
-            //                print("Rating for \(studyLocation?.name ?? "nil"): \(Int(rating))")
-            //
-            ////                studyLocation?.rating = rating
-            //                show.toggle()
-            //                studyLocation = nil
-            //            }) {
-            //                Text("Submit Rating")
-            //            }.padding(10)
         }
+        .padding(20)
+        .background(RoundedRectangle(cornerRadius: 10)
+            .fill(.ultraThinMaterial)
+            .offset(y: 65))
+        .cornerRadius(10)
+        Button {
+            show.toggle()
+            showDetails.toggle()
+            studyLocation = nil
+        } label: {
+            Image(systemName: "xmark.circle.fill")
+                .resizable()
+                .frame(width: 24, height: 24)
+                .foregroundStyle(.gray, Color(.systemGray6))
+        }
+        .padding(10)
+        Button("View Details", action: {
+            showDetails.toggle()
+        })
     }
+    
+    
+    
+    //        VStack {
+    //            HStack(alignment: .top) {
+    //                VStack(alignment: .leading) {
+    //                    nameSection
+    //
+    //                    titleSection
+    //
+    //                    let score = String(format: "%.1f", studyLocation?.rating ?? 0)
+    //                    Text("\(score) / 5.0")
+    //                }
+    //                .padding([.leading, .trailing], 6)
+    //                .padding([.top, .bottom], 15)
+    //
+    //                Spacer()
+    //
+    //                Button {
+    //                    show.toggle()
+    //                    showDetails.toggle()
+    //                    studyLocation = nil
+    //                } label: {
+    //                    Image(systemName: "xmark.circle.fill")
+    //                        .resizable()
+    //                        .frame(width: 24, height: 24)
+    //                        .foregroundStyle(.gray, Color(.systemGray6))
+    //                }
+    //                .padding(10)
+    //            }
+    //
+    //            Button("View Details", action: {
+    //                showDetails.toggle()
+    //            })
+    //
+    //            Slider(value: $rating, in: 1...5, step: 1).padding([.leading, .trailing], 30)
+    //            Text("Rating: \(Int(rating))")
+    //            Button(action: {
+    //                // Should save rating to the backend
+    //                print("Rating for \(studyLocation?.name ?? "nil"): \(Int(rating))")
+    //
+    ////                studyLocation?.rating = rating
+    //                show.toggle()
+    //                studyLocation = nil
+    //            }) {
+    //                Text("Submit Rating")
+    //            }.padding(10)
+    //        }
+    //    }
+    //}
 }
-
-
+    
 let previewStudyLocation = StudyLocation(name: "Imperial College London - Abdus Salam Library", title: "Imperial College London, South Kensington Campus, London SW7 2AZ", latitude: 51.49805710, longitude: -0.17824890, rating: 5.0, comments: sampleComments, images: ["imperial1", "imperial2", "imperial3"], hours: [
     "Monday": ("09:00", "18:00"),
     "Tuesday": ("09:00", "18:00"),
@@ -71,25 +105,64 @@ let previewStudyLocation = StudyLocation(name: "Imperial College London - Abdus 
     "Thursday": ("09:00", "18:00"),
     "Friday": ("09:00", "18:00"),
     "Saturday": ("10:00", "16:00"),
-    "Sunday": ("Closed", "Closed")
+    "Sunday": ("Closed", "Closed"),
+    
 ])
+
+
+
 #Preview {
     StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))
 }
 
 extension StudyLocationView {
     private var nameSection: some View {
-        Text(studyLocation?.name ?? "")
-            .font(.title2)
+        VStack(alignment: .leading, spacing: 4) {
+            Text(studyLocation?.name ?? "")
+                .font(.title2)
             .fontWeight(.semibold)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var imageSection: some View {
+        ZStack {
+            if let imageName = previewStudyLocation.images.first {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(10)
+            }
+        }
+        .padding(6)
+        .background(Color.white)
+        .cornerRadius(10)
     }
     
     private var titleSection: some View {
-        Text(studyLocation?.title ?? "")
-            .font(.footnote)
-            .foregroundStyle(.gray)
-            .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text(studyLocation?.title ?? "")
+                .font(.footnote)
+                .foregroundStyle(.gray)
+                .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
             .padding(.trailing)
+        }
+    }
+    
+    private var backButton: some View {
+        Button {
+//            vm.sheetLocation = nil
+        } label: {
+            Image(systemName: "xmark")
+                .font(.headline)
+                .padding(16)
+                .foregroundColor(.primary)
+                .background(.thickMaterial)
+                .cornerRadius(10)
+                .shadow(radius: 4)
+                .padding()
+        }
     }
 
 }
