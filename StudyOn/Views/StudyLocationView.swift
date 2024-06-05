@@ -18,15 +18,9 @@ struct StudyLocationView: View {
         VStack {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text(studyLocation?.name ?? "")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    
-                    Text(studyLocation?.title ?? "")
-                        .font(.footnote)
-                        .foregroundStyle(.gray)
-                        .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
-                        .padding(.trailing)
+                    nameSection
+                
+                    titleSection
                     
                     let score = String(format: "%.1f", studyLocation?.rating ?? 0)
                     Text("\(score) / 5.0")
@@ -81,4 +75,21 @@ let previewStudyLocation = StudyLocation(name: "Imperial College London - Abdus 
 ])
 #Preview {
     StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))
+}
+
+extension StudyLocationView {
+    private var nameSection: some View {
+        Text(studyLocation?.name ?? "")
+            .font(.title2)
+            .fontWeight(.semibold)
+    }
+    
+    private var titleSection: some View {
+        Text(studyLocation?.title ?? "")
+            .font(.footnote)
+            .foregroundStyle(.gray)
+            .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+            .padding(.trailing)
+    }
+
 }
