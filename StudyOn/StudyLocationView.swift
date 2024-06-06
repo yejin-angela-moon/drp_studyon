@@ -82,7 +82,7 @@ let previewStudyLocation = StudyLocation(
     StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))
 }
 
-let previewEnvFactor = [EnvFactor(
+let previewEnvFactor = EnvFactor(
     dynamicData: [
         "crowdness": 2.5,
         "noise": 3.0,
@@ -94,4 +94,4 @@ let previewEnvFactor = [EnvFactor(
         "socket no": 5.0,
     ],
     atmosphere: ["Calm", "Nice music", "Pet-friendly"]
-)]
+)

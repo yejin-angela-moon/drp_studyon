@@ -72,8 +72,6 @@ struct LocationsView: View {
     }
 }
 
-
-
 #Preview {
     LocationsView()
 }
