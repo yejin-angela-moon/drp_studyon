@@ -6,6 +6,9 @@ platform :ios do
     skip_unit_tests = options[:skip_unit_tests] || false
 
     unless skip_unit_tests
+      sh "xcrun simctl shutdown all"
+      sh "killall Simulator"
+      
       run_tests(
         scheme: 'StudyOn',
         clean: true
