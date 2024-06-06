@@ -70,20 +70,26 @@ struct StudyLocationView: View {
 }
 
 
-let previewStudyLocation = StudyLocation(name: "Imperial College London - Abdus Salam Library", title: "Imperial College London, South Kensington Campus, London SW7 2AZ", latitude: 51.49805710, longitude: -0.17824890, rating: 5.0, comments: sampleComments, images: ["imperial1", "imperial2", "imperial3"], hours: [
-    "Monday": ("09:00", "18:00"),
-    "Tuesday": ("09:00", "18:00"),
-    "Wednesday": ("09:00", "18:00"),
-    "Thursday": ("09:00", "18:00"),
-    "Friday": ("09:00", "18:00"),
-    "Saturday": ("10:00", "16:00"),
-    "Sunday": ("Closed", "Closed")
+let previewStudyLocation = StudyLocation(
+    name: "Imperial College London - Abdus Salam Library", 
+    title: "Imperial College London, South Kensington Campus, London SW7 2AZ", 
+    latitude: 51.49805710, longitude: -0.17824890, rating: 5.0, 
+    comments: sampleComments, 
+    images: ["imperial1", "imperial2", "imperial3"], 
+    hours: [
+    "Monday": OpeningHours("09:00", "18:00"),
+    "Tuesday": OpeningHours("09:00", "18:00"),
+    "Wednesday": OpeningHours("09:00", "18:00"),
+    "Thursday": OpeningHours("09:00", "18:00"),
+    "Friday": OpeningHours("09:00", "18:00"),
+    "Saturday": OpeningHours("10:00", "16:00"),
+    "Sunday": OpeningHours("Closed", "Closed")
 ], envFactor: previewEnvFactor, num:4, category: "library")
 #Preview {
     StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))
 }
 
-let previewEnvFactor = EnvFactor(
+let previewEnvFactor = [EnvFactor(
     dynamicData: [
         "crowdness": 2.5,
         "noise": 3.0,
@@ -95,4 +101,4 @@ let previewEnvFactor = EnvFactor(
         "socket no": 5.0,
     ],
     atmosphere: ["Calm", "Nice music", "Pet-friendly"]
-)
+)]
