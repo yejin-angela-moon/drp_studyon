@@ -1,10 +1,3 @@
-//
-//  StudyLocationView.swift
-//  StudyOn
-//
-//  Created by Victor Kang on 5/30/24.
-//
-
 import SwiftUI
 import MapKit
 

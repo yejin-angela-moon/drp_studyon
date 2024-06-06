@@ -13,12 +13,13 @@ struct LocationsView: View {
     @State private var selectedFilter: String? = nil
     @State private var isLibrarySelected: Bool = false
     @State private var isCafeSelected: Bool = false
+    @State private var hasResults: Bool = true 
     
     private var db = Firestore.firestore()
     
     var body: some View {
         ZStack(alignment: .top) {
-            maplayer
+            mapLayer
                 .ignoresSafeArea()
             VStack(spacing: 0) {
                 searchTextField
@@ -29,13 +30,11 @@ struct LocationsView: View {
                     Spacer()
                 }
                 .padding()
-                
             }
             
             .onSubmit(of: .text) { // Handling search query
                 print("Search for location: \(searchText)")
                 Task { await searchPlacesOnline() }
-                print(self.results)
             }
             .mapControls {
                 MapUserLocationButton().padding() // Move to current location
@@ -61,66 +60,14 @@ struct LocationsView: View {
             }
         }
     }
-    
+
     private func searchPlacesOnline() async {
-        let query: Query
-        if searchText.isEmpty {
-            query = db.collection("studyLocations")
+        let results = viewModel.filterLocations(by: searchText)
+        if results.isEmpty {
+            hasResults = false // No results, hide markers
         } else {
-            query = db.collection("studyLocations").whereField("envFactors.atmosphere", arrayContains: searchText)
-        }
-        
-        do {
-            let snapshot = try await query.getDocuments()
-            guard !snapshot.isEmpty else {
-                print("No documents found for query: \(searchText)")
-                return
-            }
-            self.viewModel.studyLocations = snapshot.documents.map { document -> StudyLocation in
-                let data = document.data()
-                print("Document data: \(data)") // 디버깅을 위해 출력
-                let name = data["name"] as? String ?? ""
-                let title = data["title"] as? String ?? ""
-                let latitude = data["latitude"] as? Double ?? 0
-                let longitude = data["longitude"] as? Double ?? 0
-                let rating = data["rating"] as? Double ?? 0
-                let images = data["images"] as? [String] ?? []
-                let commentsData = data["comments"] as? [[String: Any]] ?? []
-                let comments = commentsData.map { commentData in
-                    let name = commentData["name"] as? String ?? ""
-                    let content = commentData["content"] as? String ?? ""
-                    let date = (commentData["date"] as? Timestamp)?.dateValue() ?? Date()
-                    return Comment(name: name, content: content, date: date)
-                }
-                let hoursData = data["hours"] as? [String: [String: String]] ?? [:]
-                let hours = hoursData.mapValues {
-                    OpeningHours(opening: $0["open"] ?? "Closed", closing: $0["close"] ?? "Closed")
-                }
-                let envFactorData = data["envFactors"] as? [String: Any] ?? [:]
-                let envFactor = EnvFactor(
-                    dynamicData: envFactorData["dynamicData"] as? [String: Double] ?? [:],
-                    staticData: envFactorData["staticData"] as? [String: Double] ?? [:],
-                    atmosphere: envFactorData["atmosphere"] as? [String] ?? []
-                )
-                let num = data["num"] as? Int ?? 0
-                let category = data["category"] as? String ?? ""
-                return StudyLocation(
-                    name: name,
-                    title: title,
-                    latitude: latitude,
-                    longitude: longitude,
-                    rating: rating,
-                    comments: comments,
-                    images: images,
-                    hours: hours,
-                    envFactor: envFactor,
-                    num: num,
-                    category: category
-                )
-            }
-            print("Search results: \(self.viewModel.studyLocations)")
-        } catch {
-            print("Error getting documents: \(error)")
+            hasResults = true // Results found, show markers
+            viewModel.studyLocations = results
         }
     }
 }
@@ -159,27 +106,21 @@ struct ButtonToggleStyle: ToggleStyle {
 }
 
 extension LocationsView {
-    private var maplayer: some View {
+    private var mapLayer: some View {
         Map(position: $cameraPosition, selection: $locationSelection) {
             UserAnnotation()
             
-            ForEach(filteredLocations) { item in
-                Annotation(item.name, coordinate: item.coordinate) {
-                    CustomMarkerView(rating: item.rating, category: item.category)
-                        .onTapGesture {
-                            locationSelection = item
-                            showPopup = true // show popup when an annotation is tapped
-                        }
+            if hasResults {
+                ForEach(viewModel.studyLocations) { item in
+                    Annotation(item.name, coordinate: item.coordinate) {
+                        CustomMarkerView(rating: item.rating, category: item.category)
+                            .onTapGesture {
+                                locationSelection = item
+                                showPopup = true // show popup when an annotation is tapped
+                            }
+                    }
                 }
             }
-        }
-    }
-    
-    private var filteredLocations: [StudyLocation] {
-        if let selectedFilter = selectedFilter {
-            return viewModel.studyLocations.filter { $0.category.lowercased() == selectedFilter }
-        } else {
-            return viewModel.studyLocations
         }
     }
     
@@ -211,7 +152,15 @@ extension LocationsView {
     
     private var cafeToggleButton: some View {
         Toggle("Cafe", isOn: $isCafeSelected)
-                            .toggleStyle(ButtonToggleStyle(filter: $selectedFilter, category: "cafe", isCategorySelected: $isCafeSelected, otherCategory: "library", isOtherCategorySelected: $isLibrarySelected))
+            .toggleStyle(
+                ButtonToggleStyle(
+                    filter: $selectedFilter, 
+                    category: "cafe", 
+                    isCategorySelected: $isCafeSelected, 
+                    otherCategory: "library", 
+                    isOtherCategorySelected: $isLibrarySelected
+                )
+            )
     }
     
 
