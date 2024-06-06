@@ -1,14 +1,5 @@
-//
-//  LocationsView.swift
-//  StudyOn
-//
-//  Created by Yejin Moon on 03/06/2024.
-//
-
 import SwiftUI
 import MapKit
-
-
 
 struct LocationsView: View {
     @StateObject private var viewModel = StudyLocationViewModel()
@@ -22,10 +13,7 @@ struct LocationsView: View {
     @State private var isLibrarySelected: Bool = false
     @State private var isCafeSelected: Bool = false
     
-    
     var body: some View {
-        
-            
         ZStack(alignment: .top) {
             maplayer
                 .ignoresSafeArea()
@@ -66,9 +54,7 @@ struct LocationsView: View {
                     .presentationCornerRadius(12)
             })
             .onAppear {
-                viewModel.addSampleData {
-                    viewModel.fetchData()
-                }
+                viewModel.fetchData()
             }
         }
     }
@@ -112,7 +98,6 @@ extension LocationsView {
             
             ForEach(filteredLocations) { item in
                 Annotation(item.name, coordinate: item.coordinate) {
-                    
                     CustomMarkerView(rating: item.rating, category: item.category)
                         .onTapGesture {
                             locationSelection = item
@@ -144,7 +129,15 @@ extension LocationsView {
     
     private var libraryToggleButton: some View {
         Toggle("Library", isOn: $isLibrarySelected)
-            .toggleStyle(ButtonToggleStyle(filter: $selectedFilter, category: "library", isCategorySelected: $isLibrarySelected, otherCategory: "cafe", isOtherCategorySelected: $isCafeSelected))
+            .toggleStyle(
+                ButtonToggleStyle(
+                    filter: $selectedFilter, 
+                    category: "library", 
+                    isCategorySelected: $isLibrarySelected, 
+                    otherCategory: "cafe", 
+                    isOtherCategorySelected: $isCafeSelected
+                )
+            )
             .font(.headline)
 
     }

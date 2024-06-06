@@ -10,8 +10,10 @@ struct StudyLocation: Identifiable, Hashable {
     let rating: Double
     let comments: [Comment]
     let images: [String]
-    let hours: [String: (open: String, close: String)]
-    let category: String = "cafe"
+    let hours: [String: OpeningHours]
+    let envFactor: EnvFactor
+    let num: Int
+    let category: String
     
     var markerColor: Color {
         colorForRating(rating)
@@ -44,3 +46,4 @@ func colorForRating(_ rating: Double) -> Color {
     // Return the interpolated color
     return Color(red: red, green: green, blue: 0.0)
 }
+

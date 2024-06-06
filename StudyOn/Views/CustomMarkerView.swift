@@ -1,12 +1,4 @@
-//
-//  CustomerMarkerView.swift
-//  StudyOn
-//
-//  Created by Yejin Moon on 03/06/2024.
-//
-
 import SwiftUI
-
 
 struct CustomMarkerView: View {
     var rating: Double

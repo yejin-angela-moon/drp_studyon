@@ -98,22 +98,47 @@ struct StudyLocationView: View {
     //}
 }
     
-let previewStudyLocation = StudyLocation(name: "Imperial College London - Abdus Salam Library", title: "Imperial College London, South Kensington Campus, London SW7 2AZ", latitude: 51.49805710, longitude: -0.17824890, rating: 5.0, comments: sampleComments, images: ["imperial1", "imperial2", "imperial3"], hours: [
-    "Monday": ("09:00", "18:00"),
-    "Tuesday": ("09:00", "18:00"),
-    "Wednesday": ("09:00", "18:00"),
-    "Thursday": ("09:00", "18:00"),
-    "Friday": ("09:00", "18:00"),
-    "Saturday": ("10:00", "16:00"),
-    "Sunday": ("Closed", "Closed"),
-    
-])
-
-
-
+let previewStudyLocation = StudyLocation(
+    name: "Imperial College London - Abdus Salam Library", 
+    title: "Imperial College London, South Kensington Campus, London SW7 2AZ", 
+    latitude: 51.49805710, 
+    longitude: -0.17824890, 
+    rating: 5.0, 
+    comments: sampleComments, 
+    images: ["imperial1", "imperial2", "imperial3"], 
+    hours: previewOpeningHours, 
+    envFactor: previewEnvFactor, 
+    num:4, 
+    category: "Library"
+)
 #Preview {
     StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))
 }
+
+let previewOpeningHours = [
+    "Monday": OpeningHours(opening: "09:00", closing: "18:00"),
+    "Tuesday": OpeningHours(opening: "09:00", closing: "18:00"),
+    "Wednesday": OpeningHours(opening: "09:00", closing: "18:00"),
+    "Thursday": OpeningHours(opening: "09:00", closing: "18:00"),
+    "Friday": OpeningHours(opening: "09:00", closing: "18:00"),
+    "Saturday": OpeningHours(opening: "10:00", closing: "16:00"),
+    "Sunday": OpeningHours(opening: "Closed", closing: "Closed")
+]
+
+let previewEnvFactor = EnvFactor(
+    dynamicData: [
+        "crowdness": 2.5,
+        "noise": 3.0,
+
+    ], 
+    staticData: [
+        "wifi speed": 4.0,
+        "spaciousness": 4.5,
+        "socket no": 5.0,
+    ],
+    atmosphere: ["Calm", "Nice music", "Pet-friendly"]
+)
+
 
 extension StudyLocationView {
     private var nameSection: some View {

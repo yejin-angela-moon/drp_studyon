@@ -26,6 +26,8 @@
 		57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */; };
 		57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2B2C08BF84009D0FAA /* Comment.swift */; };
 		57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */; };
+		8D3EAEF72C10F305001E1F28 /* EnvFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */; };
+		8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */; };
 		8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */; };
 		F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDD2C0E2685002861D2 /* LocationsView.swift */; };
 		F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */; };
@@ -66,6 +68,8 @@
 		57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocationView.swift; sourceTree = "<group>"; };
 		57CEEC2B2C08BF84009D0FAA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
+		8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvFactor.swift; sourceTree = "<group>"; };
+		8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
 		8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyLocationViewModel.swift; sourceTree = "<group>"; };
 		F20F4FDD2C0E2685002861D2 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
 		F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
@@ -187,6 +191,8 @@
 			children = (
 				577347042C07BBF100758655 /* StudyLocation.swift */,
 				57CEEC2B2C08BF84009D0FAA /* Comment.swift */,
+				8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */,
+				8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -334,6 +340,7 @@
 			files = (
 				577347052C07BBF100758655 /* StudyLocation.swift in Sources */,
 				F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */,
+				8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */,
 				57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */,
 				F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */,
 				57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */,
@@ -342,6 +349,7 @@
 				57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */,
 				57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */,
 				577346D72C07B82700758655 /* StudyOnApp.swift in Sources */,
+				8D3EAEF72C10F305001E1F28 /* EnvFactor.swift in Sources */,
 				577347012C07BA9E00758655 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

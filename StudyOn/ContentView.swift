@@ -3,18 +3,18 @@ import MapKit
 import FirebaseFirestore
 struct ContentView: View {
     
-    
-    //    @State private var libraries = librariesDummy
-    
     private var db = Firestore.firestore()
-    
+
     var body: some View {
-        
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            NavigationLink(destination: LocationsView()) {
+//                Text("StudyOn")
+//                    .font(.title)
+//                    .padding()
+//                    .background(Color.blue)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(10)
+            }
         }
         .padding()
     }
