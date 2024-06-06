@@ -82,8 +82,8 @@ func addSampleData() {
                     comments: sampleComments, 
                     images: ["imperial1", "imperial2", "imperial3"], 
                     hours: sampleHours, 
-                    envFactor: sampleEnvFactors,
-                    num: 4, 
+                    envFactor: EnvFactor(dynamicData: ["crowdedness": 2.5, "noise": 3.0], staticData: ["wifi speed": 4.0, "spaciousness": 4.5, "socket no": 5.0], atmosphere: ["Calm", "Quiet"]),
+                    num: 4,
                     category: "library"
                 ),
                 StudyLocation(
