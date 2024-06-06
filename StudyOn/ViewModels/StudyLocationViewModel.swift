@@ -98,16 +98,15 @@ class StudyLocationViewModel: ObservableObject {
                     let comments = commentsData.map { Comment(name: $0["name"] as? String ?? "", content: $0["content"] as? String ?? "", date: Date()) }
                     let hoursData = data["hours"] as? [String: OpeningHours] ?? [:]
                     let hours = hoursData.mapValues {
-                        OpeningHours(opening: $0.opening ?? "Closed", closing: $0.closing ?? "Closed")
+                        OpeningHours(opening: $0.opening, closing: $0.closing)
                     }
                     let envFactorData = data["envFactor"] as? [String: Any] ?? [:]
-                    let envFactor = envFactorData.map {
+                    let envFactor = 
                         EnvFactor(
-                            dynamicData: $0.dynamicData as? [String: Double] ?? [:],
-                            staticData: $0.staticData as? [String: Double] ?? [:],
-                            atmosphere: $0.atmosphere as? [String] ?? []
+                            dynamicData: envFactorData["dynamicData"] as? [String: Double] ?? [:],
+                            staticData: envFactorData["staticData"] as? [String: Double] ?? [:],
+                            atmosphere: envFactorData["atmosphere"] as? [String] ?? []
                         )
-                    }
                     let num = data["num"] as? Int ?? 0
                     let category = data["category"] as? String ?? ""
                     return StudyLocation(

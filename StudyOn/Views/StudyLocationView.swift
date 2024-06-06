@@ -33,7 +33,7 @@ struct StudyLocationView: View {
         .cornerRadius(10)
         Button {
             show.toggle()
-            showDetails.toggle()
+            showDetails = false
             studyLocation = nil
         } label: {
             Image(systemName: "xmark.circle.fill")
