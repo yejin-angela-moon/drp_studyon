@@ -7,8 +7,7 @@ platform :ios do
 
     unless skip_unit_tests
       sh "xcrun simctl shutdown all"
-      sh "killall Simulator"
-      
+
       run_tests(
         scheme: 'StudyOn',
         clean: true
