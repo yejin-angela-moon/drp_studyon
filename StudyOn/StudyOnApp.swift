@@ -55,6 +55,19 @@ func addSampleData() {
                 ],
                 atmosphere: ["Calm", "Nice music", "Pet-friendly"]
             )
+
+            let sampleEnvFactors2 = EnvFactor(
+                dynamicData: [
+                    "crowdedness": 1.5,
+                    "noise": 5.0
+                ],
+                staticData: [
+                    "wifi speed": 5.0,
+                    "spaciousness": 4.5,
+                    "socket no": 10.0
+                ],
+                atmosphere: ["Lively", "Cozy", "Pet-friendly"]
+            )
             
             let sampleComments = [
                 Comment(name: "Alice", content: "Great place to study!", date: Date()),
@@ -95,7 +108,7 @@ func addSampleData() {
                     comments: [], 
                     images: [], 
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors, 
+                    envFactor: sampleEnvFactors2, 
                     num: 4, 
                     category: "library"
                 ),
@@ -121,7 +134,7 @@ func addSampleData() {
                     comments: [], 
                     images: [], 
                     hours: sampleHours, 
-                    envFactor: sampleEnvFactors, 
+                    envFactor: sampleEnvFactors2, 
                     num: 4, 
                     category: "library"
                 ),
@@ -147,7 +160,7 @@ func addSampleData() {
                     comments: [], 
                     images: [], 
                     hours: sampleHours, 
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors2,
                     num: 4, 
                     category: "library"
                 ),
