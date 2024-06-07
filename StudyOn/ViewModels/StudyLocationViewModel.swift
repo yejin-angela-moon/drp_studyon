@@ -64,8 +64,10 @@ class StudyLocationViewModel: ObservableObject {
         if searchText.isEmpty {
             return allStudyLocations
         } else {
+            let lowercasedSearchText = searchText.lowercased()
             return allStudyLocations.filter { location in
-                location.envFactor.atmosphere.contains { $0.lowercased().contains(searchText.lowercased()) }
+                location.name.lowercased().contains(lowercasedSearchText) ||
+                location.envFactor.atmosphere.contains { $0.lowercased().contains(lowercasedSearchText) }
             }
         }
     }
