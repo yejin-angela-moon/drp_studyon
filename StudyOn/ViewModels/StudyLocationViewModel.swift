@@ -1,8 +1,10 @@
-import Foundation
+import SwiftUI
 import FirebaseFirestore
 
 class StudyLocationViewModel: ObservableObject {
     @Published var studyLocations: [StudyLocation] = []
+    @Published var showOpenHoursList: Bool = false
+    @Published var showEnvFactors: Bool = false
     private var allStudyLocations: [StudyLocation] = []
     private var db = Firestore.firestore()
 
@@ -61,6 +63,18 @@ class StudyLocationViewModel: ObservableObject {
             return allStudyLocations.filter { location in
                 location.envFactor.atmosphere.contains { $0.lowercased().contains(searchText.lowercased()) }
             }
+        }
+    }
+    
+    func toggleOpenHoursList() {
+        withAnimation(.easeInOut) {
+            showOpenHoursList.toggle()
+        }
+    }
+    
+    func toggleEnvFactors() {
+        withAnimation(.easeInOut) {
+            showEnvFactors.toggle()
         }
     }
 }

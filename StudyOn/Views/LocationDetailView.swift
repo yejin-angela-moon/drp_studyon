@@ -1,22 +1,40 @@
 import SwiftUI
 
+struct AtmophereView: View {
+    let envFactor: EnvFactor
+    
+    var body: some View {
+        HStack {
+            ForEach(envFactor.atmosphere, id: \.self) { item in
+                Text("#" + item)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(Color.black)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+        }
+        .padding(.leading, 15)
+    }
+}
+
 struct EnvView: View {
     let envFactor: EnvFactor
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Atmosphere")
-                .font(.headline)
-                .padding(.top)
-            ForEach(envFactor.atmosphere, id: \.self) { item in
-                Text(item)
-                    .padding(.leading, 18)
-                    .padding(.vertical, 5)
-            }
-
-            Text("Static Data")
-                .font(.headline)
-                .padding(.top)
+//            Text("Atmosphere")
+//                .font(.headline)
+//                .padding(.top)
+//            ForEach(envFactor.atmosphere, id: \.self) { item in
+//                Text(item)
+//                    .padding(.leading, 18)
+//                    .padding(.vertical, 5)
+//            }
+//
+//            Text("Static Data")
+//                .font(.headline)
+//                .padding(.top)
             ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
                 HStack {
                     Text("\(key):")
@@ -28,21 +46,21 @@ struct EnvView: View {
                 .padding([.leading, .trailing], 18)
                 .padding(.vertical, 5)
             }
-
-            Text("Dynamic Data")
-                .font(.headline)
-                .padding(.top)
-            ForEach(envFactor.dynamicData.sorted(by: >), id: \.key) { key, value in
-                HStack {
-                    Text("\(key):")
-                        .font(.subheadline)
-                    Spacer()
-                    Text(String(format: "%.1f", value))
-                        .font(.subheadline)
-                }
-                .padding([.leading, .trailing], 18)
-                .padding(.vertical, 5)
-            }
+//
+//            Text("Dynamic Data")
+//                .font(.headline)
+//                .padding(.top)
+//            ForEach(envFactor.dynamicData.sorted(by: >), id: \.key) { key, value in
+//                HStack {
+//                    Text("\(key):")
+//                        .font(.subheadline)
+//                    Spacer()
+//                    Text(String(format: "%.1f", value))
+//                        .font(.subheadline)
+//                }
+//                .padding([.leading, .trailing], 18)
+//                .padding(.vertical, 5)
+//            }
         }
         .padding()
     }
@@ -53,9 +71,6 @@ struct OpeningHoursView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Open Hours")
-                .font(.largeTitle)
-                .padding(.vertical)
             
             ForEach(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self) { (day: String) in
                 HStack {
@@ -64,12 +79,8 @@ struct OpeningHoursView: View {
                     Spacer()
                     if let openingHours = hours[day] {
                         VStack(alignment: .trailing) {
-                            Text(openingHours.opening)
+                            Text(openingHours.opening + " - " + openingHours.closing)
                                 .font(.subheadline)
-                                .foregroundColor(.green)
-                            Text(openingHours.closing)
-                                .font(.subheadline)
-                                .foregroundColor(.red)
                         }
                     } else {
                         Text("Closed")
@@ -85,6 +96,7 @@ struct OpeningHoursView: View {
 }
 
 struct LocationDetailView: View {
+    @StateObject private var viewModel = StudyLocationViewModel()
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
 
@@ -102,13 +114,14 @@ struct LocationDetailView: View {
             .padding(.bottom, 8)
             
             Text(studyLocation?.name ?? "")
-                            .font(.largeTitle)
+                            .font(.title)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding([.leading, .trailing], 18)
                             .padding([.top, .bottom], 5)
             
             HStack(alignment: .center) {
                 let score = String(format: "%.1f", studyLocation?.rating ?? 0)
+                StarRatingView(rating: studyLocation?.rating ?? 0)
                 Text("\(score)")
                     .font(.title2)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -124,11 +137,21 @@ struct LocationDetailView: View {
                 .padding([.top, .bottom], 12)
             
             if let envFactor = studyLocation?.envFactor {
-                EnvView(envFactor: envFactor)
+                AtmophereView(envFactor: envFactor)
             }
-
-            OpeningHoursView(hours: studyLocation?.hours ?? [:])
-                .padding([.leading, .trailing], 18)
+            
+            openHoursButton
+            if viewModel.showOpenHoursList {
+                OpeningHoursView(hours: studyLocation?.hours ?? [:])
+                    .padding([.leading, .trailing], 18)
+            }
+            
+            detailsButton
+            if viewModel.showEnvFactors {
+                if let envFactor = studyLocation?.envFactor {
+                    EnvView(envFactor: envFactor)
+                }
+            }
             
             VStack {
                 Text("Comments")
@@ -140,6 +163,19 @@ struct LocationDetailView: View {
             .padding(.bottom, 20)
         }
         .scrollable()
+    }
+}
+
+struct StarRatingView: View {
+    var rating: Double
+    
+    var body: some View {
+        HStack {
+            ForEach(0..<5) { index in
+                Image(systemName: "star.fill")
+                    .foregroundColor(index < Int(rating.rounded()) ? .orange : .gray)
+            }
+        }
     }
 }
 
@@ -211,3 +247,48 @@ extension View {
         }
     }
 }
+
+extension LocationDetailView {
+    private var openHoursButton: some View {
+        Button(action: viewModel.toggleOpenHoursList) {
+            HStack {
+                Image(systemName: "arrow.right")
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .rotationEffect(Angle(degrees: viewModel.showOpenHoursList ? 90 : 0))
+                
+                Text("Open Hours")
+                    .font(.title2)
+                    .fontWeight(.black)
+                    .foregroundColor(.primary)
+                    .frame(height: 55, alignment: .leading)
+                
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+        }
+    }
+    
+    private var detailsButton: some View {
+        Button(action: viewModel.toggleEnvFactors) {
+            HStack {
+                Image(systemName: "arrow.right")
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .rotationEffect(Angle(degrees: viewModel.showEnvFactors ? 90 : 0))
+                
+                Text("Details")
+                    .font(.title2)
+                    .fontWeight(.black)
+                    .foregroundColor(.primary)
+                    .frame(height: 55, alignment: .leading)
+                
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+        }
+    }
+}
+
