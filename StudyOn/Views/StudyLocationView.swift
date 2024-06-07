@@ -128,7 +128,7 @@ let previewOpeningHours = [
 
 let previewEnvFactor = EnvFactor(
     dynamicData: [
-        "crowdness": 2.5,
+        "crowdedness": 2.5,
         "noise": 3.0,
 
     ], 

@@ -100,8 +100,8 @@ struct LocationDetailView: View {
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
     
-    @State private var userCrowdness: Int = 0
-    @State private var userNoise: Int = 0
+    @State private var userCrowdness: Double = 0
+    @State private var userNoise: Double = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -136,15 +136,14 @@ struct LocationDetailView: View {
             .padding([.leading, .trailing], 20)
             
             HStack(alignment: .center) {
-//                Menu("\(crowdnessLevelToText(userCrowdness: Double(userCrowdness), dataCrowdness: studyLocation?.envFactor.dynamicData["crowdness"] ?? -1))") {
-                Menu("\(crowdnessLevelToText(userCrowdness: Double(userCrowdness), dataCrowdness: 1))") {
+                Menu("\(crowdnessLevelToText(userCrowdness: userCrowdness, dataCrowdness: studyLocation?.envFactor.dynamicData["crowdedness"] ?? -1))") {
                     Button("Sparse") { userCrowdness = 1 }
                     Button("Crowded") { userCrowdness = 2 }
                     Button("Full") { userCrowdness = 3 }
                 }
                 .buttonStyle(.bordered)
                 
-                Menu("\(noiseLevelToText(userNoise: Double(userNoise), dataNoise: 2))") {
+                Menu("\(noiseLevelToText(userNoise: userCrowdness, dataNoise: studyLocation?.envFactor.dynamicData["noise"] ?? -1))") {
                     Button("Quiet") { userNoise = 1 }
                     Button("Audible") { userNoise = 2 }
                     Button("Loud") { userNoise = 3 }
@@ -154,9 +153,15 @@ struct LocationDetailView: View {
                 Spacer()
                 
                 Button("Submit") {
-                    // Store this answer in the database
+                    // Store this answer in the data base
                     if let documentID = studyLocation?.documentID {
-                        viewModel.submitDynamicData(documentID: documentID, crowdness: userCrowdness, noise: userNoise)
+                        let crowdness = userCrowdness == 0 ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
+                        
+                        let noise = userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
+                        
+                        Task {
+                            await viewModel.submitDynamicData(studyLocation: studyLocation, crowdness: crowdness, noise: noise)
+                        }
                     } else {
                         print("Current Study Location documentID Not found")
                         return

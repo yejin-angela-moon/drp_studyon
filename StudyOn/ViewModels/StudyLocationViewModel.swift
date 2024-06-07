@@ -31,10 +31,11 @@ class StudyLocationViewModel: ObservableObject {
                 let hours = hoursData.mapValues {
                     OpeningHours(opening: $0.opening, closing: $0.closing)
                 }
+                
                 let envFactorData = data["envFactors"] as? [String: Any] ?? [:]
-                let envFactor = 
+                let envFactor =
                     EnvFactor(
-                        dynamicData: envFactorData["dynamicData"] as? [String: Double] ?? [:],
+                        dynamicData: (envFactorData["dynamicData"] as? [String: Double] ?? [:]),
                         staticData: envFactorData["staticData"] as? [String: Double] ?? [:],
                         atmosphere: envFactorData["atmosphere"] as? [String] ?? []
                     )
@@ -81,9 +82,49 @@ class StudyLocationViewModel: ObservableObject {
         }
     }
     
-    func submitDynamicData(documentID: String, crowdness: Int, noise: Int) {
-        print(documentID)
-        print(crowdness)
-        print(noise)
+    func submitDynamicData(studyLocation: StudyLocation?, crowdness: Double, noise: Double) async {
+        if let documentID = studyLocation?.documentID {
+            print(documentID)
+            print(crowdness)
+            print(noise)
+            print(studyLocation?.dynamicReviewTime ?? [])
+            print(studyLocation?.crowdednessReview ?? [])
+            print(studyLocation?.noiseReview ?? [])
+            
+            var reviewTime = studyLocation?.dynamicReviewTime ?? []
+            var crowdednessReview = studyLocation?.crowdednessReview ?? []
+            var noiseReview = studyLocation?.noiseReview ?? []
+            
+            
+//            let newData = [
+//                "time": reviewTime.append(Timestamp()),
+//                "crowdedness": crowdednessReview.append(crowdness),
+//                "noise": noiseReview.append(noise)
+//            ]
+            
+            
+            do {
+//                try await db.collection("studyLocations").document(documentID).setData(["dynamicReview": newData], merge: true)
+                try await db.collection("studyLocations").document(documentID).updateData([
+                    "dynamicReviews": FieldValue.arrayUnion([encodeReview(crowdness: crowdness, noise: noise)])
+                 ])
+//                try await db.collection("studyLocations").document(documentID).collection("dynamicReview").document("time").setData(["a": Timestamp()])
+//                setData(["dynamicReview": newData], merge: true)
+                
+                print("Document successfully updated")
+            } catch {
+                print("Error updating document for submit: \(error)")
+            }
+            
+        } else {
+            print("No studyLocation found")
+            return
+        }
     }
+}
+
+func encodeReview(crowdness: Double, noise: Double) -> String {
+    let res = "\(Timestamp())___\(crowdness),\(noise)"
+    print(res)
+    return res
 }
