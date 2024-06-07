@@ -143,7 +143,7 @@ struct LocationDetailView: View {
                 }
                 .buttonStyle(.bordered)
                 
-                Menu("\(noiseLevelToText(userNoise: userCrowdness, dataNoise: studyLocation?.envFactor.dynamicData["noise"] ?? -1))") {
+                Menu("\(noiseLevelToText(userNoise: userNoise, dataNoise: studyLocation?.envFactor.dynamicData["noise"] ?? -1))") {
                     Button("Quiet") { userNoise = 1 }
                     Button("Audible") { userNoise = 2 }
                     Button("Loud") { userNoise = 3 }
