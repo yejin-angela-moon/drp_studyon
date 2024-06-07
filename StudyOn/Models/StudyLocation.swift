@@ -3,6 +3,7 @@ import MapKit
 
 struct StudyLocation: Identifiable, Hashable {
     let id = UUID()
+    var documentID: String? = nil
     let name: String
     let title: String
     let latitude: Double

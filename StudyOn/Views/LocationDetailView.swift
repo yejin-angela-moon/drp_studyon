@@ -154,7 +154,13 @@ struct LocationDetailView: View {
                 Spacer()
                 
                 Button("Submit") {
-                    
+                    // Store this answer in the database
+                    if let documentID = studyLocation?.documentID {
+                        viewModel.submitDynamicData(documentID: documentID, crowdness: userCrowdness, noise: userNoise)
+                    } else {
+                        print("Current Study Location documentID Not found")
+                        return
+                    }
                 }
                 .buttonStyle(.borderedProminent)
             }

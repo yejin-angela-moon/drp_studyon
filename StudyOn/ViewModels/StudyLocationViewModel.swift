@@ -16,6 +16,8 @@ class StudyLocationViewModel: ObservableObject {
             }
 
             self.allStudyLocations = documents.map { (queryDocumentSnapshot) -> StudyLocation in
+                let documentID = queryDocumentSnapshot.documentID
+                
                 let data = queryDocumentSnapshot.data()
                 let name = data["name"] as? String ?? ""
                 let title = data["title"] as? String ?? ""
@@ -39,7 +41,8 @@ class StudyLocationViewModel: ObservableObject {
                 let num = data["num"] as? Int ?? 0
                 let category = data["category"] as? String ?? ""
                 return StudyLocation(
-                    name: name, 
+                    documentID: documentID,
+                    name: name,
                     title: title, 
                     latitude: latitude, 
                     longitude: longitude, 
@@ -76,5 +79,11 @@ class StudyLocationViewModel: ObservableObject {
         withAnimation(.easeInOut) {
             showEnvFactors.toggle()
         }
+    }
+    
+    func submitDynamicData(documentID: String, crowdness: Int, noise: Int) {
+        print(documentID)
+        print(crowdness)
+        print(noise)
     }
 }
