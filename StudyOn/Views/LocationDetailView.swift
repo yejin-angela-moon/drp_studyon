@@ -99,6 +99,9 @@ struct LocationDetailView: View {
     @StateObject private var viewModel = StudyLocationViewModel()
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
+    
+    @State private var userCrowdness: Int = 0
+    @State private var userNoise: Int = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -131,6 +134,24 @@ struct LocationDetailView: View {
                 Text("(\(studyLocation?.comments.count ?? 0))").font(.title3).fontWeight(.medium)
             }
             .padding([.leading, .trailing], 20)
+            
+            HStack(alignment: .center, content: {
+                Menu("\(crowdnessLevelToText(crowdness: studyLocation?.envFactor.dynamicData["crowdness"] ?? 0))") {
+                    Button("Spacious") { userCrowdness = 1 }
+                    Button("Crowded") { userCrowdness = 2 }
+                    Button("Full") { userCrowdness = 3 }
+                }
+                .buttonStyle(.bordered)
+                
+                Menu("\(noiseLevelToText(noise: studyLocation?.envFactor.dynamicData["noise"] ?? 0))") {
+                    Button("Quiet") { userNoise = 1 }
+                    Button("Audible") { userNoise = 2 }
+                    Button("Loud") { userNoise = 3 }
+                }
+                .buttonStyle(.bordered)
+            })
+            .padding([.leading, .trailing], 20)
+            .padding(.top, 10)
             
             ImageSliderView(images: studyLocation?.images ?? []).frame(height: 300)
                 .padding([.leading, .trailing], 8)
@@ -233,6 +254,28 @@ struct CommentRow: View {
                 .font(.body)
                 .foregroundColor(.primary)
         }
+    }
+}
+
+// Crowdness (Double) to Text (String) to be shown in the drop down button
+func crowdnessLevelToText(crowdness: Double) -> String {
+    if (crowdness <= 1) {
+        return "Spacious"
+    } else if (crowdness <= 2) {
+        return "Crowded"
+    } else {
+        return "Full"
+    }
+}
+
+// Noiseness Level (Double) to Text (String) to be shown in the drop down button
+func noiseLevelToText(noise: Double) -> String {
+    if (noise <= 1) {
+        return "Quiet"
+    } else if (noise <= 2) {
+        return "Audible"
+    } else {
+        return "Loud"
     }
 }
 
