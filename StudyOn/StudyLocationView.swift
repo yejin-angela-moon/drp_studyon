@@ -45,19 +45,6 @@ struct StudyLocationView: View {
             Button("View Details", action: {
                 showDetails.toggle()
             })
-            
-            //            Slider(value: $rating, in: 1...5, step: 1).padding([.leading, .trailing], 30)
-            //            Text("Rating: \(Int(rating))")
-            //            Button(action: {
-            //                // Should save rating to the backend
-            //                print("Rating for \(studyLocation?.name ?? "nil"): \(Int(rating))")
-            //
-            ////                studyLocation?.rating = rating
-            //                show.toggle()
-            //                studyLocation = nil
-            //            }) {
-            //                Text("Submit Rating")
-            //            }.padding(10)
         }
     }
 }
@@ -84,9 +71,8 @@ let previewStudyLocation = StudyLocation(
 
 let previewEnvFactor = EnvFactor(
     dynamicData: [
-        "crowdness": 2.5,
+        "crowdedness": 2.5,
         "noise": 3.0,
-
     ], 
     staticData: [
         "wifi speed": 4.0,
