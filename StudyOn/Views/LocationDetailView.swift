@@ -135,21 +135,29 @@ struct LocationDetailView: View {
             }
             .padding([.leading, .trailing], 20)
             
-            HStack(alignment: .center, content: {
-                Menu("\(crowdnessLevelToText(crowdness: studyLocation?.envFactor.dynamicData["crowdness"] ?? 0))") {
-                    Button("Spacious") { userCrowdness = 1 }
+            HStack(alignment: .center) {
+//                Menu("\(crowdnessLevelToText(userCrowdness: Double(userCrowdness), dataCrowdness: studyLocation?.envFactor.dynamicData["crowdness"] ?? -1))") {
+                Menu("\(crowdnessLevelToText(userCrowdness: Double(userCrowdness), dataCrowdness: 1))") {
+                    Button("Sparse") { userCrowdness = 1 }
                     Button("Crowded") { userCrowdness = 2 }
                     Button("Full") { userCrowdness = 3 }
                 }
                 .buttonStyle(.bordered)
                 
-                Menu("\(noiseLevelToText(noise: studyLocation?.envFactor.dynamicData["noise"] ?? 0))") {
+                Menu("\(noiseLevelToText(userNoise: Double(userNoise), dataNoise: 2))") {
                     Button("Quiet") { userNoise = 1 }
                     Button("Audible") { userNoise = 2 }
                     Button("Loud") { userNoise = 3 }
                 }
                 .buttonStyle(.bordered)
-            })
+                
+                Spacer()
+                
+                Button("Submit") {
+                    
+                }
+                .buttonStyle(.borderedProminent)
+            }
             .padding([.leading, .trailing], 20)
             .padding(.top, 10)
             
@@ -258,9 +266,15 @@ struct CommentRow: View {
 }
 
 // Crowdness (Double) to Text (String) to be shown in the drop down button
-func crowdnessLevelToText(crowdness: Double) -> String {
+func crowdnessLevelToText(userCrowdness: Double, dataCrowdness: Double) -> String {
+    let crowdness = userCrowdness == 0 ? dataCrowdness : userCrowdness // if the user has selected the crowdness, use their data
+    
+    if (crowdness == -1) {
+        return "Unknown"
+    }
+    
     if (crowdness <= 1) {
-        return "Spacious"
+        return "Sparse"
     } else if (crowdness <= 2) {
         return "Crowded"
     } else {
@@ -269,7 +283,13 @@ func crowdnessLevelToText(crowdness: Double) -> String {
 }
 
 // Noiseness Level (Double) to Text (String) to be shown in the drop down button
-func noiseLevelToText(noise: Double) -> String {
+func noiseLevelToText(userNoise: Double, dataNoise: Double) -> String {
+    let noise = userNoise == 0 ? dataNoise : userNoise // if user has selected the noise, use their data
+    
+    if (noise == -1) {
+        return "Unknown"
+    }
+    
     if (noise <= 1) {
         return "Quiet"
     } else if (noise <= 2) {
