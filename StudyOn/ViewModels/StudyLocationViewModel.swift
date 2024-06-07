@@ -5,7 +5,7 @@ class StudyLocationViewModel: ObservableObject {
     @Published var studyLocations: [StudyLocation] = []
     @Published var showOpenHoursList: Bool = false
     @Published var showEnvFactors: Bool = false
-    private var allStudyLocations: [StudyLocation] = []
+    var allStudyLocations: [StudyLocation] = []
     private var db = Firestore.firestore()
 
     func fetchData() {

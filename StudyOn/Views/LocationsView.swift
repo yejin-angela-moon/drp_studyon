@@ -14,6 +14,7 @@ struct LocationsView: View {
     @State private var isLibrarySelected: Bool = false
     @State private var isCafeSelected: Bool = false
     @State private var hasResults: Bool = true 
+    @State private var autoCompleteSuggestions: [String] = []
     
     private var db = Firestore.firestore()
     
@@ -23,6 +24,7 @@ struct LocationsView: View {
                 .ignoresSafeArea()
             VStack(spacing: 0) {
                 searchTextField
+                autoCompleteList
                     
                 HStack {
                     libraryToggleButton
@@ -31,9 +33,12 @@ struct LocationsView: View {
                 }
                 .padding()
             }
+            .onChange(of: searchText) {
+                Task {await searchPlacesOnline()}
+                updateAutoCompleteSuggestions()
+            }
             
             .onSubmit(of: .text) { // Handling search query
-                print("Search for location: \(searchText)")
                 Task { await searchPlacesOnline() }
             }
             .mapControls {
@@ -70,6 +75,11 @@ struct LocationsView: View {
             viewModel.studyLocations = results
         }
     }
+    
+    private func updateAutoCompleteSuggestions() {
+            let allSuggestions = viewModel.allStudyLocations.map { $0.name }
+            autoCompleteSuggestions = allSuggestions.filter { $0.lowercased().contains(searchText.lowercased()) }
+        }
 }
 
 #Preview {
@@ -132,6 +142,24 @@ extension LocationsView {
             .padding(.horizontal)
             .shadow(radius: 10)
     }
+    
+    private var autoCompleteList: some View {
+            VStack {
+                ForEach(autoCompleteSuggestions, id: \.self) { suggestion in
+                    Text(suggestion)
+                        .padding()
+                        .background(Color.white)
+                        .onTapGesture {
+                            searchText = suggestion
+                            Task { await searchPlacesOnline() }
+                        }
+                }
+            }
+            .background(Color.white)
+            .cornerRadius(8)
+            .padding(.horizontal)
+            .shadow(radius: 10)
+        }
     
     private var libraryToggleButton: some View {
         Toggle("Library", isOn: $isLibrarySelected)
