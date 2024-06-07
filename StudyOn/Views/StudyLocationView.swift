@@ -99,7 +99,8 @@ struct StudyLocationView: View {
 }
     
 let previewStudyLocation = StudyLocation(
-    name: "Imperial College London - Abdus Salam Library", 
+    documentID: "JQwhtqVLyl1U5XX4iF1H",
+    name: "Imperial College London - Abdus Salam Library",
     title: "Imperial College London, South Kensington Campus, London SW7 2AZ", 
     latitude: 51.49805710, 
     longitude: -0.17824890, 
@@ -127,7 +128,7 @@ let previewOpeningHours = [
 
 let previewEnvFactor = EnvFactor(
     dynamicData: [
-        "crowdness": 2.5,
+        "crowdedness": 2.5,
         "noise": 3.0,
 
     ], 

@@ -99,6 +99,9 @@ struct LocationDetailView: View {
     @StateObject private var viewModel = StudyLocationViewModel()
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
+    
+    @State private var userCrowdness: Double = 0
+    @State private var userNoise: Double = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -131,6 +134,43 @@ struct LocationDetailView: View {
                 Text("(\(studyLocation?.comments.count ?? 0))").font(.title3).fontWeight(.medium)
             }
             .padding([.leading, .trailing], 20)
+            
+            HStack(alignment: .center) {
+                Menu("\(crowdnessLevelToText(userCrowdness: userCrowdness, dataCrowdness: studyLocation?.envFactor.dynamicData["crowdedness"] ?? -1))") {
+                    Button("Sparse") { userCrowdness = 1 }
+                    Button("Crowded") { userCrowdness = 2 }
+                    Button("Full") { userCrowdness = 3 }
+                }
+                .buttonStyle(.bordered)
+                
+                Menu("\(noiseLevelToText(userNoise: userNoise, dataNoise: studyLocation?.envFactor.dynamicData["noise"] ?? -1))") {
+                    Button("Quiet") { userNoise = 1 }
+                    Button("Audible") { userNoise = 2 }
+                    Button("Loud") { userNoise = 3 }
+                }
+                .buttonStyle(.bordered)
+                
+                Spacer()
+                
+                Button("Submit") {
+                    // Store this answer in the data base
+                    if let documentID = studyLocation?.documentID {
+                        let crowdness = userCrowdness == 0 ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
+                        
+                        let noise = userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
+                        
+                        Task {
+                            await viewModel.submitDynamicData(studyLocation: studyLocation, crowdness: crowdness, noise: noise)
+                        }
+                    } else {
+                        print("Current Study Location documentID Not found")
+                        return
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .padding([.leading, .trailing], 20)
+            .padding(.top, 10)
             
             ImageSliderView(images: studyLocation?.images ?? []).frame(height: 300)
                 .padding([.leading, .trailing], 8)
@@ -233,6 +273,40 @@ struct CommentRow: View {
                 .font(.body)
                 .foregroundColor(.primary)
         }
+    }
+}
+
+// Crowdness (Double) to Text (String) to be shown in the drop down button
+func crowdnessLevelToText(userCrowdness: Double, dataCrowdness: Double) -> String {
+    let crowdness = userCrowdness == 0 ? dataCrowdness : userCrowdness // if the user has selected the crowdness, use their data
+    
+    if (crowdness == -1) {
+        return "Unknown"
+    }
+    
+    if (crowdness <= 1) {
+        return "Sparse"
+    } else if (crowdness <= 2) {
+        return "Crowded"
+    } else {
+        return "Full"
+    }
+}
+
+// Noiseness Level (Double) to Text (String) to be shown in the drop down button
+func noiseLevelToText(userNoise: Double, dataNoise: Double) -> String {
+    let noise = userNoise == 0 ? dataNoise : userNoise // if user has selected the noise, use their data
+    
+    if (noise == -1) {
+        return "Unknown"
+    }
+    
+    if (noise <= 1) {
+        return "Quiet"
+    } else if (noise <= 2) {
+        return "Audible"
+    } else {
+        return "Loud"
     }
 }
 

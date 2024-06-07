@@ -1,8 +1,10 @@
 import SwiftUI
 import MapKit
+import FirebaseFirestore
 
 struct StudyLocation: Identifiable, Hashable {
     let id = UUID()
+    var documentID: String? = nil
     let name: String
     let title: String
     let latitude: Double
@@ -14,6 +16,9 @@ struct StudyLocation: Identifiable, Hashable {
     let envFactor: EnvFactor
     let num: Int
     let category: String
+    var dynamicReviewTime: [Timestamp] = []
+    var crowdednessReview: [Double] = []
+    var noiseReview: [Double] = []
     
     var markerColor: Color {
         colorForRating(rating)
