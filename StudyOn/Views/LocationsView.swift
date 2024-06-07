@@ -109,7 +109,7 @@ extension LocationsView {
             UserAnnotation()
             
             if hasResults {
-                ForEach(viewModel.studyLocations) { item in
+                ForEach(viewModel.studyLocations.filter { selectedFilter == nil || $0.category == selectedFilter}) { item in
                     Annotation(item.name, coordinate: item.coordinate) {
                         CustomMarkerView(rating: item.rating, category: item.category)
                             .onTapGesture {
@@ -159,6 +159,7 @@ extension LocationsView {
                     isOtherCategorySelected: $isLibrarySelected
                 )
             )
+            .font(.headline)
     }
     
 

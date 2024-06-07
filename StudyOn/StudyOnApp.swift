@@ -176,6 +176,45 @@ func addSampleData() {
                     envFactor: sampleEnvFactors,
                     num: 4, 
                     category: "library"
+                ),
+                StudyLocation(
+                    name: "Starbucks Coffee",
+                    title: "19 Old Brompton Rd, London SW7 3HZ",
+                    latitude: 51.499,
+                    longitude: -0.174,
+                    rating: 3.9,
+                    comments: [],
+                    images: [],
+                    hours: sampleHours,
+                    envFactor: sampleEnvFactors,
+                    num: 4,
+                    category: "cafe"
+                ),
+                StudyLocation(
+                    name: "Caffe Nero",
+                    title:"119/121 Gloucester Rd, London SW7 4TE",
+                    latitude: 51.496,
+                    longitude: -0.181,
+                    rating: 4.2,
+                    comments: [],
+                    images: [],
+                    hours: sampleHours,
+                    envFactor: sampleEnvFactors2,
+                    num: 4,
+                    category: "cafe"
+                ),
+                StudyLocation(
+                    name: "Pret A Manger",
+                    title:"99 Gloucester Rd, London SW7 4SS",
+                    latitude: 51.498,
+                    longitude: -0.181,
+                    rating: 4.1,
+                    comments: [],
+                    images: [],
+                    hours: sampleHours,
+                    envFactor: sampleEnvFactors,
+                    num: 4,
+                    category: "cafe"
                 )
             ]
             

@@ -35,7 +35,7 @@ struct CustomMarkerView: View {
 extension CustomMarkerView {
     private var libraryIcon: some View {
         VStack(spacing: 0) {
-            Image(systemName: imageForCategory(previewStudyLocation.category))
+            Image(systemName: imageForCategory(category))
                 .resizable()
                 .scaledToFit()
                 .frame(width: 30, height: 30)
