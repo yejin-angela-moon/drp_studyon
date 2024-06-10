@@ -102,6 +102,9 @@ struct LocationDetailView: View {
     
     @State private var userCrowdness: Double = 0
     @State private var userNoise: Double = 0
+    
+    @State private var isOpen: Bool = true
+
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -114,13 +117,30 @@ struct LocationDetailView: View {
                     .foregroundStyle(.gray, Color(.systemGray6))
             }
             .padding(.leading, 15)
-            .padding(.bottom, 8)
+            .padding(.bottom, 25)
             
+
             Text(studyLocation?.name ?? "")
                             .font(.title)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding([.leading, .trailing], 18)
-                            .padding([.top, .bottom], 5)
+                            .fontWeight(.black)
+                            .padding(.leading, 15)
+            
+            
+            HStack {
+                Text(isOpen ? "Open" : "Closed")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                .foregroundStyle(isOpen ? .green : .red)
+                Spacer()
+            }
+            .padding(.leading, 15)
+            .padding([.top, .bottom], 5)
+            
+            .onAppear {
+                isOpen = (studyLocation?.hours.isOpenNow()) != nil
+                
+            }
+            
             
             HStack(alignment: .center) {
                 let score = String(format: "%.1f", studyLocation?.rating ?? 0)
@@ -132,8 +152,9 @@ struct LocationDetailView: View {
                     
                 
                 Text("(\(studyLocation?.comments.count ?? 0))").font(.title3).fontWeight(.medium)
+                Spacer()
             }
-            .padding([.leading, .trailing], 20)
+            .padding([.leading, .trailing], 15)
             
             HStack(alignment: .center) {
                 Menu("\(crowdnessLevelToText(userCrowdness: userCrowdness, dataCrowdness: studyLocation?.envFactor.dynamicData["crowdedness"] ?? -1))") {
@@ -210,7 +231,7 @@ struct StarRatingView: View {
     var rating: Double
     
     var body: some View {
-        HStack {
+        HStack(spacing: 2) {
             ForEach(0..<5) { index in
                 Image(systemName: "star.fill")
                     .foregroundColor(index < Int(rating.rounded()) ? .orange : .gray)
