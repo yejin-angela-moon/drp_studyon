@@ -15,17 +15,25 @@ struct LocationsView: View {
     @State private var isCafeSelected: Bool = false
     @State private var hasResults: Bool = true 
     @State private var autoCompleteSuggestions: [String] = []
+    @State private var listDisplay = false // Toggle state for map or list view
     
     private var db = Firestore.firestore()
     
+        
+
     var body: some View {
         ZStack(alignment: .top) {
-            mapLayer
-                .ignoresSafeArea()
+            if !listDisplay {
+                mapLayer
+                    .ignoresSafeArea()
+            } else {
+                listView // You will need to implement this view
+            }
+
             VStack(spacing: 0) {
                 searchTextField
                 autoCompleteList
-                    
+
                 HStack {
                     libraryToggleButton
                     cafeToggleButton
@@ -34,37 +42,73 @@ struct LocationsView: View {
                 .padding()
             }
             .onChange(of: searchText) {
-                Task {await searchPlacesOnline()}
-                updateAutoCompleteSuggestions()
+                Task {
+                    await searchPlacesOnline()
+                    updateAutoCompleteSuggestions()
+                }
             }
-            
-            .onSubmit(of: .text) { // Handling search query
-                Task { await searchPlacesOnline() }
-            }
-            .mapControls {
-                MapUserLocationButton().padding() // Move to current location
-            }
-            .onChange(of: locationSelection, { oldValue, newValue in
-                // when a marker is selected
-                print("Show details")
-                showPopup = newValue != nil
-            })
-            .sheet(isPresented: $showDetails, content: {
-                LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
-                    .presentationBackgroundInteraction(.disabled)
-                
-            })
-            .sheet(isPresented: $showPopup, content: {
-                StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
-                    .presentationDetents([.height(340)])
-                    .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
-                    .presentationCornerRadius(12)
-            })
-            .onAppear {
-                viewModel.fetchData()
-            }
+
+            ListButtonView(listDisplay: $listDisplay) // Draggable toggle button
+                .padding(.top, 50) // Ensure it is visible and does not overlap with other UI
+                .zIndex(1) // Keep it on top of other content
+        }
+        .onAppear {
+            viewModel.fetchData()
         }
     }
+    
+    private var listView: some View {
+        // Here you will need to implement the list view displaying the locations
+        Text("List View Placeholder")
+    }
+    
+    // var body: some View {
+    //     ZStack(alignment: .top) {
+    //         mapLayer
+    //             .ignoresSafeArea()
+    //         VStack(spacing: 0) {
+    //             searchTextField
+    //             autoCompleteList
+                    
+    //             HStack {
+    //                 libraryToggleButton
+    //                 cafeToggleButton
+    //                 Spacer()
+    //             }
+    //             .padding()
+    //         }
+    //         .onChange(of: searchText) {
+    //             Task {await searchPlacesOnline()}
+    //             updateAutoCompleteSuggestions()
+    //         }
+            
+    //         .onSubmit(of: .text) { // Handling search query
+    //             Task { await searchPlacesOnline() }
+    //         }
+    //         .mapControls {
+    //             MapUserLocationButton().padding() // Move to current location
+    //         }
+    //         .onChange(of: locationSelection, { oldValue, newValue in
+    //             // when a marker is selected
+    //             print("Show details")
+    //             showPopup = newValue != nil
+    //         })
+    //         .sheet(isPresented: $showDetails, content: {
+    //             LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
+    //                 .presentationBackgroundInteraction(.disabled)
+                
+    //         })
+    //         .sheet(isPresented: $showPopup, content: {
+    //             StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
+    //                 .presentationDetents([.height(340)])
+    //                 .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
+    //                 .presentationCornerRadius(12)
+    //         })
+    //         .onAppear {
+    //             viewModel.fetchData()
+    //         }
+    //     }
+    // }
 
     private func searchPlacesOnline() async {
         let results = viewModel.filterLocations(by: searchText)
