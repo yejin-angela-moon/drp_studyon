@@ -19,7 +19,6 @@ struct LocationsView: View {
     
     private var db = Firestore.firestore()
     
-    
     var body: some View {
         ZStack(alignment: .top) {
             if !listDisplay {
@@ -78,9 +77,8 @@ struct LocationsView: View {
         }
     }
     
-    private var listView: some View {
-        // Here you will need to implement the list view displaying the locations
-        Text("List View Placeholder")
+    var listView: some View {
+        ListView(viewModel: viewModel, searchText: $searchText, selectedFilter: $selectedFilter)
     }
     
     // var body: some View {
