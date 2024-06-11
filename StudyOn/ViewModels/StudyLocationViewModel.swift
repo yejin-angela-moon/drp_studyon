@@ -27,10 +27,18 @@ class StudyLocationViewModel: ObservableObject {
                 let images = data["images"] as? [String] ?? []
                 let commentsData = data["comments"] as? [[String: Any]] ?? []
                 let comments = commentsData.map { Comment(name: $0["name"] as? String ?? "", content: $0["content"] as? String ?? "", date: Date()) }
-                let hoursData = data["hours"] as? [String: OpeningHours] ?? [:]
-                let hours = hoursData.mapValues {
-                    OpeningHours(opening: $0.opening, closing: $0.closing)
+                var hours: [String: OpeningHours] = [:]
+                if let hoursData = data["hours"] as? [String: [String: String]] {
+                    for (day, times) in hoursData {
+                        if let opening = times["open"], let closing = times["close"] {
+                            hours[day] = OpeningHours(opening: opening, closing: closing)
+                        }
+                    }
                 }
+//                let hoursData = data["hours"] as? [String: OpeningHours] ?? [:]
+//                let hours = hoursData.mapValues {
+//                    OpeningHours(opening: $0.opening, closing: $0.closing)
+//                }
                 
                 let envFactorData = data["envFactors"] as? [String: Any] ?? [:]
                 let envFactor =
