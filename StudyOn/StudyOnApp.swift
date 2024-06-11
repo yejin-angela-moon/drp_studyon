@@ -1,5 +1,6 @@
 import SwiftUI
 import Firebase
+import FirebaseAuth
 
 @main
 struct StudyOnApp: App {
@@ -7,7 +8,11 @@ struct StudyOnApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                LocationsView()
+                if Auth.auth().currentUser != nil {
+                                    LocationsView()
+                                } else {
+                                    AuthView()
+                                }
                     
                 // RootView()
                 //AuthenticationView()
