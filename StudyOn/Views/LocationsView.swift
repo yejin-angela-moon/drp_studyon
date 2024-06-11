@@ -15,6 +15,8 @@ struct LocationsView: View {
     @State private var isCafeSelected: Bool = false
     @State private var hasResults: Bool = true 
     @State private var autoCompleteSuggestions: [String] = []
+    @State private var isShowingLocationDetail = false
+    @State private var selectedLocation: StudyLocation? = nil
     
     private var db = Firestore.firestore()
     

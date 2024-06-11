@@ -5,15 +5,23 @@ import FirebaseAuth
 @main
 struct StudyOnApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject var userViewModel = UserViewModel()
+    @State private var isUserLoggedIn: Bool = false
+
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                if Auth.auth().currentUser != nil {
-                                    LocationsView()
-                                } else {
-                                    AuthView()
-                                }
-                    
+                if isUserLoggedIn {
+                    LocationsView()
+                        .environmentObject(userViewModel)
+                        .onAppear {
+                            userViewModel.fetchCurrentUser()
+                        }
+                } else {
+                    AuthView(isUserLoggedIn: $isUserLoggedIn)
+                        .environmentObject(userViewModel)
+                }
+//                LocationsView()
                 // RootView()
                 //AuthenticationView()
             }
@@ -21,6 +29,17 @@ struct StudyOnApp: App {
         }
     }
 }
+struct AuthView: View {
+    @Binding var isUserLoggedIn: Bool
+    @EnvironmentObject var userViewModel: UserViewModel
+    
+    var body: some View {
+        NavigationStack {
+            LoginView(isUserLoggedIn: $isUserLoggedIn).environmentObject(userViewModel)
+        }
+    }
+}
+
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,

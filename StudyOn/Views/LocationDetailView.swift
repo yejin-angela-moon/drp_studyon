@@ -95,6 +95,7 @@ struct OpeningHoursView: View {
     }
 }
 
+
 struct LocationDetailView: View {
     @StateObject private var viewModel = StudyLocationViewModel()
     @Binding var studyLocation: StudyLocation?
@@ -104,7 +105,8 @@ struct LocationDetailView: View {
     @State private var userNoise: Double = 0
     
     @State private var isOpen: Bool = true
-
+    @EnvironmentObject var userViewModel: UserViewModel
+    
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -119,37 +121,45 @@ struct LocationDetailView: View {
             .padding(.leading, 15)
             .padding(.bottom, 25)
             
-
-            Text(studyLocation?.name ?? "")
-                            .font(.title)
-                            .fontWeight(.black)
-                            .padding(.leading, 15)
-            
+            HStack {
+                Text(studyLocation?.name ?? "")
+                    .font(.title)
+                    .fontWeight(.black)
+                    .padding(.leading, 15)
+                
+                Spacer()
+                
+                Button(action: {
+                    toggleFavorite()
+                }) {
+                    Image(systemName: isFavorite() ? "heart.fill" : "heart")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(isFavorite() ? .red : .gray)
+                }
+                .padding(.trailing, 15)
+            }
             
             HStack {
                 Text(isOpen ? "Open" : "Closed")
                     .font(.title2)
                     .fontWeight(.bold)
-                .foregroundStyle(isOpen ? .green : .red)
+                    .foregroundStyle(isOpen ? .green : .red)
                 Spacer()
             }
             .padding(.leading, 15)
             .padding([.top, .bottom], 5)
-            
             .onAppear {
                 isOpen = (studyLocation?.hours.isOpenNow()) != nil
-                
             }
-            
             
             HStack(alignment: .center) {
                 let score = String(format: "%.1f", studyLocation?.rating ?? 0)
                 StarRatingView(rating: studyLocation?.rating ?? 0)
                 Text("\(score)")
                     .font(.title2)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.bold)
                     .foregroundStyle(.orange)
-                    
                 
                 Text("(\(studyLocation?.comments.count ?? 0))").font(.title3).fontWeight(.medium)
                 Spacer()
@@ -174,7 +184,7 @@ struct LocationDetailView: View {
                 Spacer()
                 
                 Button("Submit") {
-                    // Store this answer in the data base
+                    // Store this answer in the database
                     if let documentID = studyLocation?.documentID {
                         let crowdness = userCrowdness == 0 ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
                         
@@ -225,6 +235,26 @@ struct LocationDetailView: View {
         }
         .scrollable()
     }
+    
+    private func toggleFavorite() {
+        guard let location = studyLocation else { return }
+        if isFavorite() {
+            userViewModel.removeFavoriteLocation(locationId: location.id.uuidString)
+        } else {
+            userViewModel.addFavoriteLocation(locationId: location.id.uuidString)
+        }
+    }
+    
+    private func isFavorite() -> Bool {
+        guard let user = userViewModel.currentUser, let location = studyLocation else { return false }
+        return user.favoriteLocations.contains(location.id.uuidString)
+    }
+}
+
+// Other structs and functions remain unchanged
+
+#Preview {
+    LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
 }
 
 struct StarRatingView: View {
