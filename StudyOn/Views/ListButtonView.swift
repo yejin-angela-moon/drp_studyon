@@ -3,11 +3,17 @@ import SwiftUI
 
 struct ListButtonView: View {
     @Binding var listDisplay: Bool
+    @Binding var showPopup: Bool
+    @Binding var showDetails: Bool
     @State private var buttonOffset = CGSize.zero
 
     var body: some View {
         Button(action: {
             listDisplay.toggle()
+            if listDisplay {
+                showPopup = false // Dismiss any popup when switching to list view
+                showDetails = false // Dismiss any details view when switching to list view
+            }
         }) {
             Label("", systemImage: listDisplay ? "map" : "list.bullet")
                 .padding()

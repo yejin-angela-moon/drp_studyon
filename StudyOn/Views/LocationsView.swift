@@ -19,8 +19,7 @@ struct LocationsView: View {
     
     private var db = Firestore.firestore()
     
-        
-
+    
     var body: some View {
         ZStack(alignment: .top) {
             if !listDisplay {
@@ -47,8 +46,30 @@ struct LocationsView: View {
                     updateAutoCompleteSuggestions()
                 }
             }
+            .onSubmit(of: .text) {
+                Task { await searchPlacesOnline() }
+            }
+            .mapControls {
+                MapUserLocationButton().padding() // Move to current location
+            }
+            .onChange(of: locationSelection, { oldValue, newValue in
+                // when a marker is selected
+                print("Show details")
+                showPopup = newValue != nil
+            })
+            .sheet(isPresented: $showDetails, content: {
+                LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
+                    .presentationBackgroundInteraction(.disabled)
+                
+            })
+            .sheet(isPresented: $showPopup, content: {
+                StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
+                    .presentationDetents([.height(340)])
+                    .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
+                    .presentationCornerRadius(12)
+            })
 
-            ListButtonView(listDisplay: $listDisplay) // Draggable toggle button
+            ListButtonView(listDisplay: $listDisplay, showPopup: $showPopup, showDetails: $showDetails)
                 .padding(.top, 50) // Ensure it is visible and does not overlap with other UI
                 .zIndex(1) // Keep it on top of other content
         }
