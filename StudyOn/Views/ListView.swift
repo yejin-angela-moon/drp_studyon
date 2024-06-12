@@ -40,7 +40,8 @@ struct ListView: View {
                     .clipped()
                     .cornerRadius(10)
             } else {
-                Image(systemName: "photo")
+                // Image(systemName: "photo")
+                Image("imperial1")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100)
