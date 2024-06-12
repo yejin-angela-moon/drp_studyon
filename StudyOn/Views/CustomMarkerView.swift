@@ -7,14 +7,8 @@ struct CustomMarkerView: View {
     @EnvironmentObject var fontSizeManager: FontSizeManager
     
     var body: some View {
-        VStack {
-            Text(String(format: "%.1f", rating))
-                .font(.system(size: fontSizeManager.captionSize))
-                .foregroundStyle(.primary)
             libraryIcon
                 .shadow(radius: 3)
-
-        }
     }
     
     func colorForRating(_ rating: Double) -> Color {

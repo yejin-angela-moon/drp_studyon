@@ -378,7 +378,7 @@ extension LocationDetailView {
                 Spacer()
             }
             .frame(maxWidth: .infinity)
-            .padding()
+            .padding([.leading, .top], 5)
         }
     }
     
@@ -399,7 +399,7 @@ extension LocationDetailView {
                 Spacer()
             }
             .frame(maxWidth: .infinity)
-            .padding()
+            .padding(.leading, 5)
         }
     }
 }
