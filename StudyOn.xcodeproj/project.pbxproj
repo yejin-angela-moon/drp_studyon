@@ -26,6 +26,7 @@
 		57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */; };
 		57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2B2C08BF84009D0FAA /* Comment.swift */; };
 		57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */; };
+		57D755AE2C1943EF00B743D1 /* LocationServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D755AD2C1943EF00B743D1 /* LocationServiceManager.swift */; };
 		8D3EAEF72C10F305001E1F28 /* EnvFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */; };
 		8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */; };
 		8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */; };
@@ -69,6 +70,7 @@
 		57CEEC2B2C08BF84009D0FAA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		57D755AA2C1936B100B743D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		57D755AD2C1943EF00B743D1 /* LocationServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceManager.swift; sourceTree = "<group>"; };
 		8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvFactor.swift; sourceTree = "<group>"; };
 		8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
 		8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyLocationViewModel.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				57CEEC2B2C08BF84009D0FAA /* Comment.swift */,
 				8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */,
 				8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */,
+				57D755AD2C1943EF00B743D1 /* LocationServiceManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				577347072C07BC9700758655 /* StudyLocationRatingView.swift in Sources */,
 				57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */,
 				57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */,
+				57D755AE2C1943EF00B743D1 /* LocationServiceManager.swift in Sources */,
 				577346D72C07B82700758655 /* StudyOnApp.swift in Sources */,
 				8D3EAEF72C10F305001E1F28 /* EnvFactor.swift in Sources */,
 				577347012C07BA9E00758655 /* LocationManager.swift in Sources */,
@@ -519,7 +523,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StudyOn/Info.plist;
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs your location to notify you with study locations.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app needs your location to notify you with study locations.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to identify where you are at.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -551,7 +555,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StudyOn/Info.plist;
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs your location to notify you with study locations.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app needs your location to notify you with study locations.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to identify where you are at.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

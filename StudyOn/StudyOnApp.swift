@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 import Firebase
 
 @main
@@ -25,6 +26,24 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     print("Configured Firebase!")
     return true
   }
+    
+    private func requestNotificationPermissions() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                print("Notification permission granted.")
+            } else if let error = error {
+                print("Notification permission denied: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        LocationServiceManager.shared.startMonitoringLocation()
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        LocationServiceManager.shared.stopMonitoringLocation()
+    }
 }
 
 func addSampleData() {

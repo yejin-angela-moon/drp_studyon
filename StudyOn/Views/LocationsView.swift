@@ -57,6 +57,7 @@ struct LocationsView: View {
             })
             .onAppear {
                 viewModel.fetchData()
+//                locationServiceModel.checkIfLocationServiceIsEnabled()
             }
         }
     }
@@ -177,3 +178,56 @@ extension MKCoordinateRegion {
                      longitudinalMeters: 10000)
     }
 }
+
+
+//final class LocationServiceModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+//    private var locationManager: CLLocationManager?
+//    private var lastLocation: CLLocation?
+//    private var locationStayStartTime: Date?
+//    
+//    private override init() {
+//        checkIfLocationServiceIsEnabled()
+//        guard let locationManager = locationManager else { return }
+//        
+//        super.init()
+//        locationManager.delegate = self
+//        locationManager.requestAlwaysAuthorization()
+//        locationManager.startUpdatingLocation()
+//    }
+//    
+//    func checkIfLocationServiceIsEnabled() {
+//        if CLLocationManager.locationServicesEnabled() {
+//            locationManager = CLLocationManager()
+//            locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
+//            locationManager!.delegate = self
+//        } else {
+//            print("Your phone's location service is not enabled")
+//        }
+//    }
+//    
+//    func checkLocationAuthorization() {
+//        guard let locationManager = locationManager else { return }
+//        
+//        switch locationManager.authorizationStatus {
+//        case .notDetermined:
+//            locationManager.requestAlwaysAuthorization()
+//        case .restricted:
+//            print("Your location is restricted")
+//        case .denied:
+//            print("You have denied location permission to this app, please go to the setting to enable location services")
+//        case .authorizedAlways:
+//            break
+//        case .authorizedWhenInUse:
+//            print("You can use basic functionalities from the map, but notifications for ratings won't be available")
+//        case .authorized:
+//            break
+//        @unknown default:
+//            break
+//        }
+//    }
+//    
+//    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+//        checkLocationAuthorization()
+//    }
+//
+//}
