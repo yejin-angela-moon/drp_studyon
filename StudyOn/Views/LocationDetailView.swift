@@ -81,16 +81,16 @@ struct LocationDetailView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Button {
-                show.toggle()
-            } label: {
-                Image(systemName: "arrowtriangle.left.fill")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundStyle(.gray, Color(.systemGray6))
-            }
-            .padding(.leading, 15)
-            .padding(.bottom, 25)
+            // Button {
+            //     show.toggle()
+            // } label: {
+            //     Image(systemName: "arrowtriangle.left.fill")
+            //         .resizable()
+            //         .frame(width: 24, height: 24)
+            //         .foregroundStyle(.gray, Color(.systemGray6))
+            // }
+            // .padding(.leading, 15)
+            // .padding(.bottom, 25)
             
 
             Text(studyLocation?.name ?? "")

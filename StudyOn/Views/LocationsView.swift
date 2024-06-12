@@ -16,6 +16,7 @@ struct LocationsView: View {
     @State private var hasResults: Bool = true 
     @State private var autoCompleteSuggestions: [String] = []
     @State private var listDisplay = false // Toggle state for map or list view
+    @State private var navigateToDetails: Bool = false
     
     private var db = Firestore.firestore()
     
@@ -57,21 +58,53 @@ struct LocationsView: View {
                 print("Show details")
                 showPopup = newValue != nil
             })
-            .sheet(isPresented: $showDetails, content: {
-                LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
-                    .presentationBackgroundInteraction(.disabled)
-                
-            })
-            .sheet(isPresented: $showPopup, content: {
-                StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
-                    .presentationDetents([.height(340)])
-                    .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
-                    .presentationCornerRadius(12)
-            })
+            
+            if showPopup {
+                VStack {
+                    Spacer()
+                    StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
+                        .frame(height: UIScreen.main.bounds.height / 2 - 60)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .shadow(radius: 10)
+                        .transition(.move(edge: .bottom))
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                .zIndex(2)
+            }
+            // .sheet(isPresented: $showDetails, content: {
+            //     LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
+            //         .presentationBackgroundInteraction(.disabled)
+            // })
+            // .sheet(isPresented: $showPopup, content: {
+            //     StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
+            //         .presentationDetents([.height(340)])
+            //         .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
+            //         .presentationCornerRadius(12)
+            // })
 
             ListButtonView(listDisplay: $listDisplay, showPopup: $showPopup, showDetails: $showDetails)
                 .padding(.top, 50) // Ensure it is visible and does not overlap with other UI
                 .zIndex(1) // Keep it on top of other content
+
+            // .fullScreenCover(isPresented: $navigateToDetails) {
+            //     if let location = locationSelection {
+            //         LocationDetailView(studyLocation: $locationSelection, show: $navigateToDetails)
+            //     }
+            // }
+            // .sheet(isPresented: $showPopup) {
+            //     StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
+            //         .onDisappear {
+            //             if showDetails {
+            //                 navigateToDetails = true
+            //                 showDetails = false
+            //             }
+            //         }
+            //         .presentationDetents([.height(340)])
+            //         .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
+            //         .presentationCornerRadius(12)
+            // }
+            // // .hidden()
         }
         .onAppear {
             viewModel.fetchData()

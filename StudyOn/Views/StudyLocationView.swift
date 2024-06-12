@@ -6,38 +6,50 @@ struct StudyLocationView: View {
     @Binding var show: Bool
     @Binding var showDetails: Bool
     @State private var rating: Double = 3
+    @State private var navigateToDetails: Bool = false
     
     var body: some View {
-        Spacer()
-        HStack(alignment: .bottom, spacing: 0) {
-            VStack(alignment: .leading, spacing: 16.0) {
-                imageSection
-                nameSection
-                titleSection
-                
-                let score = String(format: "%.1f", studyLocation?.rating ?? 0)
-                Text("\(score) / 5.0")
+        NavigationView {
+            VStack {
+                Spacer()
+                HStack(alignment: .bottom, spacing: 0) {
+                    VStack(alignment: .leading, spacing: 16.0) {
+                        imageSection
+                        nameSection
+                        titleSection
+
+                        let score = String(format: "%.1f", studyLocation?.rating ?? 0)
+                        Text("\(score) / 5.0")
+                    }
+                }
+                .padding(20)
+                .background(RoundedRectangle(cornerRadius: 10)
+                    .fill(.ultraThinMaterial)
+                    .offset(y: 65))
+                .cornerRadius(10)
+                Button {
+                    show.toggle()
+                    showDetails = false
+                    studyLocation = nil
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(.gray, Color(.systemGray6))
+                }
+                .padding(10)
+                Button("View Details") {
+                    navigateToDetails = true
+                }
+                .background(
+                    NavigationLink(destination: LocationDetailView(studyLocation: $studyLocation, show: $showDetails), isActive: $navigateToDetails) {
+                        EmptyView()
+                    }
+                    .hidden()
+                )
             }
+            .navigationBarHidden(true) // Hide the navigation bar
         }
-        .padding(20)
-        .background(RoundedRectangle(cornerRadius: 10)
-            .fill(.ultraThinMaterial)
-            .offset(y: 65))
-        .cornerRadius(10)
-        Button {
-            show.toggle()
-            showDetails = false
-            studyLocation = nil
-        } label: {
-            Image(systemName: "xmark.circle.fill")
-                .resizable()
-                .frame(width: 24, height: 24)
-                .foregroundStyle(.gray, Color(.systemGray6))
-        }
-        .padding(10)
-        Button("View Details", action: {
-            showDetails.toggle()
-        })
     }
 }
     
