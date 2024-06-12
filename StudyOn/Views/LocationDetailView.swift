@@ -24,18 +24,6 @@ struct EnvView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-//            Text("Atmosphere")
-//                .font(.headline)
-//                .padding(.top)
-//            ForEach(envFactor.atmosphere, id: \.self) { item in
-//                Text(item)
-//                    .padding(.leading, 18)
-//                    .padding(.vertical, 5)
-//            }
-//
-//            Text("Static Data")
-//                .font(.headline)
-//                .padding(.top)
             ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
                 HStack {
                     Text("\(key):")
@@ -47,21 +35,6 @@ struct EnvView: View {
                 .padding([.leading, .trailing], 18)
                 .padding(.vertical, 5)
             }
-//
-//            Text("Dynamic Data")
-//                .font(.headline)
-//                .padding(.top)
-//            ForEach(envFactor.dynamicData.sorted(by: >), id: \.key) { key, value in
-//                HStack {
-//                    Text("\(key):")
-//                        .font(.subheadline)
-//                    Spacer()
-//                    Text(String(format: "%.1f", value))
-//                        .font(.subheadline)
-//                }
-//                .padding([.leading, .trailing], 18)
-//                .padding(.vertical, 5)
-//            }
         }
         .padding()
     }
@@ -72,7 +45,6 @@ struct OpeningHoursView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            
             ForEach(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self) { (day: String) in
                 HStack {
                     Text(day)
