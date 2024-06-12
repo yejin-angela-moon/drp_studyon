@@ -72,17 +72,7 @@ struct LocationsView: View {
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(2)
             }
-            // .sheet(isPresented: $showDetails, content: {
-            //     LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
-            //         .presentationBackgroundInteraction(.disabled)
-            // })
-            // .sheet(isPresented: $showPopup, content: {
-            //     StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
-            //         .presentationDetents([.height(340)])
-            //         .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
-            //         .presentationCornerRadius(12)
-            // })
-
+            
             ListButtonView(listDisplay: $listDisplay, showPopup: $showPopup, showDetails: $showDetails)
                 .padding(.top, 50) // Ensure it is visible and does not overlap with other UI
                 .zIndex(1) // Keep it on top of other content

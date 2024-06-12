@@ -11,7 +11,20 @@ struct StudyLocationView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Spacer()
+                HStack {
+                    Spacer()
+                    Button {
+                        show.toggle()
+                        showDetails = false
+                        studyLocation = nil
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.gray, Color(.systemGray6))
+                    }
+                    .padding([.top, .trailing], 10)
+                }
                 HStack(alignment: .bottom, spacing: 0) {
                     VStack(alignment: .leading, spacing: 16.0) {
                         imageSection
@@ -27,17 +40,7 @@ struct StudyLocationView: View {
                     .fill(.ultraThinMaterial)
                     .offset(y: 65))
                 .cornerRadius(10)
-                Button {
-                    show.toggle()
-                    showDetails = false
-                    studyLocation = nil
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(.gray, Color(.systemGray6))
-                }
-                .padding(10)
+                
                 Button("View Details") {
                     navigateToDetails = true
                 }
@@ -47,8 +50,10 @@ struct StudyLocationView: View {
                     }
                     .hidden()
                 )
+                
+                Spacer()
             }
-            .navigationBarHidden(true) // Hide the navigation bar
+            .navigationBarHidden(true)
         }
     }
 }
