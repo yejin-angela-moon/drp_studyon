@@ -15,13 +15,14 @@ struct LocationsView: View {
     @State private var isCafeSelected: Bool = false
     @State private var hasResults: Bool = true 
     @State private var autoCompleteSuggestions: [String] = []
+    @EnvironmentObject var fontSizeManager: FontSizeManager
     
     private var db = Firestore.firestore()
     
     var body: some View {
         ZStack(alignment: .top) {
             mapLayer
-                .ignoresSafeArea()
+                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             VStack(spacing: 0) {
                 searchTextField
                 autoCompleteList
@@ -30,6 +31,36 @@ struct LocationsView: View {
                     libraryToggleButton
                     cafeToggleButton
                     Spacer()
+                    Button(action: {
+                        if fontSizeManager.titleSize < fontSizeManager.maxTitleSize {
+                            fontSizeManager.titleSize += 2
+                            fontSizeManager.headlineSize += 2
+                            fontSizeManager.captionSize += 2
+                            fontSizeManager.title2Size += 2
+                            fontSizeManager.title3Size += 2
+                            fontSizeManager.subheadlineSize += 2
+                            fontSizeManager.bodySize += 2
+                        }
+                    }) {
+                        Text("A+")
+                            .font(.title2)
+                    }
+                    Button(action: {
+                        if fontSizeManager.titleSize > fontSizeManager.minTitleSize {
+                            fontSizeManager.titleSize -= 2
+                            fontSizeManager.headlineSize -= 2
+                            fontSizeManager.captionSize -= 2
+                            fontSizeManager.title2Size -= 2
+                            fontSizeManager.title3Size -= 2
+                            fontSizeManager.subheadlineSize -= 2
+                            fontSizeManager.bodySize -= 2
+                        }
+
+                    }) {
+                        Text("A-")
+                            .font(.title2)
+                    }
+                    
                 }
                 .padding()
             }
@@ -92,6 +123,7 @@ struct ButtonToggleStyle: ToggleStyle {
     @Binding var isCategorySelected: Bool
     var otherCategory: String
     @Binding var isOtherCategorySelected: Bool
+    @EnvironmentObject var fontSizeManager: FontSizeManager
     
     func makeBody(configuration: Configuration) -> some View {
         Button(action: {
@@ -105,7 +137,7 @@ struct ButtonToggleStyle: ToggleStyle {
         }) {
             configuration.label
                 .padding(8)
-                .font(.system(size: 14))
+                .font(.system(size: fontSizeManager.subheadlineSize))
                 .background(isCategorySelected ? Color.orange : Color.gray)
                 .foregroundColor(.white)
                 .cornerRadius(8)
@@ -121,7 +153,8 @@ extension LocationsView {
             if hasResults {
                 ForEach(viewModel.studyLocations.filter { selectedFilter == nil || $0.category == selectedFilter}) { item in
                     Annotation(item.name, coordinate: item.coordinate) {
-                        CustomMarkerView(rating: item.rating, category: item.category)
+                        CustomMarkerView(name: item.name, rating: item.rating, category: item.category)
+                            .font(.system(size: fontSizeManager.captionSize))
                             .onTapGesture {
                                 locationSelection = item
                                 showPopup = true // show popup when an annotation is tapped
@@ -134,7 +167,7 @@ extension LocationsView {
     
     private var searchTextField: some View {
         TextField("Search For Study Location", text: $searchText)
-            .font(.subheadline)
+            .font(.system(size: fontSizeManager.subheadlineSize))
             .padding()
             .background(Color.white)
             .cornerRadius(8)
@@ -147,6 +180,7 @@ extension LocationsView {
             VStack {
                 ForEach(autoCompleteSuggestions, id: \.self) { suggestion in
                     Text(suggestion)
+                        .font(.system(size: fontSizeManager.bodySize))
                         .padding()
                         .background(Color.white)
                         .onTapGesture {
@@ -172,7 +206,7 @@ extension LocationsView {
                     isOtherCategorySelected: $isCafeSelected
                 )
             )
-            .font(.headline)
+            .font(.system(size: fontSizeManager.headlineSize))
 
     }
     
@@ -187,7 +221,7 @@ extension LocationsView {
                     isOtherCategorySelected: $isLibrarySelected
                 )
             )
-            .font(.headline)
+            .font(.system(size: fontSizeManager.headlineSize))
     }
     
 

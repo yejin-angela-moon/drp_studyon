@@ -7,6 +7,7 @@ struct StudyLocationRatingView: View {
     var body: some View {
         VStack {
             Text("Rate \(studyLocation.name)")
+            
             Slider(value: $rating, in: 1...5, step: 1)
             Text("Rating: \(Int(rating))")
             Button(action: {

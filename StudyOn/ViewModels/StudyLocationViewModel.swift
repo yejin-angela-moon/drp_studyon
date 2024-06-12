@@ -138,3 +138,15 @@ func encodeReview(crowdness: Double, noise: Double) -> String {
     print(res)
     return res
 }
+
+class FontSizeManager: ObservableObject {
+    @Published var titleSize: CGFloat = 28
+    let maxTitleSize: CGFloat = 34
+    let minTitleSize: CGFloat = 26
+    @Published var title2Size: CGFloat = 22
+    @Published var title3Size: CGFloat = 19
+    @Published var headlineSize: CGFloat = 17
+    @Published var subheadlineSize: CGFloat = 15
+    @Published var bodySize: CGFloat = 14
+    @Published var captionSize: CGFloat = 12
+}

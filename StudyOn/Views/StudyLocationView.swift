@@ -13,6 +13,7 @@ struct StudyLocationView: View {
     @Binding var show: Bool
     @Binding var showDetails: Bool
     @State private var rating: Double = 3
+    @EnvironmentObject var fontSizeManager: FontSizeManager
     
     var body: some View {
         Spacer()
@@ -145,7 +146,7 @@ extension StudyLocationView {
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(studyLocation?.name ?? "")
-                .font(.title2)
+                .font(.system(size: fontSizeManager.titleSize))
             .fontWeight(.semibold)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -169,7 +170,7 @@ extension StudyLocationView {
     private var titleSection: some View {
         VStack {
             Text(studyLocation?.title ?? "")
-                .font(.footnote)
+                .font(.system(size: fontSizeManager.captionSize))
                 .foregroundStyle(.gray)
                 .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
             .padding(.trailing)
@@ -181,7 +182,7 @@ extension StudyLocationView {
 //            vm.sheetLocation = nil
         } label: {
             Image(systemName: "xmark")
-                .font(.headline)
+                .font(.system(size: fontSizeManager.titleSize))
                 .padding(16)
                 .foregroundColor(.primary)
                 .background(.thickMaterial)

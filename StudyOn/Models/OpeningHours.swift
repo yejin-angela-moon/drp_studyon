@@ -11,7 +11,7 @@ extension Dictionary where Key == String, Value == OpeningHours {
         let now = Date()
         let calendar = Calendar.current
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:MM"
+        formatter.dateFormat = "HH:mm"
         
         guard let weekday = calendar.dateComponents([.weekday], from: now).weekday else {
             return false

@@ -4,11 +4,13 @@ import Firebase
 @main
 struct StudyOnApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var fontSizeManager = FontSizeManager()
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                LocationsView()
-                    
+                LocationsView()  
+                    .environmentObject(fontSizeManager)
                 // RootView()
                 //AuthenticationView()
             }

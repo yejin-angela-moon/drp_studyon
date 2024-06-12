@@ -1,12 +1,15 @@
 import SwiftUI
 
 struct AtmophereView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
     let envFactor: EnvFactor
     
     var body: some View {
         HStack {
             ForEach(envFactor.atmosphere, id: \.self) { item in
                 Text("#" + item)
+                    .font(.system(size: fontSizeManager.bodySize))
                     .padding(.vertical, 5)
                     .padding(.horizontal, 10)
                     .background(Color.black)
@@ -19,6 +22,8 @@ struct AtmophereView: View {
 }
 
 struct EnvView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
     let envFactor: EnvFactor
 
     var body: some View {
@@ -38,10 +43,10 @@ struct EnvView: View {
             ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
                 HStack {
                     Text("\(key):")
-                        .font(.subheadline)
+                        .font(.system(size: fontSizeManager.subheadlineSize))
                     Spacer()
                     Text(String(format: "%.1f", value))
-                        .font(.subheadline)
+                        .font(.system(size: fontSizeManager.subheadlineSize))
                 }
                 .padding([.leading, .trailing], 18)
                 .padding(.vertical, 5)
@@ -67,24 +72,26 @@ struct EnvView: View {
 }
 
 struct OpeningHoursView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
     let hours: [String: OpeningHours]
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             
             ForEach(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self) { (day: String) in
                 HStack {
                     Text(day)
-                        .font(.headline)
+                        .font(.system(size: fontSizeManager.headlineSize))
                     Spacer()
                     if let openingHours = hours[day] {
                         VStack(alignment: .trailing) {
                             Text(openingHours.opening + " - " + openingHours.closing)
-                                .font(.subheadline)
+                                .font(.system(size: fontSizeManager.subheadlineSize))
                         }
                     } else {
                         Text("Closed")
-                            .font(.subheadline)
+                            .font(.system(size: fontSizeManager.subheadlineSize))
                             .foregroundColor(.gray)
                     }
                 }
@@ -103,7 +110,8 @@ struct LocationDetailView: View {
     @State private var userCrowdness: Double = 0
     @State private var userNoise: Double = 0
     
-    @State private var isOpen: Bool = true
+    @State private var isOpen: Bool = true    
+    @EnvironmentObject var fontSizeManager: FontSizeManager
 
 
     var body: some View {
@@ -121,14 +129,14 @@ struct LocationDetailView: View {
             
 
             Text(studyLocation?.name ?? "")
-                            .font(.title)
+                .font(.system(size: fontSizeManager.titleSize))
                             .fontWeight(.black)
                             .padding(.leading, 15)
             
             
             HStack {
                 Text(isOpen ? "Open" : "Closed")
-                    .font(.title2)
+                    .font(.system(size: fontSizeManager.title2Size))
                     .fontWeight(.bold)
                 .foregroundStyle(isOpen ? .green : .red)
                 Spacer()
@@ -146,12 +154,14 @@ struct LocationDetailView: View {
                 let score = String(format: "%.1f", studyLocation?.rating ?? 0)
                 StarRatingView(rating: studyLocation?.rating ?? 0)
                 Text("\(score)")
-                    .font(.title2)
+                    .font(.system(size: fontSizeManager.title2Size))
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .foregroundStyle(.orange)
                     
                 
-                Text("(\(studyLocation?.comments.count ?? 0))").font(.title3).fontWeight(.medium)
+                Text("(\(studyLocation?.comments.count ?? 0))")
+                    .font(.system(size: fontSizeManager.title3Size))
+                    .fontWeight(.medium)
                 Spacer()
             }
             .padding([.leading, .trailing], 15)
@@ -163,6 +173,7 @@ struct LocationDetailView: View {
                     Button("Full") { userCrowdness = 3 }
                 }
                 .buttonStyle(.bordered)
+                .font(.system(size: fontSizeManager.subheadlineSize))
                 
                 Menu("\(noiseLevelToText(userNoise: userNoise, dataNoise: studyLocation?.envFactor.dynamicData["noise"] ?? -1))") {
                     Button("Quiet") { userNoise = 1 }
@@ -170,6 +181,7 @@ struct LocationDetailView: View {
                     Button("Loud") { userNoise = 3 }
                 }
                 .buttonStyle(.bordered)
+                .font(.system(size: fontSizeManager.subheadlineSize))
                 
                 Spacer()
                 
@@ -189,6 +201,8 @@ struct LocationDetailView: View {
                     }
                 }
                 .buttonStyle(.borderedProminent)
+                .font(.system(size: fontSizeManager.subheadlineSize))
+
             }
             .padding([.leading, .trailing], 20)
             .padding(.top, 10)
@@ -216,7 +230,7 @@ struct LocationDetailView: View {
             
             VStack {
                 Text("Comments")
-                    .font(.largeTitle)
+                    .font(.system(size: fontSizeManager.titleSize))
                     .padding()
                 
                 CommentsView(comments: studyLocation?.comments ?? [])
@@ -260,6 +274,7 @@ struct ImageSliderView: View {
 
 struct CommentsView: View {
     let comments: [Comment]
+    @EnvironmentObject var fontSizeManager: FontSizeManager
     
     var body: some View {
         ScrollView {
@@ -270,6 +285,7 @@ struct CommentsView: View {
                         .padding(.vertical, 5)
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
+                        .font(.system(size: fontSizeManager.bodySize))
                 }
             }
             .padding()
@@ -279,19 +295,20 @@ struct CommentsView: View {
 
 struct CommentRow: View {
     let comment: Comment
+    @EnvironmentObject var fontSizeManager: FontSizeManager
     
     var body: some View {
         VStack(alignment: .leading) {
             Text(comment.name)
-                .font(.headline)
+                .font(.system(size: fontSizeManager.headlineSize))
                 .foregroundColor(.blue)
             if let date = comment.date {
                 Text(date, style: .date)
-                    .font(.subheadline)
+                    .font(.system(size: fontSizeManager.subheadlineSize))
                     .foregroundColor(.gray)
             }
             Text(comment.content)
-                .font(.body)
+                .font(.system(size: fontSizeManager.bodySize))
                 .foregroundColor(.primary)
         }
     }
@@ -348,12 +365,12 @@ extension LocationDetailView {
         Button(action: viewModel.toggleOpenHoursList) {
             HStack {
                 Image(systemName: "arrow.right")
-                    .font(.headline)
+                    .font(.system(size: fontSizeManager.headlineSize))
                     .foregroundColor(.primary)
                     .rotationEffect(Angle(degrees: viewModel.showOpenHoursList ? 90 : 0))
                 
                 Text("Open Hours")
-                    .font(.title2)
+                    .font(.system(size: fontSizeManager.title2Size))
                     .fontWeight(.black)
                     .foregroundColor(.primary)
                     .frame(height: 55, alignment: .leading)
@@ -369,12 +386,12 @@ extension LocationDetailView {
         Button(action: viewModel.toggleEnvFactors) {
             HStack {
                 Image(systemName: "arrow.right")
-                    .font(.headline)
+                    .font(.system(size: fontSizeManager.headlineSize))
                     .foregroundColor(.primary)
                     .rotationEffect(Angle(degrees: viewModel.showEnvFactors ? 90 : 0))
                 
                 Text("Details")
-                    .font(.title2)
+                    .font(.system(size: fontSizeManager.title2Size))
                     .fontWeight(.black)
                     .foregroundColor(.primary)
                     .frame(height: 55, alignment: .leading)

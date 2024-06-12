@@ -1,12 +1,20 @@
 import SwiftUI
 
 struct CustomMarkerView: View {
+    var name: String
     var rating: Double
     var category: String
+    @EnvironmentObject var fontSizeManager: FontSizeManager
     
     var body: some View {
-        libraryIcon
-            .shadow(radius: 3)
+        VStack {
+            Text(String(format: "%.1f", rating))
+                .font(.system(size: fontSizeManager.captionSize))
+                .foregroundStyle(.primary)
+            libraryIcon
+                .shadow(radius: 3)
+
+        }
     }
     
     func colorForRating(_ rating: Double) -> Color {
@@ -40,7 +48,7 @@ struct CustomMarkerView: View {
 }
 
 #Preview {
-    CustomMarkerView(rating: previewStudyLocation.rating, category: previewStudyLocation.category)
+    CustomMarkerView(name: previewStudyLocation.name, rating: previewStudyLocation.rating, category: previewStudyLocation.category)
 }
 
 extension CustomMarkerView {
@@ -50,7 +58,7 @@ extension CustomMarkerView {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 30, height: 30)
-                .font(.headline)
+                .font(.system(size: fontSizeManager.headlineSize))
                 .foregroundColor(.white)
                 .padding(6)
                 .background(colorForRating(rating))
