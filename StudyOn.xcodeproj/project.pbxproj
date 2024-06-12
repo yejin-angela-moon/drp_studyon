@@ -68,6 +68,7 @@
 		57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocationView.swift; sourceTree = "<group>"; };
 		57CEEC2B2C08BF84009D0FAA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
+		57D755AA2C1936B100B743D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvFactor.swift; sourceTree = "<group>"; };
 		8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
 		8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyLocationViewModel.swift; sourceTree = "<group>"; };
@@ -128,6 +129,7 @@
 		577346D52C07B82700758655 /* StudyOn */ = {
 			isa = PBXGroup;
 			children = (
+				57D755AA2C1936B100B743D1 /* Info.plist */,
 				577346D62C07B82700758655 /* StudyOnApp.swift */,
 				57CEEC272C080F56009D0FAA /* ContentView.swift */,
 				F20F4FD62C0E1C85002861D2 /* Models */,
@@ -516,6 +518,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"StudyOn/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StudyOn/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs your location to notify you with study locations.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to identify where you are at.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -545,6 +550,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"StudyOn/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StudyOn/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs your location to notify you with study locations.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to identify where you are at.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
