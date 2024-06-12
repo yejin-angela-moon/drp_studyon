@@ -16,6 +16,7 @@ class LocationServiceManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("here")
         guard let newLocation = locations.last else { return }
         
         if let lastLocation = lastLocation {
@@ -25,7 +26,7 @@ class LocationServiceManager: NSObject, CLLocationManagerDelegate {
                     locationStayStartTime = Date()
                 } else if let startTime = locationStayStartTime {
                     let duration = Date().timeIntervalSince(startTime)
-                    if duration > 1800 { // 30 minutes
+                    if duration > 5 { // 30 minutes
                         sendNotification()
                         locationStayStartTime = nil // Reset the timer
                     }
@@ -39,23 +40,39 @@ class LocationServiceManager: NSObject, CLLocationManagerDelegate {
     }
     
     private func sendNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "You've stayed in the same place for a while"
-        content.body = "You've been in the same location for more than 30 minutes."
-        content.sound = UNNotificationSound.default
+        print("sending notification!!!")
         
+        let content = UNMutableNotificationContent()
+        content.title = "Hey"
+        content.body = "Hello"
+        content.sound = UNNotificationSound.default
+        content.categoryIdentifier = "MY_NOTIFICATION_CATEGORY"
+       
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error adding notification: \(error.localizedDescription)")
+            } else {
+                print("Notification added successfully!")
+            }
+        }
     }
     
-    func startMonitoringLocation() {
+    func startUpdatingLocation() {
+        locationManager.startUpdatingLocation()
+    }
+    
+    func stopUpdatingLocation() {
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func startMonitoringSignificantLocationChanges() {
         locationManager.startMonitoringSignificantLocationChanges()
     }
     
-    func stopMonitoringLocation() {
+    func stopMonitoringSignificantLocationChanges() {
         locationManager.stopMonitoringSignificantLocationChanges()
-        locationManager.startUpdatingLocation()
     }
 }
