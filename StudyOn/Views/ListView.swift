@@ -41,6 +41,7 @@ struct ListView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(location.name)
                         .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     Text("Rating: \(String(format: "%.1f", location.rating))")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -57,6 +58,7 @@ struct ListView: View {
                 }
                 .padding(.leading, 10)
             }
+            .frame(height: 120)
             .padding()
             .background(Color.white)
             .cornerRadius(15)

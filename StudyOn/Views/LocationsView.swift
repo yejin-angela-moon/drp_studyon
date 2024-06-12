@@ -25,7 +25,8 @@ struct LocationsView: View {
                 mapLayer
                     .ignoresSafeArea()
             } else {
-                listView // You will need to implement this view
+                listView
+                    .padding(.top, 60)
             }
 
             VStack(spacing: 0) {
