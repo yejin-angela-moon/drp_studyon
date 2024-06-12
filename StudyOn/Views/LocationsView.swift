@@ -154,7 +154,7 @@ extension LocationsView {
                 ForEach(viewModel.studyLocations.filter { selectedFilter == nil || $0.category == selectedFilter}) { item in
                     Annotation(item.name, coordinate: item.coordinate) {
                         CustomMarkerView(name: item.name, rating: item.rating, category: item.category)
-                            .font(.system(size: fontSizeManager.captionSize))
+                            .environmentObject(fontSizeManager)
                             .onTapGesture {
                                 locationSelection = item
                                 showPopup = true // show popup when an annotation is tapped
