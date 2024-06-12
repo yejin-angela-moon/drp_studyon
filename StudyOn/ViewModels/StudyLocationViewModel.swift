@@ -105,14 +105,6 @@ class StudyLocationViewModel: ObservableObject {
             var crowdednessReview = studyLocation?.crowdednessReview ?? []
             var noiseReview = studyLocation?.noiseReview ?? []
             
-            
-//            let newData = [
-//                "time": reviewTime.append(Timestamp()),
-//                "crowdedness": crowdednessReview.append(crowdness),
-//                "noise": noiseReview.append(noise)
-//            ]
-            
-            
             do {
 //                try await db.collection("studyLocations").document(documentID).setData(["dynamicReview": newData], merge: true)
                 try await db.collection("studyLocations").document(documentID).updateData([

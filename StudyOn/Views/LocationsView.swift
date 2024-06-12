@@ -3,7 +3,7 @@ import MapKit
 import Firebase
 
 struct LocationsView: View {
-    @StateObject private var viewModel = StudyLocationViewModel()
+    @EnvironmentObject var viewModel: StudyLocationViewModel
     @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @State private var searchText = "" // Search text in the search text field
     @State private var results = [MKMapItem]()
@@ -79,7 +79,7 @@ struct LocationsView: View {
     }
     
     var listView: some View {
-        ListView(viewModel: viewModel, searchText: $searchText, selectedFilter: $selectedFilter)
+        ListView(searchText: $searchText, selectedFilter: $selectedFilter)
     }
     
     // var body: some View {

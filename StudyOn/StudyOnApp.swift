@@ -8,7 +8,7 @@ struct StudyOnApp: App {
         WindowGroup {
             NavigationStack {
                 LocationsView()
-                    
+                    .environmentObject(StudyLocationViewModel())
                 // RootView()
                 //AuthenticationView()
             }

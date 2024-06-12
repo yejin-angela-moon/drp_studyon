@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 struct ListView: View {
-    @ObservedObject var viewModel: StudyLocationViewModel
+    @EnvironmentObject var viewModel: StudyLocationViewModel
     @Binding var searchText: String
     @Binding var selectedFilter: String?
     
