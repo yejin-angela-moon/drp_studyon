@@ -35,7 +35,7 @@ struct LocationsView: View {
                 print("Failed to fetch favorites: \(String(describing: error))")
             }
         }
-    }
+    }   
 
 
   var body: some View {
