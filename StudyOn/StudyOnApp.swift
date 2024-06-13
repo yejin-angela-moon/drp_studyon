@@ -1,23 +1,47 @@
 import SwiftUI
 import UserNotifications
 import Firebase
+import FirebaseAuth
 
 @main
 
 struct StudyOnApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject var userViewModel = UserViewModel()
+    @State private var isUserLoggedIn: Bool = false
+
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                LocationsView()
-                    
-                // RootView()
-                //AuthenticationView()
+                if isUserLoggedIn {
+                    LocationsView()
+                        .environmentObject(userViewModel)
+                        .onAppear {
+                            userViewModel.fetchCurrentUser()
+                        }
+                } else {
+                    AuthView(isUserLoggedIn: $isUserLoggedIn)
+                        .environmentObject(userViewModel)
+                }
             }
-            //ContentView()
         }
     }
 }
+struct AuthView: View {
+    @Binding var isUserLoggedIn: Bool
+    @EnvironmentObject var userViewModel: UserViewModel
+    
+    var body: some View {
+        NavigationStack {
+            if userViewModel.isUserLoggedIn {
+                LocationsView()
+            } else {
+                LoginView(isUserLoggedIn: $isUserLoggedIn).environmentObject(userViewModel)
+            }
+        }
+    }
+}
+
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication,
@@ -213,6 +237,45 @@ func addSampleData() {
                     envFactor: sampleEnvFactors,
                     num: 4, 
                     category: "library"
+                ),
+                StudyLocation(
+                    name: "Starbucks Coffee",
+                    title: "19 Old Brompton Rd, London SW7 3HZ",
+                    latitude: 51.499,
+                    longitude: -0.174,
+                    rating: 3.9,
+                    comments: [],
+                    images: [],
+                    hours: sampleHours,
+                    envFactor: sampleEnvFactors,
+                    num: 4,
+                    category: "cafe"
+                ),
+                StudyLocation(
+                    name: "Caffe Nero",
+                    title:"119/121 Gloucester Rd, London SW7 4TE",
+                    latitude: 51.496,
+                    longitude: -0.181,
+                    rating: 4.2,
+                    comments: [],
+                    images: [],
+                    hours: sampleHours,
+                    envFactor: sampleEnvFactors2,
+                    num: 4,
+                    category: "cafe"
+                ),
+                StudyLocation(
+                    name: "Pret A Manger",
+                    title:"99 Gloucester Rd, London SW7 4SS",
+                    latitude: 51.498,
+                    longitude: -0.181,
+                    rating: 4.1,
+                    comments: [],
+                    images: [],
+                    hours: sampleHours,
+                    envFactor: sampleEnvFactors,
+                    num: 4,
+                    category: "cafe"
                 )
             ]
             
