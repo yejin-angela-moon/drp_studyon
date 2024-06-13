@@ -1,3 +1,10 @@
+//
+//  StudyLocationView.swift
+//  StudyOn
+//
+//  Created by Victor Kang on 5/30/24.
+//
+
 import SwiftUI
 import MapKit
 
@@ -6,62 +13,40 @@ struct StudyLocationView: View {
     @Binding var show: Bool
     @Binding var showDetails: Bool
     @State private var rating: Double = 3
-
-    @State private var navigateToDetails: Bool = false
-
     @State private var userFavorites = Set<String>()
-
     
     var body: some View {
-        NavigationView {
-            VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        show.toggle()
-                        showDetails = false
-                        studyLocation = nil
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(.gray, Color(.systemGray6))
-                    }
-                    .padding([.top, .trailing], 10)
-                }
-                HStack(alignment: .bottom, spacing: 0) {
-                    VStack(alignment: .leading, spacing: 16.0) {
-                        imageSection
-                        nameSection
-                        titleSection
-
-                        let score = String(format: "%.1f", studyLocation?.rating ?? 0)
-                        Text("\(score) / 5.0")
-                    }
-                }
-                .padding(20)
-                .background(RoundedRectangle(cornerRadius: 10)
-                    .fill(.ultraThinMaterial)
-                    .offset(y: 65))
-                .cornerRadius(10)
+        Spacer()
+        HStack(alignment: .bottom, spacing: 0) {
+            VStack(alignment: .leading, spacing: 16.0) {
+                imageSection
+                nameSection
+                titleSection
                 
-                Button("View Details") {
-                    navigateToDetails = true
-                }
-                .background(
-                    NavigationLink(destination: LocationDetailView(studyLocation: $studyLocation, show: $showDetails), isActive: $navigateToDetails) {
-                        EmptyView()
-                    }
-                    .hidden()
-                )
-                
-                Spacer()
+                let score = String(format: "%.1f", studyLocation?.rating ?? 0)
+                Text("\(score) / 5.0")
             }
-            .navigationBarHidden(true)
         }
+        .padding(20)
+        .background(RoundedRectangle(cornerRadius: 10)
+            .fill(.ultraThinMaterial)
+            .offset(y: 65))
+        .cornerRadius(10)
+        Button {
+            show.toggle()
+            showDetails = false
+            studyLocation = nil
+        } label: {
+            Image(systemName: "xmark.circle.fill")
+                .resizable()
+                .frame(width: 24, height: 24)
+                .foregroundStyle(.gray, Color(.systemGray6))
+        }
+        .padding(10)
+        Button("View Details", action: {
+            showDetails.toggle()
+        })
     }
-<<<<<<< StudyOn/Views/StudyLocationView.swift
-=======
     
     
     
@@ -114,7 +99,6 @@ struct StudyLocationView: View {
     //        }
     //    }
     //}
->>>>>>> StudyOn/Views/StudyLocationView.swift
 }
     
 let previewStudyLocation = StudyLocation(

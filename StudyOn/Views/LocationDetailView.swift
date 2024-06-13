@@ -1,4 +1,3 @@
-import Foundation
 import SwiftUI
 
 struct AtmophereView: View {
@@ -22,19 +21,27 @@ struct AtmophereView: View {
 struct EnvView: View {
   let envFactor: EnvFactor
 
-    var body: some View {
-        VStack(alignment: .leading) {
-            ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
-                HStack {
-                    Text("\(key):")
-                        .font(.subheadline)
-                    Spacer()
-                    Text(String(format: "%.1f", value))
-                        .font(.subheadline)
-                }
-                .padding([.leading, .trailing], 18)
-                .padding(.vertical, 5)
-            }
+  var body: some View {
+    VStack(alignment: .leading) {
+      //            Text("Atmosphere")
+      //                .font(.headline)
+      //                .padding(.top)
+      //            ForEach(envFactor.atmosphere, id: \.self) { item in
+      //                Text(item)
+      //                    .padding(.leading, 18)
+      //                    .padding(.vertical, 5)
+      //            }
+      //
+      //            Text("Static Data")
+      //                .font(.headline)
+      //                .padding(.top)
+      ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
+        HStack {
+          Text("\(key):")
+            .font(.subheadline)
+          Spacer()
+          Text(String(format: "%.1f", value))
+            .font(.subheadline)
         }
         .padding([.leading, .trailing], 18)
         .padding(.vertical, 5)
@@ -62,25 +69,20 @@ struct EnvView: View {
 struct OpeningHoursView: View {
   let hours: [String: OpeningHours]
 
-    var body: some View {
-        VStack(alignment: .leading) {
-            ForEach(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self) { (day: String) in
-                HStack {
-                    Text(day)
-                        .font(.headline)
-                    Spacer()
-                    if let openingHours = hours[day] {
-                        VStack(alignment: .trailing) {
-                            Text(openingHours.opening + " - " + openingHours.closing)
-                                .font(.subheadline)
-                        }
-                    } else {
-                        Text("Closed")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                }
-                .padding(.vertical, 5)
+  var body: some View {
+    VStack(alignment: .leading) {
+
+      ForEach(
+        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self
+      ) { (day: String) in
+        HStack {
+          Text(day)
+            .font(.headline)
+          Spacer()
+          if let openingHours = hours[day] {
+            VStack(alignment: .trailing) {
+              Text(openingHours.opening + " - " + openingHours.closing)
+                .font(.subheadline)
             }
           } else {
             Text("Closed")

@@ -95,39 +95,6 @@ class StudyLocationViewModel: ObservableObject {
     withAnimation(.easeInOut) {
       showOpenHoursList.toggle()
     }
-
-    
-    func submitDynamicData(studyLocation: StudyLocation?, crowdness: Double, noise: Double) async {
-        if let documentID = studyLocation?.documentID {
-            print(documentID)
-            print(crowdness)
-            print(noise)
-            print(studyLocation?.dynamicReviewTime ?? [])
-            print(studyLocation?.crowdednessReview ?? [])
-            print(studyLocation?.noiseReview ?? [])
-            
-            var reviewTime = studyLocation?.dynamicReviewTime ?? []
-            var crowdednessReview = studyLocation?.crowdednessReview ?? []
-            var noiseReview = studyLocation?.noiseReview ?? []
-            
-            do {
-//                try await db.collection("studyLocations").document(documentID).setData(["dynamicReview": newData], merge: true)
-                try await db.collection("studyLocations").document(documentID).updateData([
-                    "dynamicReviews": FieldValue.arrayUnion([encodeReview(crowdness: crowdness, noise: noise)])
-                 ])
-//                try await db.collection("studyLocations").document(documentID).collection("dynamicReview").document("time").setData(["a": Timestamp()])
-//                setData(["dynamicReview": newData], merge: true)
-                
-                print("Document successfully updated")
-            } catch {
-                print("Error updating document for submit: \(error)")
-            }
-            
-        } else {
-            print("No studyLocation found")
-            return
-        }
-
   }
 
   func toggleEnvFactors() {
