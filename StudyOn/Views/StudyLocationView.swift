@@ -13,7 +13,6 @@ struct StudyLocationView: View {
     @Binding var show: Bool
     @Binding var showDetails: Bool
     @State private var rating: Double = 3
-    @State private var userFavorites = Set<String>()
     
     var body: some View {
         Spacer()
@@ -47,8 +46,6 @@ struct StudyLocationView: View {
             showDetails.toggle()
         })
     }
-    
-    
     
     
     
