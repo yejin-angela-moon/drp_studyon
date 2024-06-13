@@ -98,7 +98,7 @@ struct OpeningHoursView: View {
 }
 
 struct LocationDetailView: View {
-  @StateObject private var viewModel = StudyLocationViewModel()
+  @EnvironmentObject var viewModel: StudyLocationViewModel
   @Binding var studyLocation: StudyLocation?
   @Binding var show: Bool
 
@@ -111,16 +111,16 @@ struct LocationDetailView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
-      Button {
-        show.toggle()
-      } label: {
-        Image(systemName: "arrowtriangle.left.fill")
-          .resizable()
-          .frame(width: 24, height: 24)
-          .foregroundStyle(.gray, Color(.systemGray6))
-      }
-      .padding(.leading, 15)
-      .padding(.bottom, 25)
+      // Button {
+      //   show.toggle()
+      // } label: {
+      //   Image(systemName: "arrowtriangle.left.fill")
+      //     .resizable()
+      //     .frame(width: 24, height: 24)
+      //     .foregroundStyle(.gray, Color(.systemGray6))
+      // }
+      // .padding(.leading, 15)
+      // .padding(.bottom, 25)
 
       HStack {
         Text(studyLocation?.name ?? "")

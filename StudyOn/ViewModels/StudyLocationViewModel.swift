@@ -44,11 +44,6 @@ class StudyLocationViewModel: ObservableObject {
             }
           }
         }
-        //                let hoursData = data["hours"] as? [String: OpeningHours] ?? [:]
-        //                let hours = hoursData.mapValues {
-        //                    OpeningHours(opening: $0.opening, closing: $0.closing)
-        //                }
-
         let envFactorData = data["envFactors"] as? [String: Any] ?? [:]
         let envFactor =
           EnvFactor(

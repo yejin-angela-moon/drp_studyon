@@ -6,6 +6,7 @@ import FirebaseAuth
 struct StudyOnApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject var userViewModel = UserViewModel()
+    @StateObject var studyLocationViewModel = StudyLocationViewModel()
     @State private var isUserLoggedIn: Bool = false
 
     var body: some Scene {
@@ -13,6 +14,7 @@ struct StudyOnApp: App {
             NavigationStack {
                 if isUserLoggedIn {
                     LocationsView()
+                        .environmentObject(studyLocationViewModel)
                         .environmentObject(userViewModel)
                         .onAppear {
                             userViewModel.fetchCurrentUser()

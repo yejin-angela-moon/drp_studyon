@@ -38,6 +38,8 @@
 		8D3EAEF72C10F305001E1F28 /* EnvFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */; };
 		8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */; };
 		8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */; };
+		8DF78CE12C1B7D6400C922BD /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF78CE02C1B7D6400C922BD /* ListView.swift */; };
+		8DF78CE32C1B7D7600C922BD /* ListButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF78CE22C1B7D7600C922BD /* ListButtonView.swift */; };
 		F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDD2C0E2685002861D2 /* LocationsView.swift */; };
 		F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */; };
 /* End PBXBuildFile section */
@@ -85,6 +87,8 @@
 		8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvFactor.swift; sourceTree = "<group>"; };
 		8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
 		8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyLocationViewModel.swift; sourceTree = "<group>"; };
+		8DF78CE02C1B7D6400C922BD /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		8DF78CE22C1B7D7600C922BD /* ListButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListButtonView.swift; sourceTree = "<group>"; };
 		F20F4FDD2C0E2685002861D2 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
 		F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +206,8 @@
 				F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */,
 				19CA12B62C18BD26001A2103 /* SignupView.swift */,
 				19CA12B82C18BD40001A2103 /* LoginView.swift */,
+				8DF78CE02C1B7D6400C922BD /* ListView.swift */,
+				8DF78CE22C1B7D7600C922BD /* ListButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -374,6 +380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				577347052C07BBF100758655 /* StudyLocation.swift in Sources */,
+				8DF78CE12C1B7D6400C922BD /* ListView.swift in Sources */,
 				F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */,
 				8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */,
 				57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */,
@@ -386,6 +393,7 @@
 				57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */,
 				19CA12B92C18BD40001A2103 /* LoginView.swift in Sources */,
 				57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */,
+				8DF78CE32C1B7D7600C922BD /* ListButtonView.swift in Sources */,
 				577346D72C07B82700758655 /* StudyOnApp.swift in Sources */,
 				19CA12B72C18BD26001A2103 /* SignupView.swift in Sources */,
 				8D3EAEF72C10F305001E1F28 /* EnvFactor.swift in Sources */,
@@ -551,9 +559,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StudyOn/Preview Content\"";
+				DEVELOPMENT_TEAM = G688BGQ337;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -569,6 +579,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gfive.StudyOn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

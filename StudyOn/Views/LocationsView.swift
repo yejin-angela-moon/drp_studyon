@@ -3,7 +3,8 @@ import MapKit
 import SwiftUI
 
 struct LocationsView: View {
-  @StateObject private var viewModel = StudyLocationViewModel()
+  @EnvironmentObject var viewModel: StudyLocationViewModel
+  @EnvironmentObject var userViewModel: UserViewModel
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
   @State private var searchText = ""  // Search text in the search text field
   @State private var results = [MKMapItem]()
@@ -17,145 +18,35 @@ struct LocationsView: View {
   @State private var autoCompleteSuggestions: [String] = []
   @State private var isShowingLocationDetail = false
   @State private var selectedLocation: StudyLocation? = nil
-  @EnvironmentObject var userViewModel: UserViewModel
-  @State private var isFavorite: Bool = false  // 추가된 부분
+  @State private var listDisplay = false // Toggle state for map or list view
+  @State private var navigateToDetails: Bool = false
+  @State private var isFavorite: Bool = false  
   @State private var userFavorites = Set<String>()
-
 
   private var db = Firestore.firestore()
     
-    private func fetchUserFavorites() {
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-        Firestore.firestore().collection("users").document(userId).getDocument { document, error in
-            if let document = document, document.exists, let favorites = document.data()?["favoriteLocations"] as? [String] {
-                DispatchQueue.main.async {
-                    self.userFavorites = Set(favorites)
-                }
-            } else {
-                print("Failed to fetch favorites: \(String(describing: error))")
-            }
-        }
-    }   
-
-
-  var body: some View {
-    ZStack(alignment: .top) {
-      mapLayer
-        .ignoresSafeArea()
-      VStack(spacing: 0) {
-        searchTextField
-        autoCompleteList
-
-        HStack {
-          libraryToggleButton
-          cafeToggleButton
-          Spacer()
-        }
-        .padding()
+  private func fetchUserFavorites() {
+      guard let userId = Auth.auth().currentUser?.uid else { return }
+      Firestore.firestore().collection("users").document(userId).getDocument { document, error in
+          if let document = document, document.exists, let favorites = document.data()?["favoriteLocations"] as? [String] {
+              DispatchQueue.main.async {
+                  self.userFavorites = Set(favorites)
+              }
+          } else {
+              print("Failed to fetch favorites: \(String(describing: error))")
+          }
       }
-      .onChange(of: searchText) {
-        Task { await searchPlacesOnline() }
-        updateAutoCompleteSuggestions()
-      }
+  }  
 
-      .onSubmit(of: .text) {  // Handling search query
-        Task { await searchPlacesOnline() }
-      }
-      .mapControls {
-        MapUserLocationButton().padding()  // Move to current location
-      }
-      .onChange(
-        of: locationSelection,
-        { oldValue, newValue in
-          // when a marker is selected
-          print("Show details")
-          showPopup = newValue != nil
-        }
-      )
-      .sheet(
-        isPresented: $showDetails,
-        content: {
-          LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
-            .presentationBackgroundInteraction(.disabled)
-
-        }
-      )
-      .sheet(
-        isPresented: $showPopup,
-        content: {
-          StudyLocationView(
-            studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails
-          )
-          .presentationDetents([.height(340)])
-          .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
-          .presentationCornerRadius(12)
-        }
-      )
-      .onAppear {
-        viewModel.fetchData()
-        fetchUserFavorites()
-      }
-    }
-  }
-
-  private func searchPlacesOnline() async {
-    let results = viewModel.filterLocations(by: searchText)
-    if results.isEmpty {
-      hasResults = false  // No results, hide markers
-    } else {
-      hasResults = true  // Results found, show markers
-      viewModel.studyLocations = results
-    }
-  }
-
-  private func updateAutoCompleteSuggestions() {
-    let allSuggestions = viewModel.allStudyLocations.map { $0.name }
-    autoCompleteSuggestions = allSuggestions.filter {
-      $0.lowercased().contains(searchText.lowercased())
-    }
-  }
-}
-
-#Preview {
-  LocationsView()
-}
-
-struct ButtonToggleStyle: ToggleStyle {
-  @Binding var filter: String?
-  var category: String
-  @Binding var isCategorySelected: Bool
-  var otherCategory: String
-  @Binding var isOtherCategorySelected: Bool
-
-  func makeBody(configuration: Configuration) -> some View {
-    Button(action: {
-      isCategorySelected.toggle()
-      if isCategorySelected {
-        isOtherCategorySelected = false
-        filter = category
-      } else {
-        filter = nil
-      }
-    }) {
-      configuration.label
-        .padding(8)
-        .font(.system(size: 14))
-        .background(isCategorySelected ? Color.orange : Color.gray)
-        .foregroundColor(.white)
-        .cornerRadius(8)
-    }
-  }
-}
-
-extension LocationsView {
   private var mapLayer: some View {
     Map(position: $cameraPosition, selection: $locationSelection) {
       UserAnnotation()
         
-
       if hasResults {
         ForEach(
-          viewModel.studyLocations.filter { selectedFilter == nil || $0.category == selectedFilter }
+          viewModel.allStudyLocations.filter {
+            selectedFilter == nil || $0.category == selectedFilter 
+          }
         ) { item in
           Annotation(item.name, coordinate: item.coordinate) {
             CustomMarkerView(
@@ -227,8 +118,122 @@ extension LocationsView {
         )
       )
       .font(.headline)
+  } 
+
+  var body: some View {
+        ZStack(alignment: .top) {
+            if !listDisplay {
+                mapLayer
+                    .ignoresSafeArea()
+            } else {
+                listView
+                    .padding(.top, 60)
+            }
+
+            VStack(spacing: 0) {
+                searchTextField
+                autoCompleteList
+
+                HStack {
+                    libraryToggleButton
+                    cafeToggleButton
+                    Spacer()
+                }
+                .padding()
+            }
+            .onChange(of: searchText) {
+                Task {
+                    await searchPlacesOnline()
+                    updateAutoCompleteSuggestions()
+                }
+            }
+            .onSubmit(of: .text) {
+                Task { await searchPlacesOnline() }
+            }
+            .mapControls {
+                MapUserLocationButton().padding() // Move to current location
+            }
+            .onChange(of: locationSelection, { oldValue, newValue in
+                // when a marker is selected
+                print("Show details")
+                showPopup = newValue != nil
+            })
+            
+            if showPopup {
+                VStack {
+                    Spacer()
+                    StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
+                        .frame(height: UIScreen.main.bounds.height / 2 - 60)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .shadow(radius: 10)
+                        .transition(.move(edge: .bottom))
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                .zIndex(2)
+            }
+            
+            ListButtonView(listDisplay: $listDisplay, showPopup: $showPopup, showDetails: $showDetails)
+                .padding(.top, 50) // Ensure it is visible and does not overlap with other UI
+                .zIndex(1) // Keep it on top of other content
+        }
+        .onAppear {
+            viewModel.fetchData()
+            fetchUserFavorites()
+        }
+    }
+    
+    var listView: some View {
+        ListView(searchText: $searchText, selectedFilter: $selectedFilter)
+    }
+
+  private func searchPlacesOnline() async {
+    let results = viewModel.filterLocations(by: searchText)
+    if results.isEmpty {
+      hasResults = false  // No results, hide markers
+    } else {
+      hasResults = true  // Results found, show markers
+      viewModel.studyLocations = results
+    }
   }
 
+  private func updateAutoCompleteSuggestions() {
+    let allSuggestions = viewModel.allStudyLocations.map { $0.name }
+    autoCompleteSuggestions = allSuggestions.filter {
+      $0.lowercased().contains(searchText.lowercased())
+    }
+  }
+}
+
+#Preview {
+  LocationsView()
+}
+
+struct ButtonToggleStyle: ToggleStyle {
+  @Binding var filter: String?
+  var category: String
+  @Binding var isCategorySelected: Bool
+  var otherCategory: String
+  @Binding var isOtherCategorySelected: Bool
+
+  func makeBody(configuration: Configuration) -> some View {
+    Button(action: {
+      isCategorySelected.toggle()
+      if isCategorySelected {
+        isOtherCategorySelected = false
+        filter = category
+      } else {
+        filter = nil
+      }
+    }) {
+      configuration.label
+        .padding(8)
+        .font(.system(size: 14))
+        .background(isCategorySelected ? Color.orange : Color.gray)
+        .foregroundColor(.white)
+        .cornerRadius(8)
+    }
+  }
 }
 
 extension CLLocationCoordinate2D {

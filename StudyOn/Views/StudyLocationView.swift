@@ -1,10 +1,3 @@
-//
-//  StudyLocationView.swift
-//  StudyOn
-//
-//  Created by Victor Kang on 5/30/24.
-//
-
 import SwiftUI
 import MapKit
 
@@ -13,92 +6,56 @@ struct StudyLocationView: View {
     @Binding var show: Bool
     @Binding var showDetails: Bool
     @State private var rating: Double = 3
-    @State private var userFavorites = Set<String>()
+    @State private var navigateToDetails: Bool = false
     
     var body: some View {
-        Spacer()
-        HStack(alignment: .bottom, spacing: 0) {
-            VStack(alignment: .leading, spacing: 16.0) {
-                imageSection
-                nameSection
-                titleSection
+        NavigationView {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        show.toggle()
+                        showDetails = false
+                        studyLocation = nil
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.gray, Color(.systemGray6))
+                    }
+                    .padding([.top, .trailing], 10)
+                }
+                HStack(alignment: .bottom, spacing: 0) {
+                    VStack(alignment: .leading, spacing: 16.0) {
+                        imageSection
+                        nameSection
+                        titleSection
+
+                        let score = String(format: "%.1f", studyLocation?.rating ?? 0)
+                        Text("\(score) / 5.0")
+                    }
+                }
+                .padding(20)
+                .background(RoundedRectangle(cornerRadius: 10)
+                    .fill(.ultraThinMaterial)
+                    .offset(y: 65))
+                .cornerRadius(10)
                 
-                let score = String(format: "%.1f", studyLocation?.rating ?? 0)
-                Text("\(score) / 5.0")
+                Button("View Details") {
+                    navigateToDetails = true
+                }
+                .background(
+                    NavigationLink(destination: LocationDetailView(studyLocation: $studyLocation, show: $showDetails), isActive: $navigateToDetails) {
+                        EmptyView()
+                    }
+                    .hidden()
+                )
+                
+                Spacer()
             }
+            .navigationBarHidden(true)
         }
-        .padding(20)
-        .background(RoundedRectangle(cornerRadius: 10)
-            .fill(.ultraThinMaterial)
-            .offset(y: 65))
-        .cornerRadius(10)
-        Button {
-            show.toggle()
-            showDetails = false
-            studyLocation = nil
-        } label: {
-            Image(systemName: "xmark.circle.fill")
-                .resizable()
-                .frame(width: 24, height: 24)
-                .foregroundStyle(.gray, Color(.systemGray6))
-        }
-        .padding(10)
-        Button("View Details", action: {
-            showDetails.toggle()
-        })
     }
-    
-    
-    
-    
-    
-    //        VStack {
-    //            HStack(alignment: .top) {
-    //                VStack(alignment: .leading) {
-    //                    nameSection
-    //
-    //                    titleSection
-    //
-    //                    let score = String(format: "%.1f", studyLocation?.rating ?? 0)
-    //                    Text("\(score) / 5.0")
-    //                }
-    //                .padding([.leading, .trailing], 6)
-    //                .padding([.top, .bottom], 15)
-    //
-    //                Spacer()
-    //
-    //                Button {
-    //                    show.toggle()
-    //                    showDetails.toggle()
-    //                    studyLocation = nil
-    //                } label: {
-    //                    Image(systemName: "xmark.circle.fill")
-    //                        .resizable()
-    //                        .frame(width: 24, height: 24)
-    //                        .foregroundStyle(.gray, Color(.systemGray6))
-    //                }
-    //                .padding(10)
-    //            }
-    //
-    //            Button("View Details", action: {
-    //                showDetails.toggle()
-    //            })
-    //
-    //            Slider(value: $rating, in: 1...5, step: 1).padding([.leading, .trailing], 30)
-    //            Text("Rating: \(Int(rating))")
-    //            Button(action: {
-    //                // Should save rating to the backend
-    //                print("Rating for \(studyLocation?.name ?? "nil"): \(Int(rating))")
-    //
-    ////                studyLocation?.rating = rating
-    //                show.toggle()
-    //                studyLocation = nil
-    //            }) {
-    //                Text("Submit Rating")
-    //            }.padding(10)
-    //        }
-    //    }
-    //}
 }
     
 let previewStudyLocation = StudyLocation(
