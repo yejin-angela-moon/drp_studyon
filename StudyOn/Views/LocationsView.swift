@@ -31,8 +31,35 @@ struct LocationsView: View {
                 DispatchQueue.main.async {
                     self.userFavorites = Set(favorites)
                 }
-            } else {
-                print("Failed to fetch favorites: \(String(describing: error))")
+                .padding()
+            }
+            
+            .onSubmit(of: .text) { // Handling search query
+                print("Search for location: \(searchText)")
+                Task { await searchPlacesOnline() }
+            }
+            .mapControls {
+                MapUserLocationButton().padding() // Move to current location
+            }
+            .onChange(of: locationSelection, { oldValue, newValue in
+                // when a marker is selected
+                print("Show details")
+                showPopup = newValue != nil
+            })
+            .sheet(isPresented: $showDetails, content: {
+                LocationDetailView(studyLocation: $locationSelection, show: $showDetails)
+                    .presentationBackgroundInteraction(.disabled)
+                
+            })
+            .sheet(isPresented: $showPopup, content: {
+                StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
+                    .presentationDetents([.height(340)])
+                    .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
+                    .presentationCornerRadius(12)
+            })
+            .onAppear {
+                viewModel.fetchData()
+//                locationServiceModel.checkIfLocationServiceIsEnabled()
             }
         }
     }
