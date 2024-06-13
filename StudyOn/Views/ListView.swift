@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ListView: View {
     @EnvironmentObject var viewModel: StudyLocationViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
     @Binding var searchText: String
     @Binding var selectedFilter: String?
     
@@ -21,7 +22,7 @@ struct ListView: View {
             }
             .listStyle(PlainListStyle())
             .background(
-                NavigationLink(destination: LocationDetailView(studyLocation: $selectedLocation, show: $isActive), isActive: $isActive) {
+                NavigationLink(destination: LocationDetailView(studyLocation: $selectedLocation, show: $isActive).environmentObject(viewModel).environmentObject(userViewModel), isActive: $isActive) {
                     EmptyView()
                 }
                 .hidden()

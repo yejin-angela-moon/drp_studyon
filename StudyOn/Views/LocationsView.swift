@@ -168,6 +168,8 @@ struct LocationsView: View {
                         .cornerRadius(12)
                         .shadow(radius: 10)
                         .transition(.move(edge: .bottom))
+                        .environmentObject(viewModel)
+                        .environmentObject(userViewModel)
                 }
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(2)

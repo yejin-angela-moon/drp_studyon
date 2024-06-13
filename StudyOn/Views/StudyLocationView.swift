@@ -2,6 +2,8 @@ import SwiftUI
 import MapKit
 
 struct StudyLocationView: View {
+    @EnvironmentObject var viewModel: StudyLocationViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
     @Binding var showDetails: Bool
@@ -45,7 +47,7 @@ struct StudyLocationView: View {
                     navigateToDetails = true
                 }
                 .background(
-                    NavigationLink(destination: LocationDetailView(studyLocation: $studyLocation, show: $showDetails), isActive: $navigateToDetails) {
+                    NavigationLink(destination: LocationDetailView(studyLocation: $studyLocation, show: $showDetails).environmentObject(viewModel).environmentObject(userViewModel), isActive: $navigateToDetails) {
                         EmptyView()
                     }
                     .hidden()

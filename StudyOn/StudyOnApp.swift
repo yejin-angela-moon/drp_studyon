@@ -21,6 +21,7 @@ struct StudyOnApp: App {
                         }
                 } else {
                     AuthView(isUserLoggedIn: $isUserLoggedIn)
+                        .environmentObject(studyLocationViewModel)
                         .environmentObject(userViewModel)
                 }
             }
@@ -30,13 +31,14 @@ struct StudyOnApp: App {
 struct AuthView: View {
     @Binding var isUserLoggedIn: Bool
     @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var studyLocationViewModel: StudyLocationViewModel
     
     var body: some View {
         NavigationStack {
             if userViewModel.isUserLoggedIn {
-                LocationsView()
+                LocationsView().environmentObject(studyLocationViewModel).environmentObject(userViewModel)
             } else {
-                LoginView(isUserLoggedIn: $isUserLoggedIn).environmentObject(userViewModel)
+                LoginView(isUserLoggedIn: $isUserLoggedIn).environmentObject(studyLocationViewModel).environmentObject(userViewModel)
             }
         }
     }
