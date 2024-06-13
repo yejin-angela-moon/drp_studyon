@@ -368,13 +368,11 @@ extension LocationDetailView {
                     .font(.system(size: fontSizeManager.headlineSize))
                     .foregroundColor(.primary)
                     .rotationEffect(Angle(degrees: viewModel.showOpenHoursList ? 90 : 0))
-                
                 Text("Open Hours")
                     .font(.system(size: fontSizeManager.title2Size))
                     .fontWeight(.black)
                     .foregroundColor(.primary)
                     .frame(height: 55, alignment: .leading)
-                
                 Spacer()
             }
             .frame(maxWidth: .infinity)
