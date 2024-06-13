@@ -60,7 +60,7 @@ struct LocationsView: View {
 //                locationServiceModel.checkIfLocationServiceIsEnabled()
             }
         }
-    }
+    }   
 
     private func searchPlacesOnline() async {
         let results = viewModel.filterLocations(by: searchText)
