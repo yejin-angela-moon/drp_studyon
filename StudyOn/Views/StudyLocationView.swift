@@ -6,7 +6,11 @@ struct StudyLocationView: View {
     @Binding var show: Bool
     @Binding var showDetails: Bool
     @State private var rating: Double = 3
+
     @State private var navigateToDetails: Bool = false
+
+    @State private var userFavorites = Set<String>()
+
     
     var body: some View {
         NavigationView {
@@ -56,6 +60,61 @@ struct StudyLocationView: View {
             .navigationBarHidden(true)
         }
     }
+<<<<<<< StudyOn/Views/StudyLocationView.swift
+=======
+    
+    
+    
+    
+    
+    //        VStack {
+    //            HStack(alignment: .top) {
+    //                VStack(alignment: .leading) {
+    //                    nameSection
+    //
+    //                    titleSection
+    //
+    //                    let score = String(format: "%.1f", studyLocation?.rating ?? 0)
+    //                    Text("\(score) / 5.0")
+    //                }
+    //                .padding([.leading, .trailing], 6)
+    //                .padding([.top, .bottom], 15)
+    //
+    //                Spacer()
+    //
+    //                Button {
+    //                    show.toggle()
+    //                    showDetails.toggle()
+    //                    studyLocation = nil
+    //                } label: {
+    //                    Image(systemName: "xmark.circle.fill")
+    //                        .resizable()
+    //                        .frame(width: 24, height: 24)
+    //                        .foregroundStyle(.gray, Color(.systemGray6))
+    //                }
+    //                .padding(10)
+    //            }
+    //
+    //            Button("View Details", action: {
+    //                showDetails.toggle()
+    //            })
+    //
+    //            Slider(value: $rating, in: 1...5, step: 1).padding([.leading, .trailing], 30)
+    //            Text("Rating: \(Int(rating))")
+    //            Button(action: {
+    //                // Should save rating to the backend
+    //                print("Rating for \(studyLocation?.name ?? "nil"): \(Int(rating))")
+    //
+    ////                studyLocation?.rating = rating
+    //                show.toggle()
+    //                studyLocation = nil
+    //            }) {
+    //                Text("Submit Rating")
+    //            }.padding(10)
+    //        }
+    //    }
+    //}
+>>>>>>> StudyOn/Views/StudyLocationView.swift
 }
     
 let previewStudyLocation = StudyLocation(
