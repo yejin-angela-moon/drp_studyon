@@ -8,11 +8,9 @@ class StudyLocationViewModel: ObservableObject {
   @Published var showEnvFactors: Bool = false
   var allStudyLocations: [StudyLocation] = []
   private var db = Firestore.firestore()
-  @Published var userFavorites: [String] = []
 
   init() {
     fetchData()
-    fetchUserFavorites()
   }
 
   func fetchData() {
@@ -77,22 +75,6 @@ class StudyLocationViewModel: ObservableObject {
       }
       self.studyLocations = self.allStudyLocations
     }
-  }
-
-  func fetchUserFavorites() {
-    guard let userId = Auth.auth().currentUser?.uid else { return }
-    db.collection("users").document(userId).getDocument { document, error in
-      if let document = document, document.exists {
-        if let user = try? document.data(as: User.self) {
-          print(document)
-          self.userFavorites = user.favoriteLocations
-        }
-      }
-    }
-  }
-
-  func isFavorite(locationId: String) -> Bool {
-    return userFavorites.contains(locationId)
   }
 
   func filterLocations(by searchText: String) -> [StudyLocation] {

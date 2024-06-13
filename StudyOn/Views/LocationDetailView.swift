@@ -139,6 +139,11 @@ struct LocationDetailView: View {
             .foregroundColor(isFavorite ? .red : .gray)
         }
         .padding(.trailing, 15)
+        .onAppear(){
+            userViewModel.fetchUserFavorites() {
+                self.isFavorite = userViewModel.userFavorites.contains(studyLocation?.name ?? "")
+            }
+        }
       }
 
       HStack {
@@ -152,7 +157,6 @@ struct LocationDetailView: View {
       .padding([.top, .bottom], 5)
       .onAppear {
         isOpen = (studyLocation?.hours.isOpenNow()) != nil
-        isFavorite = checkIfFavorite()  // 추가된 부분
       }
 
       HStack(alignment: .center) {
@@ -247,16 +251,16 @@ struct LocationDetailView: View {
   }
 
   private func toggleFavorite() {
-    guard let location = studyLocation else { return }
+//    guard let location = studyLocation? else { return }
     if isFavorite {
-      userViewModel.removeFavoriteLocation(locationId: location.id.uuidString)
+      userViewModel.removeFavoriteLocation(locationId: studyLocation?.name ?? "")
     } else {
-      userViewModel.addFavoriteLocation(locationId: location.id.uuidString)
+      userViewModel.addFavoriteLocation(locationId: studyLocation?.name ?? "")
     }
-    isFavorite.toggle()  // 추가된 부분
+    isFavorite.toggle()  
   }
 
-  private func checkIfFavorite() -> Bool {  // 추가된 부분
+  private func checkIfFavorite() -> Bool {  
     guard let user = userViewModel.currentUser, let location = studyLocation else { return false }
     return user.favoriteLocations.contains(location.id.uuidString)
   }

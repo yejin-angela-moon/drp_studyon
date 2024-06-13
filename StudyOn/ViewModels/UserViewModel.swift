@@ -5,8 +5,14 @@ import Foundation
 
 class UserViewModel: ObservableObject {
   @Published var currentUser: User?
+  @Published var isUserLoggedIn: Bool = false
+  @Published var userFavorites: [String] = []
 
   private var db = Firestore.firestore()
+    
+    init() {
+        autoLogin()
+    }
 
   func fetchCurrentUser() {
     guard let userId = Auth.auth().currentUser?.uid else {
@@ -26,6 +32,23 @@ class UserViewModel: ObservableObject {
       }
     }
   }
+    
+    func fetchUserFavorites(completion: @escaping () -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(userId).getDocument { document, error in
+            if let document = document, document.exists {
+                if let user = try? document.data(as: User.self) {
+                    self.userFavorites = user.favoriteLocations
+                    completion() // 클로저 호출
+                }
+            }
+        }
+    }
+
+
+    func isFavorite(locationId: String) -> Bool {
+      return userFavorites.contains(locationId)
+    }
 
   func addFavoriteLocation(locationId: String) {
     guard let user = currentUser, let userId = user.id else { return }
@@ -70,4 +93,28 @@ class UserViewModel: ObservableObject {
       print("Error saving user: \(error.localizedDescription)")
     }
   }
+    
+    func autoLogin() {
+        guard let emailData = KeychainService.load(key: "email"),
+              let passwordData = KeychainService.load(key: "password"),
+              let email = String(data: emailData, encoding: .utf8),
+              let password = String(data: passwordData, encoding: .utf8) else {
+            DispatchQueue.main.async {
+                self.isUserLoggedIn = false
+            }
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                self.isUserLoggedIn = false
+                print("Auto login failed: \(error.localizedDescription)")
+            } else {
+                DispatchQueue.main.async {
+                    self.isUserLoggedIn = true
+                    self.fetchCurrentUser()
+                }
+            }
+        }
+    }
 }

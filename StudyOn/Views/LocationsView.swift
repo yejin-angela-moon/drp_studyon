@@ -17,8 +17,26 @@ struct LocationsView: View {
   @State private var autoCompleteSuggestions: [String] = []
   @State private var isShowingLocationDetail = false
   @State private var selectedLocation: StudyLocation? = nil
+  @EnvironmentObject var userViewModel: UserViewModel
+  @State private var isFavorite: Bool = false  // 추가된 부분
+  @State private var userFavorites = Set<String>()
+
 
   private var db = Firestore.firestore()
+    
+    private func fetchUserFavorites() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        Firestore.firestore().collection("users").document(userId).getDocument { document, error in
+            if let document = document, document.exists, let favorites = document.data()?["favoriteLocations"] as? [String] {
+                DispatchQueue.main.async {
+                    self.userFavorites = Set(favorites)
+                }
+            } else {
+                print("Failed to fetch favorites: \(String(describing: error))")
+            }
+        }
+    }
+
 
   var body: some View {
     ZStack(alignment: .top) {
@@ -75,7 +93,7 @@ struct LocationsView: View {
       )
       .onAppear {
         viewModel.fetchData()
-        viewModel.fetchUserFavorites()
+        fetchUserFavorites()
       }
     }
   }
@@ -133,6 +151,7 @@ extension LocationsView {
   private var mapLayer: some View {
     Map(position: $cameraPosition, selection: $locationSelection) {
       UserAnnotation()
+        
 
       if hasResults {
         ForEach(
@@ -140,8 +159,7 @@ extension LocationsView {
         ) { item in
           Annotation(item.name, coordinate: item.coordinate) {
             CustomMarkerView(
-              rating: item.rating, category: item.category,
-              isFavorite: viewModel.isFavorite(locationId: item.id.uuidString)
+                rating: item.rating, category: item.category, isFavorite: userFavorites.contains(item.name)
             )
             .onTapGesture {
               locationSelection = item

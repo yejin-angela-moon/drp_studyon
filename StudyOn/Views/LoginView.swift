@@ -41,6 +41,9 @@ struct LoginView: View {
                 .padding()
         }
         .navigationTitle("Login")
+        .onAppear {
+            userViewModel.autoLogin()
+        }
     }
     
     func loginUser() {
@@ -50,7 +53,15 @@ struct LoginView: View {
             } else {
                 isUserLoggedIn = true
                 userViewModel.fetchCurrentUser()
+                saveCredentials()
             }
         }
+    }
+    
+    func saveCredentials() {
+        let emailData = Data(email.utf8)
+        let passwordData = Data(password.utf8)
+        KeychainService.save(key: "email", data: emailData)
+        KeychainService.save(key: "password", data: passwordData)
     }
 }
