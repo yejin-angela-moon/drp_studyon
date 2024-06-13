@@ -37,6 +37,15 @@
 		57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */; };
 		8D3EAEF72C10F305001E1F28 /* EnvFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */; };
 		8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */; };
+		8D5CBCD52C189BC200B2A62C /* ListButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5CBCD42C189BC200B2A62C /* ListButtonView.swift */; };
+		8D5CBCD72C1915B700B2A62C /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5CBCD62C1915B700B2A62C /* ListView.swift */; };
+		8D60E5FA2C19F75A002A2522 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8D60E5F92C19F75A002A2522 /* FirebaseAnalytics */; };
+		8D60E5FC2C19F75A002A2522 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8D60E5FB2C19F75A002A2522 /* FirebaseAnalyticsSwift */; };
+		8D60E5FE2C19F75A002A2522 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8D60E5FD2C19F75A002A2522 /* FirebaseAuth */; };
+		8D60E6002C19F75A002A2522 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8D60E5FF2C19F75A002A2522 /* FirebaseFirestore */; };
+		8D60E6022C19F75A002A2522 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8D60E6012C19F75A002A2522 /* FirebaseFirestoreSwift */; };
+		8D60E6042C19F7B4002A2522 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8D60E6032C19F7B4002A2522 /* FirebaseDatabase */; };
+		8D60E6062C19F7B4002A2522 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8D60E6052C19F7B4002A2522 /* FirebaseDatabaseSwift */; };
 		8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */; };
 		F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDD2C0E2685002861D2 /* LocationsView.swift */; };
 		F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */; };
@@ -84,6 +93,8 @@
 		57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvFactor.swift; sourceTree = "<group>"; };
 		8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
+		8D5CBCD42C189BC200B2A62C /* ListButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListButtonView.swift; sourceTree = "<group>"; };
+		8D5CBCD62C1915B700B2A62C /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyLocationViewModel.swift; sourceTree = "<group>"; };
 		F20F4FDD2C0E2685002861D2 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
 		F20F4FDF2C0E298C002861D2 /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
@@ -190,6 +201,13 @@
 				577346F32C07B82800758655 /* StudyOnUITestsLaunchTests.swift */,
 			);
 			path = StudyOnUITests;
+			sourceTree = "<group>";
+		};
+		8D1710142C1927A70052A80F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F20F4FD42C0E1BA4002861D2 /* Views */ = {
@@ -375,6 +393,7 @@
 			files = (
 				577347052C07BBF100758655 /* StudyLocation.swift in Sources */,
 				F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */,
+				8D5CBCD72C1915B700B2A62C /* ListView.swift in Sources */,
 				8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */,
 				57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */,
 				F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */,
@@ -383,6 +402,7 @@
 				19CA12B32C18BCAA001A2103 /* User.swift in Sources */,
 				8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */,
 				577347072C07BC9700758655 /* StudyLocationRatingView.swift in Sources */,
+				8D5CBCD52C189BC200B2A62C /* ListButtonView.swift in Sources */,
 				57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */,
 				19CA12B92C18BD40001A2103 /* LoginView.swift in Sources */,
 				57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */,
@@ -767,6 +787,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 574784262C0A0112009F9719 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		8D60E6032C19F7B4002A2522 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 574784262C0A0112009F9719 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		8D60E6052C19F7B4002A2522 /* FirebaseDatabaseSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 574784262C0A0112009F9719 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabaseSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
