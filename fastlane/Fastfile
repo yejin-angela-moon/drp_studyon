@@ -1,0 +1,42 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Run unit tests"
+  lane :unit_tests do |options|
+    skip_unit_tests = options[:skip_unit_tests] || false
+
+    unless skip_unit_tests
+      sh "xcrun simctl shutdown all"
+
+      run_tests(
+        scheme: 'StudyOn',
+        clean: true
+      )
+    end
+  end
+
+  desc "Build an unsigned xcarchive"
+  lane :build_unsigned_xcarchive do
+    gym(
+      configuration: "Release",
+      project: "StudyOn.xcodeproj",
+      output_directory: "./output/archive",
+      archive_path: "./output/archive/StudyOn.xcarchive",
+      export_method: "ad-hoc",  # This is required, but won't affect since we're not exporting an IPA
+      skip_codesigning: true,
+      skip_package_ipa: true,
+      export_options: {
+        compileBitcode: false,
+        method: "ad-hoc",
+        signingStyle: "manual",
+        provisioningProfiles: {},
+        signingCertificate: "",
+        teamID: "",
+        uploadSymbols: false,
+        stripSwiftSymbols: true,
+        thinning: "<none>",
+        iCloudContainerEnvironment: "Production"
+      }
+    )
+  end
+end

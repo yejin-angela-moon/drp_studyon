@@ -1,0 +1,120 @@
+version: 2.1
+
+executors:
+  macos_executor:
+    macos:
+      xcode: "15.3.0"
+
+  node_executor:
+    docker:
+      - image: cimg/node:22.2.0
+
+jobs:
+  run_unit_tests:
+    executor: macos_executor
+    steps:
+      - checkout
+
+      - run:
+          name: Install Bundler
+          command: gem install bundler
+
+      - run:
+          name: Install Dependencies
+          command: bundle install
+
+      - run:
+          name: Run Unit Tests
+          command: bundle exec fastlane ios unit_tests skip_unit_tests:true --verbose
+
+      - run:
+          name: Create Test Results Directory
+          command: mkdir -p output/test_results
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - output/test_results
+
+      - store_artifacts:
+          path: output/test_results
+          destination: test_results
+
+  build_unsigned_xcarchive:
+    executor: macos_executor
+    steps:
+      - checkout
+
+      - run:
+          name: Install Bundler
+          command: gem install bundler
+
+      - run:
+          name: Install Dependencies
+          command: bundle install
+
+      - run:
+          name: Build Unsigned xcarchive
+          command: bundle exec fastlane ios build_unsigned_xcarchive --verbose
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - output/archive
+
+      - store_artifacts:
+          path: output/archive
+          destination: archive
+
+  create_unsigned_ipa:
+    executor: macos_executor
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Generate unsigned ipa
+          command: ./generate_unsigned_ipa.sh
+
+      - store_artifacts:
+          path: output/ipa
+          destination: ipa
+
+  export_firestore_data:
+    executor: node_executor
+    steps:
+      - checkout
+
+      - run:
+          name: Create Service Account Key File
+          command: |
+            echo "$FIREBASE_SERVICE_ACCOUNT" > serviceAccountKey.json
+
+      - run:
+          name: Install Firebase Admin SDK
+          command: sudo npm install firebase-admin
+
+      - run:
+          name: Export Firestore Data to JSON
+          command: node exportFirestoreData.js
+
+      - store_artifacts:
+          path: firestoreData.json
+          destination: firestore_data
+
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - run_unit_tests
+      - build_unsigned_xcarchive:
+          requires:
+            - run_unit_tests
+      - create_unsigned_ipa:
+          requires:
+            - build_unsigned_xcarchive
+      - export_firestore_data:
+          requires:
+            - run_unit_tests
