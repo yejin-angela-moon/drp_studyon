@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AtmopshereView: View {
+struct AtmosphereView: View {
   let envFactor: EnvFactor
 
   var body: some View {

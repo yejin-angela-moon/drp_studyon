@@ -58,13 +58,21 @@ struct ListView: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 HStack {
-                    ForEach(location.envFactor.atmosphere, id: \.self) { tag in
-                        Text(tag)
-                            .font(.caption)
-                            .padding(5)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(5)
+                    if let crowdedness = location.envFactor.dynamicData["crowdedness"],
+                        let noise = location.envFactor.dynamicData["noise"] {
+                            Text("Crowdedness: \(String(format: "%.1f", crowdedness))")
+                                .font(.caption)
+                                .padding(5)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(5)
+                            
+                            Text("Noise: \(String(format: "%.1f", noise))")
+                                .font(.caption)
+                                .padding(5)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(5)
                     }
                 }
             }
