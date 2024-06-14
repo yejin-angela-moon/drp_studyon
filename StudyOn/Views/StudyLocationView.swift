@@ -117,8 +117,10 @@ let previewEnvFactor = EnvFactor(
     ], 
     staticData: [
         "wifi speed": 4.0,
-        "spaciousness": 4.5,
+        "# tables": 5,
         "socket no": 5.0,
+        "# PCs": 10,
+        "# meeting rooms": 1
     ],
     atmosphere: ["Calm", "Nice music", "Pet-friendly"]
 )

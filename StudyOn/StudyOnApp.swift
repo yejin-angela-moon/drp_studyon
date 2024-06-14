@@ -51,8 +51,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        addSampleData()
         print("Configured Firebase!")
-        
         LocationServiceManager.shared.startMonitoring()
         
         UNUserNotificationCenter.current().delegate = self
@@ -123,8 +123,10 @@ func addSampleData() {
                 ], 
                 staticData: [
                     "wifi speed": 4.0,
-                    "spaciousness": 4.5,
+                    "# tables": 5,
                     "socket no": 5.0,
+                    "# PCs": 10,
+                    "# meeting rooms": 1
                 ],
                 atmosphere: ["Calm", "Nice music", "Pet-friendly"]
             )
@@ -136,8 +138,10 @@ func addSampleData() {
                 ],
                 staticData: [
                     "wifi speed": 5.0,
-                    "spaciousness": 4.5,
-                    "socket no": 10.0
+                    "# tables": 3,
+                    "socket no": 10.0,
+                    "# PCs": 6,
+                    "# meeting rooms": 2
                 ],
                 atmosphere: ["Lively", "Cozy", "Pet-friendly"]
             )
