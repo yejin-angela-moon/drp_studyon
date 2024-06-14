@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AtmophereView: View {
+struct AtmopshereView: View {
   let envFactor: EnvFactor
 
   var body: some View {
@@ -46,21 +46,6 @@ struct EnvView: View {
         .padding([.leading, .trailing], 18)
         .padding(.vertical, 5)
       }
-      //
-      //            Text("Dynamic Data")
-      //                .font(.headline)
-      //                .padding(.top)
-      //            ForEach(envFactor.dynamicData.sorted(by: >), id: \.key) { key, value in
-      //                HStack {
-      //                    Text("\(key):")
-      //                        .font(.subheadline)
-      //                    Spacer()
-      //                    Text(String(format: "%.1f", value))
-      //                        .font(.subheadline)
-      //                }
-      //                .padding([.leading, .trailing], 18)
-      //                .padding(.vertical, 5)
-      //            }
     }
     .padding()
   }
@@ -222,7 +207,7 @@ struct LocationDetailView: View {
         .padding([.top, .bottom], 12)
 
       if let envFactor = studyLocation?.envFactor {
-        AtmophereView(envFactor: envFactor)
+        AtmosphereView(envFactor: envFactor)
       }
 
       openHoursButton
