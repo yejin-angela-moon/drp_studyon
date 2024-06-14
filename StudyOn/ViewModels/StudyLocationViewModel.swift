@@ -1,4 +1,5 @@
 import FirebaseAuth
+import CoreLocation
 import FirebaseFirestore
 import SwiftUI
 
@@ -85,6 +86,16 @@ class StudyLocationViewModel: ObservableObject {
       }
     }
   }
+    
+    func findNearbyStudyLocation(from location: CLLocation, within distance: CLLocationDistance) -> StudyLocation? {
+        for studyLocation in allStudyLocations {
+            let studyLocationCoordinate = CLLocation(latitude: studyLocation.latitude, longitude: studyLocation.longitude)
+            if location.distance(from: studyLocationCoordinate) <= distance {
+                return studyLocation
+            }
+        }
+        return nil
+    }
 
   func toggleOpenHoursList() {
     withAnimation(.easeInOut) {
