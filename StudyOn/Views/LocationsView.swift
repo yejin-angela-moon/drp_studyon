@@ -5,6 +5,7 @@ import SwiftUI
 struct LocationsView: View {
   @EnvironmentObject var viewModel: StudyLocationViewModel
   @EnvironmentObject var userViewModel: UserViewModel
+  @EnvironmentObject var notificationHandler: NotificationHandlerModel
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
   @State private var searchText = ""  // Search text in the search text field
   @State private var results = [MKMapItem]()
@@ -153,6 +154,14 @@ struct LocationsView: View {
             .mapControls {
                 MapUserLocationButton().padding() // Move to current location
             }
+            .onChange(of: notificationHandler.doNavigate, { oldValue, newValue in
+                print("notification handler activated in LocationsView")
+                if newValue { // The user pressed the notification
+                    self.locationSelection = notificationHandler.studyLocation
+                } else {
+                    self.locationSelection = nil
+                }
+            })
             .onChange(of: locationSelection, { oldValue, newValue in
                 // when a marker is selected
                 print("Show details")
@@ -170,6 +179,7 @@ struct LocationsView: View {
                         .transition(.move(edge: .bottom))
                         .environmentObject(viewModel)
                         .environmentObject(userViewModel)
+                        .environmentObject(notificationHandler)
                 }
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(2)

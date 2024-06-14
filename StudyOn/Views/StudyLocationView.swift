@@ -4,6 +4,7 @@ import MapKit
 struct StudyLocationView: View {
     @EnvironmentObject var viewModel: StudyLocationViewModel
     @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var notificationHandler: NotificationHandlerModel
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
     @Binding var showDetails: Bool
@@ -18,6 +19,7 @@ struct StudyLocationView: View {
                     Button {
                         show.toggle()
                         showDetails = false
+                        notificationHandler.doNavigate = false
                         studyLocation = nil
                     } label: {
                         Image(systemName: "xmark.circle.fill")
@@ -42,16 +44,35 @@ struct StudyLocationView: View {
                     .fill(.ultraThinMaterial)
                     .offset(y: 65))
                 .cornerRadius(10)
+                .onAppear {
+                    if notificationHandler.doNavigate {
+                        showDetails = true
+                    }
+                }
+                .onChange(of: notificationHandler.doNavigate, {oldValue, newValue in
+                    print("changed!")
+                    showDetails = newValue
+                })
                 
                 Button("View Details") {
-                    navigateToDetails = true
+//                    navigateToDetails = true
+                    showDetails = true
                 }
-                .background(
-                    NavigationLink(destination: LocationDetailView(studyLocation: $studyLocation, show: $showDetails).environmentObject(viewModel).environmentObject(userViewModel), isActive: $navigateToDetails) {
-                        EmptyView()
+                .fullScreenCover(isPresented: $showDetails) {
+                    if let studyLocation = studyLocation {
+                        LocationDetailView(studyLocation: .constant(studyLocation), show: $showDetails)
+                            .environmentObject(viewModel)
+                            .environmentObject(userViewModel)
                     }
-                    .hidden()
-                )
+                }
+                
+                
+//                .background(
+//                    NavigationLink(destination: LocationDetailView(studyLocation: $studyLocation, show: $showDetails).environmentObject(viewModel).environmentObject(userViewModel), isActive: $navigateToDetails) {
+//                        EmptyView()
+//                    }
+//                    .hidden()
+//                )
                 
                 Spacer()
             }

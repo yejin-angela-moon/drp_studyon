@@ -17,6 +17,7 @@ struct StudyOnApp: App {
                     LocationsView()
                         .environmentObject(studyLocationViewModel)
                         .environmentObject(userViewModel)
+                        .environmentObject(NotificationHandlerModel.shared)
                         .onAppear {
                             userViewModel.fetchCurrentUser()
                         }
@@ -37,7 +38,7 @@ struct AuthView: View {
     var body: some View {
         NavigationStack {
             if userViewModel.isUserLoggedIn {
-                LocationsView().environmentObject(studyLocationViewModel).environmentObject(userViewModel)
+                LocationsView().environmentObject(studyLocationViewModel).environmentObject(userViewModel).environmentObject(NotificationHandlerModel.shared)
             } else {
                 LoginView(isUserLoggedIn: $isUserLoggedIn).environmentObject(studyLocationViewModel).environmentObject(userViewModel)
             }
@@ -85,6 +86,17 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         LocationServiceManager.shared.startUpdatingLocation()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("Navigating according to the information")
+        
+        DispatchQueue.main.async {
+            NotificationHandlerModel.shared.doNavigate = true
+        }
+        print(NotificationHandlerModel.shared.studyLocation?.name ?? "Not applied")
+        
+        completionHandler()
     }
 }
 
