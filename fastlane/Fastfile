@@ -6,9 +6,10 @@ platform :ios do
     skip_unit_tests = options[:skip_unit_tests] || false
 
     unless skip_unit_tests
-      scan(
+      sh "xcrun simctl shutdown all"
+
+      run_tests(
         scheme: 'StudyOn',
-        device: "iPhone SE (3rd generation)",
         clean: true
       )
     end

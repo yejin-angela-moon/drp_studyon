@@ -1,8 +1,10 @@
 import SwiftUI
 import MapKit
+import FirebaseFirestore
 
 struct StudyLocation: Identifiable, Hashable {
     let id = UUID()
+    var documentID: String? = nil
     let name: String
     let title: String
     let latitude: Double
@@ -10,8 +12,13 @@ struct StudyLocation: Identifiable, Hashable {
     let rating: Double
     let comments: [Comment]
     let images: [String]
-    let hours: [String: (open: String, close: String)]
-    let category: String = "cafe"
+    let hours: [String: OpeningHours]
+    let envFactor: EnvFactor
+    let num: Int
+    let category: String
+    var dynamicReviewTime: [Timestamp] = []
+    var crowdednessReview: [Double] = []
+    var noiseReview: [Double] = []
     
     var markerColor: Color {
         colorForRating(rating)
@@ -34,13 +41,11 @@ struct StudyLocation: Identifiable, Hashable {
 func colorForRating(_ rating: Double) -> Color {
     // Ensure the rating is clamped between 0 and 5
     let clampedRating = min(max(rating, 0), 5)
-    
     // Calculate the green component (it increases as the rating increases)
     let green = clampedRating / 5.0
-    
     // Calculate the red component (it decreases as the rating increases)
     let red = (5.0 - clampedRating) / 5.0
-    
     // Return the interpolated color
     return Color(red: red, green: green, blue: 0.0)
 }
+

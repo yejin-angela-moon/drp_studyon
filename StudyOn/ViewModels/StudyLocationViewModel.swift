@@ -1,141 +1,145 @@
-//
-//  StudyLocationViewModel.swift
-//  StudyOn
-//
-//  Created by Minseok Chey on 5/31/24.
-//
-
-import Foundation
+import FirebaseAuth
 import FirebaseFirestore
+import SwiftUI
 
 class StudyLocationViewModel: ObservableObject {
-    @Published var studyLocations: [StudyLocation] = []
-    private var db = Firestore.firestore()
-        
-    func fetchData() {
-            db.collection("studyLocations").addSnapshotListener { (querySnapshot, error) in
-                guard let documents = querySnapshot?.documents else {
-                    print("No documents")
-                    return
-                }
+  @Published var studyLocations: [StudyLocation] = []
+  @Published var showOpenHoursList: Bool = false
+  @Published var showEnvFactors: Bool = false
+  var allStudyLocations: [StudyLocation] = []
+  private var db = Firestore.firestore()
 
-                self.studyLocations = documents.map { (queryDocumentSnapshot) -> StudyLocation in
-                    let data = queryDocumentSnapshot.data()
-                    let name = data["name"] as? String ?? ""
-                    let title = data["title"] as? String ?? ""
-                    let latitude = data["latitude"] as? Double ?? 0
-                    let longitude = data["longitude"] as? Double ?? 0
-                    let rating = data["rating"] as? Double ?? 0
-                    let images = data["images"] as? [String] ?? []
-                    let commentsData = data["comments"] as? [[String: Any]] ?? []
-                    let comments = commentsData.map { Comment(name: $0["name"] as? String ?? "", content: $0["content"] as? String ?? "", date: Date()) }
-                    let hoursData = data["hours"] as? [String: [String: String]] ?? [:]
-                                let hours = hoursData.mapValues {
-                                    (open: $0["open"] ?? "Closed", close: $0["close"] ?? "Closed")
-                                }
-                    return StudyLocation(name: name, title: title, latitude: latitude, longitude: longitude, rating: rating, comments: comments, images: images, hours: hours)
-                }
-            }
+  init() {
+    fetchData()
+  }
+
+  func fetchData() {
+    db.collection("studyLocations").addSnapshotListener { (querySnapshot, error) in
+      guard let documents = querySnapshot?.documents else {
+        print("No documents found")
+        return
+      }
+
+      self.allStudyLocations = documents.map { (queryDocumentSnapshot) -> StudyLocation in
+        let documentID = queryDocumentSnapshot.documentID
+
+        let data = queryDocumentSnapshot.data()
+        let name = data["name"] as? String ?? ""
+        let title = data["title"] as? String ?? ""
+        let latitude = data["latitude"] as? Double ?? 0
+        let longitude = data["longitude"] as? Double ?? 0
+        let rating = data["rating"] as? Double ?? 0
+        let images = data["images"] as? [String] ?? []
+        let commentsData = data["comments"] as? [[String: Any]] ?? []
+        let comments = commentsData.map {
+          Comment(
+            name: $0["name"] as? String ?? "", content: $0["content"] as? String ?? "", date: Date()
+          )
         }
-    func addSampleData(completion: @escaping () -> Void) {
-            let sampleComments = [
-                Comment(name: "Alice", content: "Great place to study!", date: Date()),
-                Comment(name: "Bob", content: "Quite noisy during peak hours.", date: Date()),
-                Comment(name: "Charlie", content: "Friendly staff and good resources.", date: Date())
-            ]
-            
-            let sampleLocations = [
-                StudyLocation(name: "Imperial College London - Abdus Salam Library", title: "Imperial College London, South Kensington Campus, London SW7 2AZ", latitude: 51.49805710, longitude: -0.17824890, rating: 5.0, comments: sampleComments, images: ["imperial1", "imperial2", "imperial3"], hours: [
-                    "Monday": ("09:00", "18:00"),
-                    "Tuesday": ("09:00", "18:00"),
-                    "Wednesday": ("09:00", "18:00"),
-                    "Thursday": ("09:00", "18:00"),
-                    "Friday": ("09:00", "18:00"),
-                    "Saturday": ("10:00", "16:00"),
-                    "Sunday": ("Closed", "Closed")
-                ]),
-                StudyLocation(name: "The London Library", title: "14 St James's Square, St. James's, London SW1Y 4LG", latitude: 51.50733901, longitude: -0.13698200, rating: 2.1, comments: [], images: [], hours: [
-                    "Monday": ("09:00", "18:00"),
-                    "Tuesday": ("09:00", "18:00"),
-                    "Wednesday": ("09:00", "18:00"),
-                    "Thursday": ("09:00", "18:00"),
-                    "Friday": ("09:00", "18:00"),
-                    "Saturday": ("10:00", "16:00"),
-                    "Sunday": ("Closed", "Closed")
-                ]),
-                StudyLocation(name: "Chelsea Library", title: "Chelsea Old Town Hall, King's Rd, London SW3 5EZ", latitude: 51.48738370, longitude: -0.16837240, rating: 0.7, comments: [], images: [], hours: [
-                    "Monday": ("09:00", "18:00"),
-                    "Tuesday": ("09:00", "18:00"),
-                    "Wednesday": ("09:00", "18:00"),
-                    "Thursday": ("09:00", "18:00"),
-                    "Friday": ("09:00", "18:00"),
-                    "Saturday": ("10:00", "16:00"),
-                    "Sunday": ("Closed", "Closed")
-                ]),
-                StudyLocation(name: "Fulham Library", title: "598 Fulham Rd., London SW6 5NX", latitude: 51.478, longitude: -0.2028, rating: 3.5, comments: [], images: [], hours: [
-                    "Monday": ("09:00", "18:00"),
-                    "Tuesday": ("09:00", "18:00"),
-                    "Wednesday": ("09:00", "18:00"),
-                    "Thursday": ("09:00", "18:00"),
-                    "Friday": ("09:00", "18:00"),
-                    "Saturday": ("10:00", "16:00"),
-                    "Sunday": ("Closed", "Closed")
-                ]),
-                StudyLocation(name: "Brompton Library", title: "210 Old Brompton Rd, London SW5 0BS", latitude: 51.490, longitude: -0.188, rating: 4.1, comments: [], images: [], hours: [
-                    "Monday": ("09:00", "18:00"),
-                    "Tuesday": ("09:00", "18:00"),
-                    "Wednesday": ("09:00", "18:00"),
-                    "Thursday": ("09:00", "18:00"),
-                    "Friday": ("09:00", "18:00"),
-                    "Saturday": ("10:00", "16:00"),
-                    "Sunday": ("Closed", "Closed")
-                ]),
-                StudyLocation(name: "Avonmore Library", title:"7 North End Crescent, London W14 8TG", latitude: 51.492, longitude: -0.206, rating: 4.7, comments: [], images: [], hours: [
-                    "Monday": ("09:00", "18:00"),
-                    "Tuesday": ("09:00", "18:00"),
-                    "Wednesday": ("09:00", "18:00"),
-                    "Thursday": ("09:00", "18:00"),
-                    "Friday": ("09:00", "18:00"),
-                    "Saturday": ("10:00", "16:00"),
-                    "Sunday": ("Closed", "Closed")
-                ]),
-                StudyLocation(name: "Charing Cross Hospital Campus Library", title:"St Dunstan's Rd, London W6 8RP", latitude: 51.490, longitude: -0.218, rating: 1.5, comments: [], images: [], hours: [
-                    "Monday": ("09:00", "18:00"),
-                    "Tuesday": ("09:00", "18:00"),
-                    "Wednesday": ("09:00", "18:00"),
-                    "Thursday": ("09:00", "18:00"),
-                    "Friday": ("09:00", "18:00"),
-                    "Saturday": ("10:00", "16:00"),
-                    "Sunday": ("Closed", "Closed")
-                ])
-            ]
-            
-            let group = DispatchGroup()
-            
-            for location in sampleLocations {
-                group.enter()
-                let locationData: [String: Any] = [
-                    "name": location.name,
-                    "title": location.title,
-                    "latitude": location.latitude,
-                    "longitude": location.longitude,
-                    "rating": location.rating,
-                    "images": location.images,
-                    "comments": location.comments.map { ["name": $0.name, "content": $0.content, "date": Timestamp(date: Date())] },
-                    "hours": location.hours.mapValues { ["open": $0.open, "close": $0.close] }
-                ]
-                db.collection("studyLocations").addDocument(data: locationData) { error in
-                    if let error = error {
-                        print("Error adding document: \(error)")
-                    } else {
-                        print("Document added")
-                    }
-                    group.leave()
-                }
+        var hours: [String: OpeningHours] = [:]
+        if let hoursData = data["hours"] as? [String: [String: String]] {
+          for (day, times) in hoursData {
+            if let opening = times["open"], let closing = times["close"] {
+              hours[day] = OpeningHours(opening: opening, closing: closing)
             }
-            
-            group.notify(queue: .main) {
-                completion()
-            }
+          }
         }
+        let envFactorData = data["envFactors"] as? [String: Any] ?? [:]
+        let envFactor =
+          EnvFactor(
+            dynamicData: (envFactorData["dynamicData"] as? [String: Double] ?? [:]),
+            staticData: envFactorData["staticData"] as? [String: Double] ?? [:],
+            atmosphere: envFactorData["atmosphere"] as? [String] ?? []
+          )
+        let num = data["num"] as? Int ?? 0
+        let category = data["category"] as? String ?? ""
+        return StudyLocation(
+          documentID: documentID,
+          name: name,
+          title: title,
+          latitude: latitude,
+          longitude: longitude,
+          rating: rating,
+          comments: comments,
+          images: images,
+          hours: hours,
+          envFactor: envFactor,
+          num: num,
+          category: category
+        )
+      }
+      self.studyLocations = self.allStudyLocations
+    }
+  }
+
+  func filterLocations(by searchText: String) -> [StudyLocation] {
+    if searchText.isEmpty {
+      return allStudyLocations
+    } else {
+      let lowercasedSearchText = searchText.lowercased()
+      return allStudyLocations.filter { location in
+        location.name.lowercased().contains(lowercasedSearchText)
+          || location.envFactor.atmosphere.contains {
+            $0.lowercased().contains(lowercasedSearchText)
+          }
+      }
+    }
+  }
+
+  func toggleOpenHoursList() {
+    withAnimation(.easeInOut) {
+      showOpenHoursList.toggle()
+    }
+  }
+
+  func toggleEnvFactors() {
+    withAnimation(.easeInOut) {
+      showEnvFactors.toggle()
+    }
+  }
+
+  func submitDynamicData(studyLocation: StudyLocation?, crowdness: Double, noise: Double) async {
+    if let documentID = studyLocation?.documentID {
+      print(documentID)
+      print(crowdness)
+      print(noise)
+      print(studyLocation?.dynamicReviewTime ?? [])
+      print(studyLocation?.crowdednessReview ?? [])
+      print(studyLocation?.noiseReview ?? [])
+
+      var reviewTime = studyLocation?.dynamicReviewTime ?? []
+      var crowdednessReview = studyLocation?.crowdednessReview ?? []
+      var noiseReview = studyLocation?.noiseReview ?? []
+
+      //            let newData = [
+      //                "time": reviewTime.append(Timestamp()),
+      //                "crowdedness": crowdednessReview.append(crowdness),
+      //                "noise": noiseReview.append(noise)
+      //            ]
+
+      do {
+        //                try await db.collection("studyLocations").document(documentID).setData(["dynamicReview": newData], merge: true)
+        try await db.collection("studyLocations").document(documentID).updateData([
+          "dynamicReviews": FieldValue.arrayUnion([encodeReview(crowdness: crowdness, noise: noise)]
+          )
+        ])
+        //                try await db.collection("studyLocations").document(documentID).collection("dynamicReview").document("time").setData(["a": Timestamp()])
+        //                setData(["dynamicReview": newData], merge: true)
+
+        print("Document successfully updated")
+      } catch {
+        print("Error updating document for submit: \(error)")
+      }
+
+    } else {
+      print("No studyLocation found")
+      return
+    }
+  }
+}
+
+func encodeReview(crowdness: Double, noise: Double) -> String {
+  let res = "\(Timestamp())___\(crowdness),\(noise)"
+  print(res)
+  return res
 }
