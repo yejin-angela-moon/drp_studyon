@@ -28,7 +28,25 @@
 		<key>StudyOn.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>577346D22C07B82700758655</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>577346E22C07B82800758655</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>577346EC2C07B82800758655</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

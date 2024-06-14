@@ -21,6 +21,8 @@
 		19CA12B72C18BD26001A2103 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA12B62C18BD26001A2103 /* SignupView.swift */; };
 		19CA12B92C18BD40001A2103 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA12B82C18BD40001A2103 /* LoginView.swift */; };
 		19CA12BE2C18C404001A2103 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 19CA12BD2C18C404001A2103 /* FirebaseFirestoreSwift */; };
+		576AE97B2C1BE71A0007D662 /* NotificationHandlerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576AE97A2C1BE71A0007D662 /* NotificationHandlerModel.swift */; };
+		576AE97F2C1BFB2E0007D662 /* LocationServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576AE97E2C1BFB2E0007D662 /* LocationServiceManager.swift */; };
 		577346D72C07B82700758655 /* StudyOnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577346D62C07B82700758655 /* StudyOnApp.swift */; };
 		577346DB2C07B82800758655 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 577346DA2C07B82800758655 /* Assets.xcassets */; };
 		577346DE2C07B82800758655 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 577346DD2C07B82800758655 /* Preview Assets.xcassets */; };
@@ -67,6 +69,10 @@
 		19CA12B42C18BD0F001A2103 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		19CA12B62C18BD26001A2103 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		19CA12B82C18BD40001A2103 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		576AE9782C1BB6AD0007D662 /* StudyOn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StudyOn.entitlements; sourceTree = "<group>"; };
+		576AE9792C1BB6BE0007D662 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		576AE97A2C1BE71A0007D662 /* NotificationHandlerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandlerModel.swift; sourceTree = "<group>"; };
+		576AE97E2C1BFB2E0007D662 /* LocationServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceManager.swift; sourceTree = "<group>"; };
 		577346D32C07B82700758655 /* StudyOn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyOn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		577346D62C07B82700758655 /* StudyOnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyOnApp.swift; sourceTree = "<group>"; };
 		577346DA2C07B82800758655 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -158,6 +164,8 @@
 		577346D52C07B82700758655 /* StudyOn */ = {
 			isa = PBXGroup;
 			children = (
+				576AE9792C1BB6BE0007D662 /* Info.plist */,
+				576AE9782C1BB6AD0007D662 /* StudyOn.entitlements */,
 				577346D62C07B82700758655 /* StudyOnApp.swift */,
 				57CEEC272C080F56009D0FAA /* ContentView.swift */,
 				F20F4FD62C0E1C85002861D2 /* Models */,
@@ -217,6 +225,7 @@
 			children = (
 				8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */,
 				19CA12B42C18BD0F001A2103 /* UserViewModel.swift */,
+				576AE97A2C1BE71A0007D662 /* NotificationHandlerModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -230,6 +239,7 @@
 				8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */,
 				19CA12B22C18BCAA001A2103 /* User.swift */,
 				1996CCC52C19EC7B00BFEB80 /* KeychainService.swift */,
+				576AE97E2C1BFB2E0007D662 /* LocationServiceManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -382,10 +392,12 @@
 				577347052C07BBF100758655 /* StudyLocation.swift in Sources */,
 				8DF78CE12C1B7D6400C922BD /* ListView.swift in Sources */,
 				F20F4FDE2C0E2686002861D2 /* LocationsView.swift in Sources */,
+				576AE97B2C1BE71A0007D662 /* NotificationHandlerModel.swift in Sources */,
 				8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */,
 				57CEEC282C080F56009D0FAA /* ContentView.swift in Sources */,
 				F20F4FE02C0E298D002861D2 /* CustomMarkerView.swift in Sources */,
 				1996CCC62C19EC7B00BFEB80 /* KeychainService.swift in Sources */,
+				576AE97F2C1BFB2E0007D662 /* LocationServiceManager.swift in Sources */,
 				57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */,
 				19CA12B32C18BCAA001A2103 /* User.swift in Sources */,
 				8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */,
@@ -559,6 +571,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = StudyOn/StudyOn.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -566,6 +579,12 @@
 				DEVELOPMENT_TEAM = G688BGQ337;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StudyOn/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires your location to notify you";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs your location to notify you with study locations.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to identify where you are at.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -591,11 +610,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = StudyOn/StudyOn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StudyOn/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StudyOn/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires your location to notify you";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs your location to notify you with study locations.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to identify where you are at.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
