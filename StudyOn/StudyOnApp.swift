@@ -1,6 +1,7 @@
 import SwiftUI
 import Firebase
 import FirebaseAuth
+import CoreLocation
 
 @main
 struct StudyOnApp: App {
@@ -45,14 +46,46 @@ struct AuthView: View {
 }
 
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-    addSampleData()
-    print("Configured Firebase!")
-    return true
-  }
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        print("Configured Firebase!")
+        
+        LocationServiceManager.shared.startMonitoring()
+        
+        UNUserNotificationCenter.current().delegate = self
+        print("Set UNUserNotificationCenter delegate")
+        
+        requestNotificationPermissions()
+        print("Configure Notification Service!")
+
+        return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .sound, .badge])
+    }
+        
+    private func requestNotificationPermissions() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                print("Notification permission granted.")
+            } else if let error = error {
+                print("Notification permission denied: \(error.localizedDescription)")
+            } else {
+                print("Notification permission was not granted.")
+            }
+        }
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        LocationServiceManager.shared.startMonitoringSignificantLocationChanges()
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        LocationServiceManager.shared.startUpdatingLocation()
+    }
 }
 
 func addSampleData() {
