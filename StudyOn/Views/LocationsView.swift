@@ -21,9 +21,9 @@ struct LocationsView: View {
   @State private var selectedLocation: StudyLocation? = nil
   @State private var listDisplay = false // Toggle state for map or list view
   @State private var navigateToDetails: Bool = false
-  @State private var isFavorite: Bool = false  
+  @State private var isFavorite: Bool = false
   @State private var userFavorites = Set<String>()
-    @EnvironmentObject var fontSizeManager: FontSizeManager
+  @EnvironmentObject var fontSizeManager: FontSizeManager
 
   private var db = Firestore.firestore()
     
@@ -80,7 +80,7 @@ struct LocationsView: View {
     VStack {
       ForEach(autoCompleteSuggestions, id: \.self) { suggestion in
         Text(suggestion)
-                        .font(.system(size: fontSizeManager.bodySize))
+          .font(.system(size: fontSizeManager.bodySize))
           .padding()
           .background(Color.white)
           .onTapGesture {
@@ -142,6 +142,8 @@ struct LocationsView: View {
                     libraryToggleButton
                     cafeToggleButton
                     Spacer()
+                    fontSizeUpButton
+                    fontSizeDownButton
                 }
                 .padding()
             }
@@ -200,6 +202,7 @@ struct LocationsView: View {
     
     var listView: some View {
         ListView(searchText: $searchText, selectedFilter: $selectedFilter)
+            .environmentObject(fontSizeManager)
     }
 
   private func searchPlacesOnline() async {
@@ -230,6 +233,7 @@ struct ButtonToggleStyle: ToggleStyle {
   @Binding var isCategorySelected: Bool
   var otherCategory: String
   @Binding var isOtherCategorySelected: Bool
+    @EnvironmentObject var fontSizeManager: FontSizeManager
 
   func makeBody(configuration: Configuration) -> some View {
     Button(action: {
@@ -243,7 +247,7 @@ struct ButtonToggleStyle: ToggleStyle {
     }) {
       configuration.label
         .padding(8)
-        .font(.system(size: 14))
+        .font(.system(size: fontSizeManager.bodySize))
         .background(isCategorySelected ? Color.orange : Color.gray)
         .foregroundColor(.white)
         .cornerRadius(8)
@@ -264,4 +268,41 @@ extension MKCoordinateRegion {
       latitudinalMeters: 10000,
       longitudinalMeters: 10000)
   }
+}
+
+extension LocationsView {
+    private var fontSizeUpButton: some View {
+        Button(action: {
+            if fontSizeManager.titleSize < fontSizeManager.maxTitleSize {
+                fontSizeManager.titleSize += 2
+                fontSizeManager.headlineSize += 2
+                fontSizeManager.captionSize += 2
+                fontSizeManager.title2Size += 2
+                fontSizeManager.title3Size += 2
+                fontSizeManager.subheadlineSize += 2
+                fontSizeManager.bodySize += 2
+            }
+        }) {
+            Text("A+")
+                .font(.title2)
+        }
+    }
+    
+    private var fontSizeDownButton: some View {
+        Button(action: {
+            if fontSizeManager.titleSize > fontSizeManager.minTitleSize {
+                fontSizeManager.titleSize -= 2
+                fontSizeManager.headlineSize -= 2
+                fontSizeManager.captionSize -= 2
+                fontSizeManager.title2Size -= 2
+                fontSizeManager.title3Size -= 2
+                fontSizeManager.subheadlineSize -= 2
+                fontSizeManager.bodySize -= 2
+            }
+
+        }) {
+            Text("A-")
+                .font(.title2)
+        }
+    }
 }

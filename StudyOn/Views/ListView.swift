@@ -9,6 +9,7 @@ struct ListView: View {
     
     @State private var isActive: Bool = false
     @State private var selectedLocation: StudyLocation?
+    @EnvironmentObject var fontSizeManager: FontSizeManager
 
     var body: some View {
         NavigationView {
@@ -22,7 +23,7 @@ struct ListView: View {
             }
             .listStyle(PlainListStyle())
             .background(
-                NavigationLink(destination: LocationDetailView(studyLocation: $selectedLocation, show: $isActive).environmentObject(viewModel).environmentObject(userViewModel), isActive: $isActive) {
+                NavigationLink(destination: LocationDetailView(studyLocation: $selectedLocation, show: $isActive).environmentObject(viewModel).environmentObject(userViewModel).environmentObject(fontSizeManager), isActive: $isActive) {
                     EmptyView()
                 }
                 .hidden()
