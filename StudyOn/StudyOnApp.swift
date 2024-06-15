@@ -1,32 +1,106 @@
 import SwiftUI
 import Firebase
+import FirebaseAuth
+import CoreLocation
 
 @main
 struct StudyOnApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject var userViewModel = UserViewModel()
+    @StateObject var studyLocationViewModel = StudyLocationViewModel()
+    @State private var isUserLoggedIn: Bool = false
+
     @StateObject private var fontSizeManager = FontSizeManager()
     
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                LocationsView()  
-                    .environmentObject(fontSizeManager)
-                // RootView()
-                //AuthenticationView()
+                if isUserLoggedIn {
+                    LocationsView()  
+                        .environmentObject(studyLocationViewModel)
+                        .environmentObject(userViewModel)
+                        .environmentObject(NotificationHandlerModel.shared)
+                        .environmentObject(fontSizeManager)
+                        .onAppear {
+                            userViewModel.fetchCurrentUser()
+                        }
+                } else {
+                    AuthView(isUserLoggedIn: $isUserLoggedIn)
+                        .environmentObject(studyLocationViewModel)
+                        .environmentObject(userViewModel)
+                        .environmentObject(fontSizeManager)
+                }
             }
-            //ContentView()
+        }
+    }
+}
+struct AuthView: View {
+    @Binding var isUserLoggedIn: Bool
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var studyLocationViewModel: StudyLocationViewModel
+    var body: some View {
+        NavigationStack {
+            if userViewModel.isUserLoggedIn {
+                LocationsView().environmentObject(studyLocationViewModel).environmentObject(userViewModel).environmentObject(NotificationHandlerModel.shared)
+            } else {
+                LoginView(isUserLoggedIn: $isUserLoggedIn).environmentObject(studyLocationViewModel).environmentObject(userViewModel)
+            }
         }
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-    addSampleData()
-    print("Configured Firebase!")
-    return true
-  }
+
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        addSampleData()
+        print("Configured Firebase!")
+        LocationServiceManager.shared.startMonitoring()
+        
+        UNUserNotificationCenter.current().delegate = self
+        print("Set UNUserNotificationCenter delegate")
+        
+        requestNotificationPermissions()
+        print("Configure Notification Service!")
+
+        return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .sound, .badge])
+    }
+        
+    private func requestNotificationPermissions() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                print("Notification permission granted.")
+            } else if let error = error {
+                print("Notification permission denied: \(error.localizedDescription)")
+            } else {
+                print("Notification permission was not granted.")
+            }
+        }
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        LocationServiceManager.shared.startMonitoringSignificantLocationChanges()
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        LocationServiceManager.shared.startUpdatingLocation()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("Navigating according to the information")
+        
+        DispatchQueue.main.async {
+            NotificationHandlerModel.shared.doNavigate = true
+        }
+        print(NotificationHandlerModel.shared.studyLocation?.name ?? "Not applied")
+        
+        completionHandler()
+    }
 }
 
 func addSampleData() {
@@ -52,8 +126,10 @@ func addSampleData() {
                 ], 
                 staticData: [
                     "wifi speed": 4.0,
-                    "spaciousness": 4.5,
+                    "# tables": 5,
                     "socket no": 5.0,
+                    "# PCs": 10,
+                    "# meeting rooms": 1
                 ],
                 atmosphere: ["Calm", "Nice music", "Pet-friendly"]
             )
@@ -65,8 +141,10 @@ func addSampleData() {
                 ],
                 staticData: [
                     "wifi speed": 5.0,
-                    "spaciousness": 4.5,
-                    "socket no": 10.0
+                    "# tables": 3,
+                    "socket no": 10.0,
+                    "# PCs": 6,
+                    "# meeting rooms": 2
                 ],
                 atmosphere: ["Lively", "Cozy", "Pet-friendly"]
             )
