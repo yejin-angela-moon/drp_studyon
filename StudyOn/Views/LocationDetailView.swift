@@ -100,6 +100,18 @@ struct LocationDetailView: View {
         Spacer()
 
         Button("Submit") {
+          let crowdness =
+            userCrowdness == 0
+            ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
+
+          let noise =
+            userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
+
+          Task {
+            await viewModel.submitDynamicData(
+              studyLocation: studyLocation, crowdness: crowdness, noise: noise)
+          }
+
           withAnimation {
             showConfirmation = true
           }
