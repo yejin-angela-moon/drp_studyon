@@ -106,6 +106,8 @@ struct LocationDetailView: View {
 
           let noise =
             userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
+            
+          NotificationHandlerModel.shared.allowDynamicDataSubmit = false
 
           Task {
             await viewModel.submitDynamicData(
@@ -122,6 +124,7 @@ struct LocationDetailView: View {
             }
           }
         }
+        .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
         .buttonStyle(.borderedProminent)
       }
       .padding([.leading, .trailing], 20)

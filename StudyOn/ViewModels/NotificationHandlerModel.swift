@@ -5,4 +5,5 @@ class NotificationHandlerModel: ObservableObject {
     
     @Published var doNavigate: Bool = false
     var studyLocation: StudyLocation? = nil
+    var allowDynamicDataSubmit: Bool = true
 }
