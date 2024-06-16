@@ -7,7 +7,7 @@ struct ListView: View {
     @Binding var searchText: String
     @Binding var selectedFilter: String?
     
-    @State private var isActive: Bool = false
+    @Binding var showDetails: Bool
     @State private var selectedLocation: StudyLocation?
     @EnvironmentObject var fontSizeManager: FontSizeManager
 
@@ -16,18 +16,18 @@ struct ListView: View {
             List(viewModel.studyLocations.filter(shouldShowLocation), id: \.documentID) { location in
                 Button(action: {
                     self.selectedLocation = location
-                    self.isActive = true
+                    showDetails.toggle()
                 }) {
                     listItemContent(location)
                 }
             }
+            .fullScreenCover(isPresented: $showDetails) {
+                LocationDetailView(studyLocation: $selectedLocation, show: $showDetails)
+                    .environmentObject(viewModel)
+                    .environmentObject(userViewModel)
+                    .environmentObject(fontSizeManager)
+            }
             .listStyle(PlainListStyle())
-            .background(
-                NavigationLink(destination: LocationDetailView(studyLocation: $selectedLocation, show: $isActive).environmentObject(viewModel).environmentObject(userViewModel).environmentObject(fontSizeManager), isActive: $isActive) {
-                    EmptyView()
-                }
-                .hidden()
-            )
         }
     }
 

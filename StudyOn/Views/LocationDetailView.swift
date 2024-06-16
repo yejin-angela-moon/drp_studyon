@@ -1,94 +1,5 @@
 import SwiftUI
 
-struct AtmosphereView: View {
-    @EnvironmentObject var fontSizeManager: FontSizeManager
-    
-  let envFactor: EnvFactor
-
-  var body: some View {
-    HStack {
-      ForEach(envFactor.atmosphere, id: \.self) { item in
-        Text("#" + item)
-                    .font(.system(size: fontSizeManager.bodySize))
-          .padding(.vertical, 5)
-          .padding(.horizontal, 10)
-          .background(Color.black)
-          .foregroundColor(.white)
-          .cornerRadius(10)
-      }
-    }
-    .padding(.leading, 15)
-  }
-}
-
-struct EnvView: View {
-    @EnvironmentObject var fontSizeManager: FontSizeManager
-    
-  let envFactor: EnvFactor
-
-  var body: some View {
-    VStack(alignment: .leading) {
-      //            Text("Atmosphere")
-      //                .font(.headline)
-      //                .padding(.top)
-      //            ForEach(envFactor.atmosphere, id: \.self) { item in
-      //                Text(item)
-      //                    .padding(.leading, 18)
-      //                    .padding(.vertical, 5)
-      //            }
-      //
-      //            Text("Static Data")
-      //                .font(.headline)
-      //                .padding(.top)
-      ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
-        HStack {
-          Text("\(key):")
-            .font(.system(size: fontSizeManager.subheadlineSize))
-          Spacer()
-          Text(String(format: "%.1f", value))
-            .font(.system(size: fontSizeManager.subheadlineSize))
-        }
-        .padding([.leading, .trailing], 18)
-        .padding(.vertical, 5)
-      }
-    }
-    .padding()
-  }
-}
-
-struct OpeningHoursView: View {
-    @EnvironmentObject var fontSizeManager: FontSizeManager
-    
-  let hours: [String: OpeningHours]
-    
-  var body: some View {
-    VStack(alignment: .leading) {
-
-      ForEach(
-        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self
-      ) { (day: String) in
-        HStack {
-          Text(day)
-            .font(.system(size: fontSizeManager.headlineSize))
-          Spacer()
-          if let openingHours = hours[day] {
-            VStack(alignment: .trailing) {
-              Text(openingHours.opening + " - " + openingHours.closing)
-                .font(.system(size: fontSizeManager.subheadlineSize))
-            }
-          } else {
-            Text("Closed")
-              .font(.system(size: fontSizeManager.subheadlineSize))
-              .foregroundColor(.gray)
-          }
-        }
-        .padding(.vertical, 5)
-      }
-    }
-    .padding(.horizontal)
-  }
-}
-
 struct LocationDetailView: View {
   @EnvironmentObject var viewModel: StudyLocationViewModel
   @Binding var studyLocation: StudyLocation?
@@ -99,8 +10,9 @@ struct LocationDetailView: View {
 
   @State private var isOpen: Bool = true    
   @EnvironmentObject var userViewModel: UserViewModel
-  @State private var isFavorite: Bool = false  // 추가된 부분    
+  @State private var isFavorite: Bool = false  
   @EnvironmentObject var fontSizeManager: FontSizeManager
+  @State private var showConfirmation: Bool = false
 
 
   var body: some View {
@@ -184,26 +96,30 @@ struct LocationDetailView: View {
           Button("Loud") { userNoise = 3 }
         }
         .buttonStyle(.bordered)
-
+ 
         Spacer()
 
         Button("Submit") {
-          // Store this answer in the database
-          if let documentID = studyLocation?.documentID {
-            let crowdness =
-              userCrowdness == 0
-              ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
+          let crowdness =
+            userCrowdness == 0
+            ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
 
-            let noise =
-              userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
+          let noise =
+            userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
 
-            Task {
-              await viewModel.submitDynamicData(
-                studyLocation: studyLocation, crowdness: crowdness, noise: noise)
+          Task {
+            await viewModel.submitDynamicData(
+              studyLocation: studyLocation, crowdness: crowdness, noise: noise)
+          }
+
+          withAnimation {
+            showConfirmation = true
+          }
+
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            withAnimation {
+                showConfirmation = false
             }
-          } else {
-            print("Current Study Location documentID Not found")
-            return
           }
         }
         .buttonStyle(.borderedProminent)
@@ -241,11 +157,32 @@ struct LocationDetailView: View {
       }
       .padding(.bottom, 20)
     }
+    .overlay(
+      VStack {
+        if showConfirmation {
+          HStack {
+            Spacer()
+            HStack {
+              Image(systemName: "checkmark")
+                .foregroundColor(.white)
+              Text("Submitted")
+                .foregroundColor(.white)
+            }
+            .padding()
+            .background(Color.gray)
+            .cornerRadius(8)
+            Spacer()
+          }
+          .transition(.opacity)
+          .padding(.top, 200)
+        }
+        Spacer()
+      }
+    )
     .scrollable()
   }
 
   private func toggleFavorite() {
-//    guard let location = studyLocation? else { return }
     if isFavorite {
       userViewModel.removeFavoriteLocation(locationId: studyLocation?.name ?? "")
     } else {
@@ -262,6 +199,83 @@ struct LocationDetailView: View {
 
 #Preview {
   LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
+}
+
+struct AtmosphereView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
+  let envFactor: EnvFactor
+
+  var body: some View {
+    HStack {
+      ForEach(envFactor.atmosphere, id: \.self) { item in
+        Text("#" + item)
+                    .font(.system(size: fontSizeManager.bodySize))
+          .padding(.vertical, 5)
+          .padding(.horizontal, 10)
+          .background(Color.black)
+          .foregroundColor(.white)
+          .cornerRadius(10)
+      }
+    }
+    .padding(.leading, 15)
+  }
+}
+
+struct EnvView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
+  let envFactor: EnvFactor
+
+  var body: some View {
+    VStack(alignment: .leading) {
+      ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
+        HStack {
+          Text("\(key):")
+            .font(.system(size: fontSizeManager.subheadlineSize))
+          Spacer()
+          Text(String(format: "%.1f", value))
+            .font(.system(size: fontSizeManager.subheadlineSize))
+        }
+        .padding([.leading, .trailing], 18)
+        .padding(.vertical, 5)
+      }
+    }
+    .padding()
+  }
+}
+
+struct OpeningHoursView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
+  let hours: [String: OpeningHours]
+    
+  var body: some View {
+    VStack(alignment: .leading) {
+
+      ForEach(
+        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self
+      ) { (day: String) in
+        HStack {
+          Text(day)
+            .font(.system(size: fontSizeManager.headlineSize))
+          Spacer()
+          if let openingHours = hours[day] {
+            VStack(alignment: .trailing) {
+              Text(openingHours.opening + " - " + openingHours.closing)
+                .font(.system(size: fontSizeManager.subheadlineSize))
+            }
+          } else {
+            Text("Closed")
+              .font(.system(size: fontSizeManager.subheadlineSize))
+              .foregroundColor(.gray)
+          }
+        }
+        .padding(.vertical, 5)
+      }
+    }
+    .padding(.horizontal)
+  }
 }
 
 struct StarRatingView: View {
