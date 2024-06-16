@@ -183,7 +183,6 @@ struct LocationDetailView: View {
   }
 
   private func toggleFavorite() {
-//    guard let location = studyLocation? else { return }
     if isFavorite {
       userViewModel.removeFavoriteLocation(locationId: studyLocation?.name ?? "")
     } else {
@@ -230,18 +229,6 @@ struct EnvView: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      //            Text("Atmosphere")
-      //                .font(.headline)
-      //                .padding(.top)
-      //            ForEach(envFactor.atmosphere, id: \.self) { item in
-      //                Text(item)
-      //                    .padding(.leading, 18)
-      //                    .padding(.vertical, 5)
-      //            }
-      //
-      //            Text("Static Data")
-      //                .font(.headline)
-      //                .padding(.top)
       ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
         HStack {
           Text("\(key):")
