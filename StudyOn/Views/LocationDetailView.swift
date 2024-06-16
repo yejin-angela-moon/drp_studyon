@@ -100,22 +100,22 @@ struct LocationDetailView: View {
 
         Button("Submit") {
           // Store this answer in the database
-          if let documentID = studyLocation?.documentID {
-            let crowdness =
-              userCrowdness == 0
-              ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
-
-            let noise =
-              userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
-
-            Task {
-              await viewModel.submitDynamicData(
-                studyLocation: studyLocation, crowdness: crowdness, noise: noise)
-            }
-          } else {
-            print("Current Study Location documentID Not found")
-            return
-          }
+//          if let documentID = studyLocation?.documentID {
+//            let crowdness =
+//              userCrowdness == 0
+//              ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
+//
+//            let noise =
+//              userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
+//
+//            Task {
+//              await viewModel.submitDynamicData(
+//                studyLocation: studyLocation, crowdness: crowdness, noise: noise)
+//            }
+//          } else {
+//            print("Current Study Location documentID Not found")
+//            return
+//          }
         }
         .buttonStyle(.borderedProminent)
       }

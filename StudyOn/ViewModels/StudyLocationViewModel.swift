@@ -118,10 +118,6 @@ class StudyLocationViewModel: ObservableObject {
       print(studyLocation?.crowdednessReview ?? [])
       print(studyLocation?.noiseReview ?? [])
 
-      var reviewTime = studyLocation?.dynamicReviewTime ?? []
-      var crowdednessReview = studyLocation?.crowdednessReview ?? []
-      var noiseReview = studyLocation?.noiseReview ?? []
-
       //            let newData = [
       //                "time": reviewTime.append(Timestamp()),
       //                "crowdedness": crowdednessReview.append(crowdness),
