@@ -10,8 +10,9 @@ struct LocationDetailView: View {
 
   @State private var isOpen: Bool = true    
   @EnvironmentObject var userViewModel: UserViewModel
-  @State private var isFavorite: Bool = false  // 추가된 부분    
+  @State private var isFavorite: Bool = false  
   @EnvironmentObject var fontSizeManager: FontSizeManager
+  @State private var showConfirmation: Bool = false
 
 
   var body: some View {
@@ -95,27 +96,19 @@ struct LocationDetailView: View {
           Button("Loud") { userNoise = 3 }
         }
         .buttonStyle(.bordered)
-
+ 
         Spacer()
 
         Button("Submit") {
-          // Store this answer in the database
-//          if let documentID = studyLocation?.documentID {
-//            let crowdness =
-//              userCrowdness == 0
-//              ? studyLocation?.envFactor.dynamicData["crowdedness"] ?? 0 : userCrowdness
-//
-//            let noise =
-//              userNoise == 0 ? studyLocation?.envFactor.dynamicData["noise"] ?? 0 : userNoise
-//
-//            Task {
-//              await viewModel.submitDynamicData(
-//                studyLocation: studyLocation, crowdness: crowdness, noise: noise)
-//            }
-//          } else {
-//            print("Current Study Location documentID Not found")
-//            return
-//          }
+          withAnimation {
+            showConfirmation = true
+          }
+
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            withAnimation {
+                showConfirmation = false
+            }
+          }
         }
         .buttonStyle(.borderedProminent)
       }
@@ -152,6 +145,28 @@ struct LocationDetailView: View {
       }
       .padding(.bottom, 20)
     }
+    .overlay(
+      VStack {
+        if showConfirmation {
+          HStack {
+            Spacer()
+            HStack {
+              Image(systemName: "checkmark")
+                .foregroundColor(.white)
+              Text("Submitted")
+                .foregroundColor(.white)
+            }
+            .padding()
+            .background(Color.gray)
+            .cornerRadius(8)
+            Spacer()
+          }
+          .transition(.opacity)
+          .padding(.top, 200)
+        }
+        Spacer()
+      }
+    )
     .scrollable()
   }
 
