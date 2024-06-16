@@ -178,7 +178,7 @@ struct LocationsView: View {
             if showPopup {
                 VStack {
                     Spacer()
-                    StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails)
+                    StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails, userFavorites: $userFavorites)
                         .frame(height: UIScreen.main.bounds.height / 2 - 60)
                         .background(Color.white)
                         .cornerRadius(12)
@@ -200,6 +200,9 @@ struct LocationsView: View {
             viewModel.fetchData()
             fetchUserFavorites()
         }
+        .onReceive(userViewModel.$userFavorites) { updatedFavorites in
+            self.userFavorites = Set(updatedFavorites)
+        }
         .onTapGesture {
             isInputActive = false
             self.hideKeyboard()
@@ -207,7 +210,7 @@ struct LocationsView: View {
     }
     
     var listView: some View {
-        ListView(searchText: $searchText, selectedFilter: $selectedFilter, showDetails: $showDetails)
+        ListView(searchText: $searchText, selectedFilter: $selectedFilter, userFavorites: $userFavorites, showDetails: $showDetails)
             .environmentObject(fontSizeManager)
     }
 

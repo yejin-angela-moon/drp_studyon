@@ -6,6 +6,7 @@ struct ListView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Binding var searchText: String
     @Binding var selectedFilter: String?
+    @Binding var userFavorites: Set<String>
     
     @Binding var showDetails: Bool
     @State private var selectedLocation: StudyLocation?
@@ -22,7 +23,7 @@ struct ListView: View {
                 }
             }
             .fullScreenCover(isPresented: $showDetails) {
-                LocationDetailView(studyLocation: $selectedLocation, show: $showDetails)
+                LocationDetailView(studyLocation: $selectedLocation, show: $showDetails, userFavorites: $userFavorites)
                     .environmentObject(viewModel)
                     .environmentObject(userViewModel)
                     .environmentObject(fontSizeManager)

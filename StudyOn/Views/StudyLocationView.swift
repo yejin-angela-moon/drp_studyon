@@ -8,6 +8,7 @@ struct StudyLocationView: View {
     @Binding var studyLocation: StudyLocation?
     @Binding var show: Bool
     @Binding var showDetails: Bool
+    @Binding var userFavorites: Set<String>
     @State private var rating: Double = 3
     @State private var navigateToDetails: Bool = false
     @EnvironmentObject var fontSizeManager: FontSizeManager
@@ -60,7 +61,7 @@ struct StudyLocationView: View {
                 }
                 .fullScreenCover(isPresented: $showDetails) {
                     if let studyLocation = studyLocation {
-                        LocationDetailView(studyLocation: .constant(studyLocation), show: $showDetails)
+                        LocationDetailView(studyLocation: .constant(studyLocation), show: $showDetails, userFavorites: $userFavorites)
                             .environmentObject(viewModel)
                             .environmentObject(userViewModel)
                     }
@@ -95,9 +96,9 @@ let previewStudyLocation = StudyLocation(
     num:4, 
     category: "Library"
 )
-#Preview {
-    StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))
-}
+//#Preview {
+//    StudyLocationView(studyLocation: .constant(previewStudyLocation), show: .constant(false), showDetails: .constant(false))
+//}
 
 let previewOpeningHours = [
     "Monday": OpeningHours(opening: "09:00", closing: "18:00"),
