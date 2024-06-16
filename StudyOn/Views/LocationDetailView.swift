@@ -1,94 +1,5 @@
 import SwiftUI
 
-struct AtmosphereView: View {
-    @EnvironmentObject var fontSizeManager: FontSizeManager
-    
-  let envFactor: EnvFactor
-
-  var body: some View {
-    HStack {
-      ForEach(envFactor.atmosphere, id: \.self) { item in
-        Text("#" + item)
-                    .font(.system(size: fontSizeManager.bodySize))
-          .padding(.vertical, 5)
-          .padding(.horizontal, 10)
-          .background(Color.black)
-          .foregroundColor(.white)
-          .cornerRadius(10)
-      }
-    }
-    .padding(.leading, 15)
-  }
-}
-
-struct EnvView: View {
-    @EnvironmentObject var fontSizeManager: FontSizeManager
-    
-  let envFactor: EnvFactor
-
-  var body: some View {
-    VStack(alignment: .leading) {
-      //            Text("Atmosphere")
-      //                .font(.headline)
-      //                .padding(.top)
-      //            ForEach(envFactor.atmosphere, id: \.self) { item in
-      //                Text(item)
-      //                    .padding(.leading, 18)
-      //                    .padding(.vertical, 5)
-      //            }
-      //
-      //            Text("Static Data")
-      //                .font(.headline)
-      //                .padding(.top)
-      ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
-        HStack {
-          Text("\(key):")
-            .font(.system(size: fontSizeManager.subheadlineSize))
-          Spacer()
-          Text(String(format: "%.1f", value))
-            .font(.system(size: fontSizeManager.subheadlineSize))
-        }
-        .padding([.leading, .trailing], 18)
-        .padding(.vertical, 5)
-      }
-    }
-    .padding()
-  }
-}
-
-struct OpeningHoursView: View {
-    @EnvironmentObject var fontSizeManager: FontSizeManager
-    
-  let hours: [String: OpeningHours]
-    
-  var body: some View {
-    VStack(alignment: .leading) {
-
-      ForEach(
-        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self
-      ) { (day: String) in
-        HStack {
-          Text(day)
-            .font(.system(size: fontSizeManager.headlineSize))
-          Spacer()
-          if let openingHours = hours[day] {
-            VStack(alignment: .trailing) {
-              Text(openingHours.opening + " - " + openingHours.closing)
-                .font(.system(size: fontSizeManager.subheadlineSize))
-            }
-          } else {
-            Text("Closed")
-              .font(.system(size: fontSizeManager.subheadlineSize))
-              .foregroundColor(.gray)
-          }
-        }
-        .padding(.vertical, 5)
-      }
-    }
-    .padding(.horizontal)
-  }
-}
-
 struct LocationDetailView: View {
   @EnvironmentObject var viewModel: StudyLocationViewModel
   @Binding var studyLocation: StudyLocation?
@@ -262,6 +173,95 @@ struct LocationDetailView: View {
 
 #Preview {
   LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
+}
+
+struct AtmosphereView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
+  let envFactor: EnvFactor
+
+  var body: some View {
+    HStack {
+      ForEach(envFactor.atmosphere, id: \.self) { item in
+        Text("#" + item)
+                    .font(.system(size: fontSizeManager.bodySize))
+          .padding(.vertical, 5)
+          .padding(.horizontal, 10)
+          .background(Color.black)
+          .foregroundColor(.white)
+          .cornerRadius(10)
+      }
+    }
+    .padding(.leading, 15)
+  }
+}
+
+struct EnvView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
+  let envFactor: EnvFactor
+
+  var body: some View {
+    VStack(alignment: .leading) {
+      //            Text("Atmosphere")
+      //                .font(.headline)
+      //                .padding(.top)
+      //            ForEach(envFactor.atmosphere, id: \.self) { item in
+      //                Text(item)
+      //                    .padding(.leading, 18)
+      //                    .padding(.vertical, 5)
+      //            }
+      //
+      //            Text("Static Data")
+      //                .font(.headline)
+      //                .padding(.top)
+      ForEach(envFactor.staticData.sorted(by: >), id: \.key) { key, value in
+        HStack {
+          Text("\(key):")
+            .font(.system(size: fontSizeManager.subheadlineSize))
+          Spacer()
+          Text(String(format: "%.1f", value))
+            .font(.system(size: fontSizeManager.subheadlineSize))
+        }
+        .padding([.leading, .trailing], 18)
+        .padding(.vertical, 5)
+      }
+    }
+    .padding()
+  }
+}
+
+struct OpeningHoursView: View {
+    @EnvironmentObject var fontSizeManager: FontSizeManager
+    
+  let hours: [String: OpeningHours]
+    
+  var body: some View {
+    VStack(alignment: .leading) {
+
+      ForEach(
+        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], id: \.self
+      ) { (day: String) in
+        HStack {
+          Text(day)
+            .font(.system(size: fontSizeManager.headlineSize))
+          Spacer()
+          if let openingHours = hours[day] {
+            VStack(alignment: .trailing) {
+              Text(openingHours.opening + " - " + openingHours.closing)
+                .font(.system(size: fontSizeManager.subheadlineSize))
+            }
+          } else {
+            Text("Closed")
+              .font(.system(size: fontSizeManager.subheadlineSize))
+              .foregroundColor(.gray)
+          }
+        }
+        .padding(.vertical, 5)
+      }
+    }
+    .padding(.horizontal)
+  }
 }
 
 struct StarRatingView: View {

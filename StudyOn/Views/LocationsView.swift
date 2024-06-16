@@ -131,7 +131,7 @@ struct LocationsView: View {
                     .ignoresSafeArea()
             } else {
                 listView
-                    .padding(.top, 60)
+                    .padding(.top, 110)
             }
 
             VStack(spacing: 0) {
