@@ -134,6 +134,7 @@ struct LocationsView: View {
       .font(.system(size: fontSizeManager.headlineSize))
   }
 
+
   var body: some View {
         ZStack(alignment: .top) {
             if !listDisplay {
@@ -199,6 +200,10 @@ struct LocationsView: View {
             viewModel.fetchData()
             fetchUserFavorites()
         }
+        .onTapGesture {
+            isInputActive = false
+            self.hideKeyboard()
+        }
     }
     
     var listView: some View {
@@ -236,6 +241,14 @@ struct LocationsView: View {
     }
   }
 }
+
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
 
 #Preview {
   LocationsView()
