@@ -35,6 +35,7 @@ class LocationServiceManager: NSObject, CLLocationManagerDelegate {
                         if let nearbyLocation = nearbyStudyLocation {
                             print(nearbyLocation.name)
                             NotificationHandlerModel.shared.studyLocation = nearbyLocation
+                            NotificationHandlerModel.shared.allowDynamicDataSubmit = true
                             sendNotification()
                         } else {
                             print("no nearby locations found")
