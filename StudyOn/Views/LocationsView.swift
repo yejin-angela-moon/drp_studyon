@@ -11,7 +11,7 @@ struct LocationsView: View {
   @State private var results = [MKMapItem]()
   @State private var locationSelection: StudyLocation?
   @State private var showPopup = false  // Show small pop up of StudyLocationView
-  @State private var showDetails = false  // Show LocationDetailView 
+  @State private var showDetails = false  // Show LocationDetailView
   @State private var selectedFilter: String? = nil
   @State private var isLibrarySelected: Bool = false
   @State private var isCafeSelected: Bool = false
@@ -24,6 +24,7 @@ struct LocationsView: View {
   @State private var isFavorite: Bool = false
   @State private var userFavorites = Set<String>()
   @EnvironmentObject var fontSizeManager: FontSizeManager
+  @FocusState private var isInputActive: Bool
 
   private var db = Firestore.firestore()
     
@@ -38,7 +39,7 @@ struct LocationsView: View {
               print("Failed to fetch favorites: \(String(describing: error))")
           }
       }
-  }  
+  }
 
   private var mapLayer: some View {
     Map(position: $cameraPosition, selection: $locationSelection) {
@@ -46,8 +47,8 @@ struct LocationsView: View {
         
       if hasResults {
         ForEach(
-          viewModel.allStudyLocations.filter {
-            selectedFilter == nil || $0.category == selectedFilter 
+          viewModel.studyLocations.filter {
+            selectedFilter == nil || $0.category == selectedFilter
           }
         ) { item in
           Annotation(item.name, coordinate: item.coordinate) {
@@ -74,6 +75,13 @@ struct LocationsView: View {
       .padding(.top, 6)
       .padding(.horizontal)
       .shadow(radius: 10)
+      .onChange(of: searchText) { newValue in
+          updateFilteredLocations()
+          updateAutoCompleteSuggestions()
+      }
+      .onSubmit {
+          isInputActive = false  // Dismiss keyboard on submit
+      }
   }
 
   private var autoCompleteList: some View {
@@ -85,7 +93,9 @@ struct LocationsView: View {
           .background(Color.white)
           .onTapGesture {
             searchText = suggestion
+            autoCompleteSuggestions = []
             Task { await searchPlacesOnline() }
+            isInputActive = false
           }
       }
     }
@@ -122,7 +132,7 @@ struct LocationsView: View {
         )
       )
       .font(.system(size: fontSizeManager.headlineSize))
-  } 
+  }
 
   var body: some View {
         ZStack(alignment: .top) {
@@ -146,15 +156,6 @@ struct LocationsView: View {
                     fontSizeDownButton
                 }
                 .padding()
-            }
-            .onChange(of: searchText) {
-                Task {
-                    await searchPlacesOnline()
-                    updateAutoCompleteSuggestions()
-                }
-            }
-            .onSubmit(of: .text) {
-                Task { await searchPlacesOnline() }
             }
             .mapControls {
                 MapUserLocationButton().padding() // Move to current location
@@ -204,6 +205,19 @@ struct LocationsView: View {
         ListView(searchText: $searchText, selectedFilter: $selectedFilter, showDetails: $showDetails)
             .environmentObject(fontSizeManager)
     }
+
+    private func updateFilteredLocations() {
+        if searchText.isEmpty {
+          viewModel.studyLocations = viewModel.allStudyLocations
+        } else {
+          let results = viewModel.allStudyLocations.filter {
+            $0.name.localizedCaseInsensitiveContains(searchText) ||
+            $0.envFactor.atmosphere.contains { $0.localizedCaseInsensitiveContains(searchText) }
+          }
+          viewModel.studyLocations = results
+        }
+        hasResults = !viewModel.studyLocations.isEmpty
+      }
 
   private func searchPlacesOnline() async {
     let results = viewModel.filterLocations(by: searchText)
