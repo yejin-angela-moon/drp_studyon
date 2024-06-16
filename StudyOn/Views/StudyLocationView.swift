@@ -56,7 +56,6 @@ struct StudyLocationView: View {
                 })
                 
                 Button("View Details") {
-//                    navigateToDetails = true
                     showDetails = true
                 }
                 .fullScreenCover(isPresented: $showDetails) {

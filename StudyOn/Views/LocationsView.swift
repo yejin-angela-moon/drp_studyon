@@ -11,7 +11,7 @@ struct LocationsView: View {
   @State private var results = [MKMapItem]()
   @State private var locationSelection: StudyLocation?
   @State private var showPopup = false  // Show small pop up of StudyLocationView
-  @State private var showDetails = false  // Show LocationDetailView
+  @State private var showDetails = false  // Show LocationDetailView 
   @State private var selectedFilter: String? = nil
   @State private var isLibrarySelected: Bool = false
   @State private var isCafeSelected: Bool = false
@@ -201,7 +201,7 @@ struct LocationsView: View {
     }
     
     var listView: some View {
-        ListView(searchText: $searchText, selectedFilter: $selectedFilter)
+        ListView(searchText: $searchText, selectedFilter: $selectedFilter, showDetails: $showDetails)
             .environmentObject(fontSizeManager)
     }
 
