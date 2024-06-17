@@ -372,14 +372,14 @@ func crowdnessLevelToText(userCrowdness: Double, dataCrowdness: Double) -> Strin
     return "Unknown"
   }
 
-  if crowdness <= 1 {
-    return "Sparse"
-  } else if crowdness <= 2 {
-    return "Crowded"
-  } else {
-    return "Full"
-  }
-}
+    if crowdness <= 1.67 {
+        return "Sparse"
+    } else if crowdness <= 2.33 {
+        return "Crowded"
+      } else {
+        return "Full"
+      }
+    }
 
 // Noiseness Level (Double) to Text (String) to be shown in the drop down button
 func noiseLevelToText(userNoise: Double, dataNoise: Double) -> String {
@@ -389,9 +389,9 @@ func noiseLevelToText(userNoise: Double, dataNoise: Double) -> String {
     return "Unknown"
   }
 
-  if noise <= 1 {
+    if noise <= 1.67 {
     return "Quiet"
-  } else if noise <= 2 {
+    } else if noise <= 2.33 {
     return "Audible"
   } else {
     return "Loud"
