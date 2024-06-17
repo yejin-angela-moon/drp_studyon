@@ -13,8 +13,9 @@ struct LocationsView: View {
   @State private var showPopup = false  // Show small pop up of StudyLocationView
   @State private var showDetails = false  // Show LocationDetailView
   @State private var selectedFilter: String? = nil
-  @State private var isLibrarySelected: Bool = false
-  @State private var isCafeSelected: Bool = false
+//  @State private var isLibrarySelected: Bool = false
+//  @State private var isCafeSelected: Bool = false
+//  @State private var isFavSelected: Bool = false
   @State private var hasResults: Bool = true
   @State private var autoCompleteSuggestions: [String] = []
   @State private var isShowingLocationDetail = false
@@ -48,7 +49,7 @@ struct LocationsView: View {
       if hasResults {
         ForEach(
           viewModel.studyLocations.filter {
-            selectedFilter == nil || $0.category == selectedFilter
+              selectedFilter == nil || $0.category == selectedFilter || (selectedFilter == "fav" && userFavorites.contains($0.name))
           }
         ) { item in
           Annotation(item.name, coordinate: item.coordinate) {
@@ -105,35 +106,6 @@ struct LocationsView: View {
     .shadow(radius: 10)
   }
 
-  private var libraryToggleButton: some View {
-    Toggle("Library", isOn: $isLibrarySelected)
-      .toggleStyle(
-        ButtonToggleStyle(
-          filter: $selectedFilter,
-          category: "library",
-          isCategorySelected: $isLibrarySelected,
-          otherCategory: "cafe",
-          isOtherCategorySelected: $isCafeSelected
-        )
-      )
-      .font(.system(size: fontSizeManager.headlineSize))
-
-  }
-
-  private var cafeToggleButton: some View {
-    Toggle("Cafe", isOn: $isCafeSelected)
-      .toggleStyle(
-        ButtonToggleStyle(
-          filter: $selectedFilter,
-          category: "cafe",
-          isCategorySelected: $isCafeSelected,
-          otherCategory: "library",
-          isOtherCategorySelected: $isLibrarySelected
-        )
-      )
-      .font(.system(size: fontSizeManager.headlineSize))
-  }
-
 
   var body: some View {
         ZStack(alignment: .top) {
@@ -152,6 +124,7 @@ struct LocationsView: View {
                 HStack {
                     libraryToggleButton
                     cafeToggleButton
+                    favoritesToggleButton
                     Spacer()
                     fontSizeUpButton
                     fontSizeDownButton
@@ -254,33 +227,21 @@ extension View {
   LocationsView()
 }
 
-struct ButtonToggleStyle: ToggleStyle {
-  @Binding var filter: String?
-  var category: String
-  @Binding var isCategorySelected: Bool
-  var otherCategory: String
-  @Binding var isOtherCategorySelected: Bool
-    @EnvironmentObject var fontSizeManager: FontSizeManager
-
-  func makeBody(configuration: Configuration) -> some View {
-    Button(action: {
-      isCategorySelected.toggle()
-      if isCategorySelected {
-        isOtherCategorySelected = false
-        filter = category
-      } else {
-        filter = nil
-      }
-    }) {
-      configuration.label
-        .padding(8)
-        .font(.system(size: fontSizeManager.bodySize))
-        .background(isCategorySelected ? Color.orange : Color.gray)
-        .foregroundColor(.white)
-        .cornerRadius(8)
+struct RoundedToggleStyle: ToggleStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        Button(action: {
+            configuration.isOn.toggle()
+        }) {
+            configuration.label
+                .padding(8)
+//                .frame(maxWidth: .infinity)
+                .background(configuration.isOn ? Color.green : Color.gray)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+        }
     }
-  }
 }
+
 
 extension CLLocationCoordinate2D {
   static var userLocation: CLLocationCoordinate2D {
@@ -298,6 +259,39 @@ extension MKCoordinateRegion {
 }
 
 extension LocationsView {
+    private var libraryToggleButton: some View {
+        Toggle("Library", isOn: Binding<Bool>(
+            get: { selectedFilter == "library" },
+            set: { newValue in
+                selectedFilter = newValue ? "library" : nil
+            }
+        ))
+        .toggleStyle(RoundedToggleStyle())
+        .font(.system(size: fontSizeManager.headlineSize))
+    }
+
+    private var cafeToggleButton: some View {
+        Toggle("Cafe", isOn: Binding<Bool>(
+            get: { selectedFilter == "cafe" },
+            set: { newValue in
+                selectedFilter = newValue ? "cafe" : nil
+            }
+        ))
+        .toggleStyle(RoundedToggleStyle())
+        .font(.system(size: fontSizeManager.headlineSize))
+    }
+      
+    private var favoritesToggleButton: some View {
+        Toggle("Favorites", isOn: Binding<Bool>(
+            get: { selectedFilter == "fav" },
+            set: { newValue in
+                selectedFilter = newValue ? "fav" : nil
+            }
+        ))
+        .toggleStyle(RoundedToggleStyle())
+        .font(.system(size: fontSizeManager.headlineSize))
+    }
+    
     private var fontSizeUpButton: some View {
         Button(action: {
             if fontSizeManager.titleSize < fontSizeManager.maxTitleSize {

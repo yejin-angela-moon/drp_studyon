@@ -143,6 +143,11 @@ struct LocationDetailView: View {
         OpeningHoursView(hours: studyLocation?.hours ?? [:])
           .padding([.leading, .trailing], 18)
       }
+        if studyLocation?.category == "cafe" {
+            Text("Preferred Study Time: Mon-Fri 10:00 - 15:00")
+                .font(.system(size: fontSizeManager.bodySize))
+                .padding()
+        }
 
       detailsButton
       if viewModel.showEnvFactors {
