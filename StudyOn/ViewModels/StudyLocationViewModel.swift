@@ -45,13 +45,24 @@ class StudyLocationViewModel: ObservableObject {
             }
           }
         }
+          
+        let dynamicReviews = data["dynamicReviews"] as? [String] ?? []
+//        print(dynamicReviews)
+        let crowdednessReviews = dynamicReviews.map(parseCrowdedness)
+        let noiseReviews = dynamicReviews.map(parseNoise)
+//        print(crowdednessReviews)
+//        print(noiseReviews)
+          
         let envFactorData = data["envFactors"] as? [String: Any] ?? [:]
         let envFactor =
           EnvFactor(
-            dynamicData: (envFactorData["dynamicData"] as? [String: Double] ?? [:]),
+//            dynamicData: (envFactorData["dynamicData"] as? [String: Double] ?? [:]),
+            dynamicData: ["crowdedness": averageOfFirstFive(values: crowdednessReviews),
+                          "noise": averageOfFirstFive(values: noiseReviews)],
             staticData: envFactorData["staticData"] as? [String: Double] ?? [:],
             atmosphere: envFactorData["atmosphere"] as? [String] ?? []
           )
+        
         let num = data["num"] as? Int ?? 0
         let category = data["category"] as? String ?? ""
         return StudyLocation(
@@ -149,6 +160,60 @@ func encodeReview(crowdness: Double, noise: Double) -> String {
   let res = "\(Timestamp())___\(crowdness),\(noise)"
   print(res)
   return res
+}
+
+func parseCrowdedness(from input: String) -> Double {
+    let components = input.split(separator: "___")
+    
+    guard components.count == 2 else {
+        print("Failed to split main components")
+        return 0
+    }
+    
+    let dataComponents = components[1].split(separator: ",")
+    
+    guard dataComponents.count > 0,
+          let crowdedness = Double(dataComponents[0]) else {
+        print("Failed to parse crowdedness")
+        return 0
+    }
+    
+    return crowdedness
+}
+
+func parseNoise(from input: String) -> Double {
+    let components = input.split(separator: "___")
+    
+    guard components.count == 2 else {
+        print("Failed to split main components")
+        return 0
+    }
+    
+    let dataComponents = components[1].split(separator: ",")
+    
+    guard dataComponents.count > 1,
+          let noise = Double(dataComponents[1]) else {
+        print("Failed to parse noise")
+        return 0
+    }
+    
+    return noise
+}
+
+func averageOfFirstFive(values: [Double]) -> Double {
+    // Check if the list is empty
+    guard !values.isEmpty else {
+        return 0.0
+    }
+    
+    // Get the first 5 values or as many as available if the list is smaller than 5
+    let limitedValues = Array(values.prefix(5))
+    
+    // Calculate the average
+    let sum = limitedValues.reduce(0.0, +)
+    let average = sum / Double(limitedValues.count)
+    
+    return average
 }
 
 class FontSizeManager: ObservableObject {
