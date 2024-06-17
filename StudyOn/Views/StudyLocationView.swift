@@ -29,16 +29,25 @@ struct StudyLocationView: View {
                             .frame(width: 24, height: 24)
                             .foregroundStyle(.gray, Color(.systemGray6))
                     }
-                    .padding([.top, .trailing], 10)
+                    .padding([.top], 20)
+                    .padding([.trailing], 10)
                 }
                 HStack(alignment: .bottom, spacing: 0) {
-                    VStack(alignment: .leading, spacing: 16.0) {
+                    VStack(alignment: .leading, spacing: 12.0) {
                         imageSection
                         nameSection
                         titleSection
 
-                        let score = String(format: "%.1f", studyLocation?.rating ?? 0)
-                        Text("\(score) / 5.0")
+                        HStack(alignment: .center, spacing: 10) {
+                            let score = String(format: "%.1f", studyLocation?.rating ?? 0)
+                            StarRatingView(rating: studyLocation?.rating ?? 0)
+                            Text("\(score)")
+                              .font(.title2)
+                              .fontWeight(.bold)
+                              .foregroundStyle(.orange)
+//                              .padding(10)
+    //                        Text("\(score) / 5.0")
+                        }
                     }
                 }
                 .padding(20)
@@ -131,7 +140,7 @@ extension StudyLocationView {
     
     private var imageSection: some View {
         ZStack {
-            if let imageName = studyLocation.images.first {
+            if let imageName = studyLocation?.images.first {
                 Image(imageName)
                     .resizable()
                     .scaledToFill()

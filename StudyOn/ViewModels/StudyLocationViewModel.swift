@@ -144,7 +144,7 @@ class StudyLocationViewModel: ObservableObject {
         //                try await db.collection("studyLocations").document(documentID).collection("dynamicReview").document("time").setData(["a": Timestamp()])
         //                setData(["dynamicReview": newData], merge: true)
 
-        print("Document successfully updated")
+        print("Document dynamic data successfully updated")
       } catch {
         print("Error updating document for submit: \(error)")
       }
@@ -154,6 +154,32 @@ class StudyLocationViewModel: ObservableObject {
       return
     }
   }
+    
+    func submitRating(studyLocation: StudyLocation?, rating: Double, ratingNum: Int) async {
+        if let documentID = studyLocation?.documentID {
+          print(documentID)
+            
+          print(studyLocation?.rating ?? [])
+          print(studyLocation?.num ?? 0)
+          print(rating)
+          print(ratingNum)
+            
+          do {
+            try await db.collection("studyLocations").document(documentID).updateData([
+              "rating": rating,
+              "num": ratingNum
+            ])
+              
+            print("Document rating successfully updated")
+          } catch {
+            print("Error updating document for submit rating: \(error)")
+          }
+
+        } else {
+          print("No studyLocation found")
+          return
+        }
+    }
 }
 
 func encodeReview(crowdness: Double, noise: Double) -> String {
