@@ -36,6 +36,7 @@
 		57CEEC2A2C0820E0009D0FAA /* StudyLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */; };
 		57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2B2C08BF84009D0FAA /* Comment.swift */; };
 		57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */; };
+		57FC9BC42C20B15200830587 /* StarSwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FC9BC32C20B15200830587 /* StarSwipeView.swift */; };
 		8D3EAEF72C10F305001E1F28 /* EnvFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */; };
 		8D3EAEF92C11FF19001E1F28 /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */; };
 		8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */; };
@@ -89,6 +90,7 @@
 		57CEEC292C0820E0009D0FAA /* StudyLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyLocationView.swift; sourceTree = "<group>"; };
 		57CEEC2B2C08BF84009D0FAA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		57CEEC2D2C08C837009D0FAA /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
+		57FC9BC32C20B15200830587 /* StarSwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarSwipeView.swift; sourceTree = "<group>"; };
 		8D3EAEF62C10F305001E1F28 /* EnvFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvFactor.swift; sourceTree = "<group>"; };
 		8D3EAEF82C11FF19001E1F28 /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
 		8DC3ACAE2C09FAD500DA9CFC /* StudyLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyLocationViewModel.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				19CA12B82C18BD40001A2103 /* LoginView.swift */,
 				8DF78CE02C1B7D6400C922BD /* ListView.swift */,
 				8DF78CE22C1B7D7600C922BD /* ListButtonView.swift */,
+				57FC9BC32C20B15200830587 /* StarSwipeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				576AE97F2C1BFB2E0007D662 /* LocationServiceManager.swift in Sources */,
 				57CEEC2E2C08C837009D0FAA /* LocationDetailView.swift in Sources */,
 				19CA12B32C18BCAA001A2103 /* User.swift in Sources */,
+				57FC9BC42C20B15200830587 /* StarSwipeView.swift in Sources */,
 				8DC3ACAF2C09FAD500DA9CFC /* StudyLocationViewModel.swift in Sources */,
 				577347072C07BC9700758655 /* StudyLocationRatingView.swift in Sources */,
 				57CEEC2C2C08BF84009D0FAA /* Comment.swift in Sources */,
