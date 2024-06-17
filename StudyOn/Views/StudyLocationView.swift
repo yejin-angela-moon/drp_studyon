@@ -40,7 +40,7 @@ struct StudyLocationView: View {
 
                         HStack(alignment: .center, spacing: 10) {
                             let score = String(format: "%.1f", studyLocation?.rating ?? 0)
-                            StarRatingView(rating: studyLocation?.rating ?? 0)
+                            StarRatingView(rating: studyLocation?.rating ?? 0, color: .orange, starRounding: .ceilToHalfStar, starSize: 20)
                             Text("\(score)")
                               .font(.title2)
                               .fontWeight(.bold)

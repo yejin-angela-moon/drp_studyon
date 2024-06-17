@@ -72,7 +72,7 @@ struct LocationDetailView: View {
 
       HStack(alignment: .center) {
         let score = String(format: "%.1f", studyLocation?.rating ?? 0)
-        StarRatingView(rating: studyLocation?.rating ?? 0)
+        StarRatingView(rating: studyLocation?.rating ?? 0, color: .orange, starRounding: .ceilToHalfStar, starSize: 20)
         Text("\(score)")
           .font(.title2)
           .fontWeight(.bold)
@@ -165,20 +165,31 @@ struct LocationDetailView: View {
         Text("Comments")
           .font(.largeTitle)
           .padding()
-
-        StarSwipeView(rating: $userRating, color: .orange, starRounding: .ceilToHalfStar, starSize: 40)
           
-        Button("Submit Go") {
-          let num = studyLocation?.num ?? 0
-          let currentRating = studyLocation?.rating ?? 0
-//          print(num)
-//          print(currentRating)
-          let newRating = (Double(num) * currentRating + userRating) / Double(num + 1)
+          HStack {
+              StarSwipeView(rating: $userRating, color: .orange, starRounding: .ceilToHalfStar, starSize: 40)
+              Spacer()
+                
+              Button("Submit") {
+                let num = studyLocation?.num ?? 0
+                let currentRating = studyLocation?.rating ?? 0
+      //          print(num)
+      //          print(currentRating)
+                let newRating = (Double(num) * currentRating + userRating) / Double(num + 1)
 
-          Task {
-            await viewModel.submitRating(studyLocation: studyLocation, rating: newRating, ratingNum: num + 1)
+                Task {
+                  await viewModel.submitRating(studyLocation: studyLocation, rating: newRating, ratingNum: num + 1)
+                }
+              }
+              .padding(8)
+              .background(.blue)
+              .foregroundColor(.white)
+              .cornerRadius(8)
+              
           }
-        }
+          .padding(.horizontal, 40)
+
+
           
         CommentsView(comments: studyLocation?.comments ?? [])
       }
@@ -306,19 +317,79 @@ struct OpeningHoursView: View {
     .padding(.horizontal)
   }
 }
+//
+//struct StarRatingView: View {
+//  var rating: Double
+//
+//  var body: some View {
+//    HStack(spacing: 2) {
+//      ForEach(0..<5) { index in
+//        Image(systemName: "star.fill")
+//          .foregroundColor(index < Int(rating.rounded()) ? .orange : .gray)
+//      }
+//    }
+//  }
+//}
 
 struct StarRatingView: View {
-  var rating: Double
-
-  var body: some View {
-    HStack(spacing: 2) {
-      ForEach(0..<5) { index in
-        Image(systemName: "star.fill")
-          .foregroundColor(index < Int(rating.rounded()) ? .orange : .gray)
-      }
+    var rating: Double
+    var color: Color
+    var starRounding: StarRounding
+    var starSize: CGFloat
+    
+    private let fullStar = Image(systemName: "star.fill")
+    private let halfStar = Image(systemName: "star.lefthalf.fill")
+    private let emptyStar = Image(systemName: "star")
+    
+    var body: some View {
+        HStack(spacing: 5) {
+            ForEach(0..<5) { index in
+                self.star(for: index)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: self.starSize, height: self.starSize)
+                    .foregroundColor(self.color)
+            }
+        }
     }
-  }
+    
+    private func star(for index: Int) -> Image {
+        let threshold = Double(index) + 1
+        switch starRounding {
+        case .roundToHalfStar:
+            if rating >= threshold - 0.25 {
+                return fullStar
+            } else if rating >= threshold - 0.75 {
+                return halfStar
+            } else {
+                return emptyStar
+            }
+        case .ceilToHalfStar:
+            if rating > threshold - 0.5 {
+                return fullStar
+            } else if rating > threshold - 1 {
+                return halfStar
+            } else {
+                return emptyStar
+            }
+        case .floorToHalfStar:
+            if rating >= threshold {
+                return fullStar
+            } else if rating >= threshold - 0.5 {
+                return halfStar
+            } else {
+                return emptyStar
+            }
+        case .roundToFullStar:
+            return rating >= threshold - 0.5 ? fullStar : emptyStar
+        case .ceilToFullStar:
+            return rating > threshold - 1 ? fullStar : emptyStar
+        case .floorToFullStar:
+            return rating >= threshold ? fullStar : emptyStar
+        }
+    }
 }
+
 
 struct ImageSliderView: View {
   let images: [String]  // List of image names
