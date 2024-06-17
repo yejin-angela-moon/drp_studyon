@@ -9,7 +9,7 @@ struct CustomMarkerView: View {
 
   var body: some View {
         libraryIcon
-          .shadow(radius: 3)
+          .shadow(radius: 1)
   }
 
   func colorForRating(_ rating: Double) -> Color {
@@ -86,7 +86,7 @@ extension CustomMarkerView {
       Image(systemName: imageForCategory(category))
         .resizable()
         .scaledToFit()
-        .frame(width: 30, height: 30)
+        .frame(width: 25, height: 25)
         .font(.system(size: fontSizeManager.headlineSize))
         .foregroundColor(.white)
         .padding(6)

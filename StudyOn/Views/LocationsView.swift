@@ -303,8 +303,8 @@ extension MKCoordinateRegion {
     static var userRegion: MKCoordinateRegion {
         return .init(
             center: .userLocation,
-            latitudinalMeters: 10000,
-            longitudinalMeters: 10000)
+            latitudinalMeters: 2000,
+            longitudinalMeters: 2000)
     }
 }
 
