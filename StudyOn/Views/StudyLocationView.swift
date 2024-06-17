@@ -131,7 +131,7 @@ extension StudyLocationView {
     
     private var imageSection: some View {
         ZStack {
-            if let imageName = previewStudyLocation.images.first {
+            if let imageName = studyLocation.images.first {
                 Image(imageName)
                     .resizable()
                     .scaledToFill()

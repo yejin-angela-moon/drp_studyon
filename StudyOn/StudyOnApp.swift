@@ -284,7 +284,7 @@ func addSampleData() {
                     longitude: -0.11052710247528852,
                     rating: 4.5,
                     comments: [],
-                    images: ["maughanLibrary1", "maughanLibrary2", "maughanLibrary3"],
+                    images: ["theMaughanLibrary1", "theMaughanLibrary2", "theMaughanLibrary3"],
                     hours: sampleHours,
                     envFactor: EnvFactor(dynamicData: ["crowdedness": 2.5, "noise": 3.0], staticData: ["wifi speed": 4.0, "spaciousness": 4.5, "socket no": 5.0], atmosphere: ["University", "Antique"]),
                     num: 4,
@@ -350,7 +350,7 @@ func addSampleData() {
                     longitude: -0.26600927717098577,
                     rating: 3.6,
                     comments: [],
-                    images: ["actonLibrary1", "actonLibrary2", "actonLibrary3"],
+                    images: ["actonLibrary"],
                     hours: sampleHours,
                     envFactor: sampleEnvFactors2,
                     num: 4,
@@ -436,7 +436,7 @@ func addSampleData() {
                 ),
 // 20 libraries
                 StudyLocation(
-                    name: "Starbucks",
+                    name: "Starbucks - South Kensington",
                     title: "19 Old Brompton Rd, London SW7 3HZ",
                     latitude: 51.499,
                     longitude: -0.174,
@@ -449,7 +449,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Caffe Nero",
+                    name: "Caffe Nero - Gloucester Rd",
                     title:"119/121 Gloucester Rd, London SW7 4TE",
                     latitude: 51.496,
                     longitude: -0.181,
@@ -462,7 +462,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Pret A Manger",
+                    name: "Pret A Manger - Gloucester Rd",
                     title:"99 Gloucester Rd, London SW7 4SS",
                     latitude: 51.498,
                     longitude: -0.181,
@@ -475,7 +475,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Pret A Manger",
+                    name: "Pret A Manger - Earl's Court",
                     title: "230-232 Earls Ct Rd, London SW5 9RD",
                     latitude: 51.492218467487795,
                     longitude: -0.19307533138957186,
@@ -488,7 +488,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Caffè Nero",
+                    name: "Caffè Nero - Notting Hill Gate",
                     title:"53 Notting Hill Gate, London W11 3JS",
                     latitude: 51.510601091233305,
                     longitude: -0.19701237748410017,
@@ -501,7 +501,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Caffè Nero",
+                    name: "Caffè Nero - Southern Interchange",
                     title:"Unit C302, Level 30 Southern Interchange, London W12 7SL",
                     latitude: 51.506143948346164,
                     longitude: -0.21846883202088724,
@@ -514,7 +514,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Starbucks",
+                    name: "Starbucks - Kensington High St",
                     title: "25a Kensington High St, London W8 5NP",
                     latitude: 51.50326248193065,
                     longitude: -0.18871118820876795,
@@ -527,7 +527,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Starbucks",
+                    name: "Starbucks - Queensway",
                     title:"49 Queensway, London W2 4QH",
                     latitude: 51.51254407693218,
                     longitude: -0.18794721623228366,
@@ -553,7 +553,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Caffè Nero",
+                    name: "Caffè Nero - South Kensington",
                     title: "66 Old Brompton Rd, South Kensington, London SW7 3LQ",
                     latitude: 51.49395505184591,
                     longitude: -0.1768953320208872,
@@ -567,7 +567,7 @@ func addSampleData() {
                 ),
 // 10 cafes
                 StudyLocation(
-                    name: "JOE & THE JUICE",
+                    name: "JOE & THE JUICE - South Kensington",
                     title:"111 Old Brompton Rd, South Kensington, London SW7 3LE",
                     latitude: 51.49220255128421,
                     longitude: -0.17796846174598258,
@@ -580,7 +580,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Starbucks",
+                    name: "Starbucks - Gloucester Rd",
                     title:"83 Gloucester Rd, South Kensington, London SW7 4SS",
                     latitude: 51.49472149218343,
                     longitude: -0.18236996080958634,
@@ -593,7 +593,7 @@ func addSampleData() {
                     category: "cafe"
                 ),
                 StudyLocation(
-                    name: "Starbucks",
+                    name: "Starbucks - Earl's Court",
                     title:"203 Earls Ct Rd, London SW5 9AN",
                     latitude: 51.49210681843782,
                     longitude: -0.19225129683855438,
