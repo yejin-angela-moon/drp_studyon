@@ -88,7 +88,7 @@ struct ListView: View {
     }
 
     private func shouldShowLocation(_ location: StudyLocation) -> Bool {
-        (selectedFilter == nil || location.category == selectedFilter) &&
+        (selectedFilter == nil || location.category == selectedFilter || (selectedFilter == "fav" && userFavorites.contains(location.name))) &&
         (searchText.isEmpty || location.name.localizedCaseInsensitiveContains(searchText))
     }
 }
