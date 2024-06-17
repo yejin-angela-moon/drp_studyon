@@ -16,6 +16,7 @@ struct LocationDetailView: View {
   @State private var isFavorite: Bool = false  
   @EnvironmentObject var fontSizeManager: FontSizeManager
   @State private var showConfirmation: Bool = false
+  @State private var userRating: Double = 2.5
 
 
 
@@ -165,6 +166,20 @@ struct LocationDetailView: View {
           .font(.largeTitle)
           .padding()
 
+        StarSwipeView(rating: $userRating, color: .orange, starRounding: .ceilToHalfStar, starSize: 40)
+          
+        Button("Submit Go") {
+          let num = studyLocation?.num ?? 0
+          let currentRating = studyLocation?.rating ?? 0
+//          print(num)
+//          print(currentRating)
+          let newRating = (Double(num) * currentRating + userRating) / Double(num + 1)
+
+          Task {
+            await viewModel.submitRating(studyLocation: studyLocation, rating: newRating, ratingNum: num + 1)
+          }
+        }
+          
         CommentsView(comments: studyLocation?.comments ?? [])
       }
       .padding(.bottom, 20)
