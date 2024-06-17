@@ -67,14 +67,6 @@ struct StudyLocationView: View {
                     }
                 }
                 
-                
-//                .background(
-//                    NavigationLink(destination: LocationDetailView(studyLocation: $studyLocation, show: $showDetails).environmentObject(viewModel).environmentObject(userViewModel), isActive: $navigateToDetails) {
-//                        EmptyView()
-//                    }
-//                    .hidden()
-//                )
-                
                 Spacer()
             }
             .navigationBarHidden(true)

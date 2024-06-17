@@ -21,6 +21,8 @@ struct ListView: View {
                 }) {
                     listItemContent(location)
                 }
+                .buttonStyle(PlainButtonStyle())
+                .contentShape(Rectangle())
             }
             .fullScreenCover(isPresented: $showDetails) {
                 LocationDetailView(studyLocation: $selectedLocation, show: $showDetails, userFavorites: $userFavorites)
