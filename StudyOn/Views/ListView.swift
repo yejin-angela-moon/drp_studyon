@@ -35,16 +35,14 @@ struct ListView: View {
     @ViewBuilder
     private func listItemContent(_ location: StudyLocation) -> some View {
         HStack {
-            if let imageName = location.images.first, !imageName.isEmpty {
-                Image("imperial1")
+            if let imageName = location.images.first {
+                Image(imageName)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 100, height: 100)
-                    .clipped()
                     .cornerRadius(10)
             } else {
-                // Image(systemName: "photo")
-                Image("imperial1")
+                Image(systemName: "photo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100)
