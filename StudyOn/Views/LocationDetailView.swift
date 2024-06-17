@@ -1,9 +1,12 @@
 import SwiftUI
+import Firebase
+
 
 struct LocationDetailView: View {
   @EnvironmentObject var viewModel: StudyLocationViewModel
   @Binding var studyLocation: StudyLocation?
   @Binding var show: Bool
+  @Binding var userFavorites: Set<String>
 
   @State private var userCrowdness: Double = 0
   @State private var userNoise: Double = 0
@@ -13,6 +16,7 @@ struct LocationDetailView: View {
   @State private var isFavorite: Bool = false  
   @EnvironmentObject var fontSizeManager: FontSizeManager
   @State private var showConfirmation: Bool = false
+
 
 
   var body: some View {
@@ -193,8 +197,10 @@ struct LocationDetailView: View {
   private func toggleFavorite() {
     if isFavorite {
       userViewModel.removeFavoriteLocation(locationId: studyLocation?.name ?? "")
+        userFavorites.remove(studyLocation?.name ?? "")
     } else {
       userViewModel.addFavoriteLocation(locationId: studyLocation?.name ?? "")
+        userFavorites.insert(studyLocation?.name ?? "")
     }
     isFavorite.toggle()  
   }
@@ -205,9 +211,9 @@ struct LocationDetailView: View {
   }
 }
 
-#Preview {
-  LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
-}
+//#Preview {
+//  LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
+//}
 
 struct AtmosphereView: View {
     @EnvironmentObject var fontSizeManager: FontSizeManager
@@ -392,9 +398,9 @@ func noiseLevelToText(userNoise: Double, dataNoise: Double) -> String {
   }
 }
 
-#Preview {
-  LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
-}
+//#Preview {
+//  LocationDetailView(studyLocation: .constant(previewStudyLocation), show: .constant(false))
+//}
 
 extension View {
   func scrollable() -> some View {
@@ -445,3 +451,6 @@ extension LocationDetailView {
         }
     }
 }
+
+
+
