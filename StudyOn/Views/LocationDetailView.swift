@@ -17,6 +17,9 @@ struct LocationDetailView: View {
   @EnvironmentObject var fontSizeManager: FontSizeManager
   @State private var showConfirmation: Bool = false
   @State private var userRating: Double = 2.5
+  @State private var commentContent: String = ""
+  @State private var userName: String = ""
+
 
 
 
@@ -55,6 +58,9 @@ struct LocationDetailView: View {
             userViewModel.fetchUserFavorites() {
                 self.isFavorite = userViewModel.userFavorites.contains(studyLocation?.name ?? "")
             }
+            Task {
+                    await viewModel.fetchComments(for: studyLocation)
+                }
         }
       }
 
@@ -198,9 +204,46 @@ struct LocationDetailView: View {
           .padding(.horizontal, 40)
           
         CommentsView(comments: studyLocation?.comments ?? [])
+          VStack(alignment: .leading) {
+                              TextField("Your name", text: $userName)
+                                  .textFieldStyle(RoundedBorderTextFieldStyle())
+                                  .padding(.horizontal)
+                                  .disabled(true)
+
+                              TextField("Add a comment", text: $commentContent)
+                                  .textFieldStyle(RoundedBorderTextFieldStyle())
+                                  .padding(.horizontal)
+
+                              Button("Submit Comment") {
+                                  if !commentContent.isEmpty {
+                                      let newComment = Comment(name: userName, content: commentContent)
+
+                                      Task {
+                                          await viewModel.submitComment(studyLocation: studyLocation, comment: newComment)
+                                          await viewModel.fetchComments(for: studyLocation)
+                                          let findID = studyLocation?.documentID ?? ""
+                                          studyLocation = viewModel.findLocationByDocumentID(documentIDKey: findID)
+                                          commentContent = ""
+                                      }
+                                  }
+                              }
+                              .padding()
+                              .background(Color.blue)
+                              .foregroundColor(.white)
+                              .cornerRadius(8)
+                              .padding(.horizontal)
+                          }
       }
       .padding(.bottom, 20)
     }
+    .onAppear {
+                if let currentUser = userViewModel.currentUser {
+                    userName = currentUser.name
+                }
+                Task {
+                    await viewModel.fetchComments(for: studyLocation)
+                }
+            }
     .overlay(
       VStack {
         if showConfirmation {

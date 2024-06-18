@@ -10,7 +10,7 @@ struct StudyLocation: Identifiable, Hashable {
     let latitude: Double
     let longitude: Double
     let rating: Double
-    let comments: [Comment]
+    var comments: [Comment]
     let images: [String]
     let hours: [String: OpeningHours]
     let envFactor: EnvFactor

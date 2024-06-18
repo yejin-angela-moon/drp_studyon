@@ -181,6 +181,63 @@ class StudyLocationViewModel: ObservableObject {
         }
     }
     
+    func submitComment(studyLocation: StudyLocation?, comment: Comment) async {
+            guard let location = studyLocation else { return }
+            let db = Firestore.firestore()
+            if let documentID = location.documentID {
+                let documentRef = db.collection("studyLocations").document(documentID)
+                do {
+                    // Fetch the current comments
+                    let document = try await documentRef.getDocument()
+                    var currentComments = document.data()?["comments"] as? [[String: Any]] ?? []
+                    
+                    // Add the new comment
+                    let newCommentData: [String: Any] = [
+                        "name": comment.name,
+                        "content": comment.content,
+                        "date": comment.date ?? Date()
+                    ]
+                    currentComments.append(newCommentData)
+                    
+                    // Update the document with the new comments array
+                    try await documentRef.updateData(["comments": currentComments])
+                    
+                    await fetchComments(for: location)  // Refresh the comments
+                } catch {
+                    print("Error adding comment: \(error)")
+                }
+            }
+        }
+
+        func fetchComments(for location: StudyLocation?) async {
+            guard let location = location else { return }
+            let db = Firestore.firestore()
+            if let documentID = location.documentID {
+                let documentRef = db.collection("studyLocations").document(documentID)
+                do {
+                    let document = try await documentRef.getDocument()
+                    var comments: [Comment] = []
+                    if let commentDataArray = document.data()?["comments"] as? [[String: Any]] {
+                        for commentData in commentDataArray {
+                            if let name = commentData["name"] as? String,
+                               let content = commentData["content"] as? String,
+                               let date = (commentData["date"] as? Timestamp)?.dateValue() {
+                                let comment = Comment(name: name, content: content, date: date)
+                                comments.append(comment)
+                            }
+                        }
+                    }
+                    if let index = self.studyLocations.firstIndex(where: { $0.documentID == documentID }) {
+                        DispatchQueue.main.async {
+                            self.studyLocations[index].comments = comments
+                        }
+                    }
+                } catch {
+                    print("Error fetching comments: \(error)")
+                }
+            }
+        }
+    
     func findLocationByDocumentID(documentIDKey: String) -> StudyLocation? {
         return allStudyLocations.filter { location in
             location.documentID == documentIDKey
