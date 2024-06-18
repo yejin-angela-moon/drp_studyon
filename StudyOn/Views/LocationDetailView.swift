@@ -4,7 +4,7 @@ import Firebase
 
 struct LocationDetailView: View {
   @EnvironmentObject var viewModel: StudyLocationViewModel
-  @Binding var studyLocation: StudyLocation?
+  @State var studyLocation: StudyLocation?
   @Binding var show: Bool
   @Binding var userFavorites: Set<String>
 
@@ -51,6 +51,7 @@ struct LocationDetailView: View {
         }
         .padding(.trailing, 15)
         .onAppear(){
+            viewModel.fetchData()
             userViewModel.fetchUserFavorites() {
                 self.isFavorite = userViewModel.userFavorites.contains(studyLocation?.name ?? "")
             }
@@ -117,6 +118,10 @@ struct LocationDetailView: View {
           Task {
             await viewModel.submitDynamicData(
               studyLocation: studyLocation, crowdness: crowdness, noise: noise)
+              
+            viewModel.fetchData()
+            let findID = studyLocation?.documentID ?? ""
+            studyLocation = viewModel.findLocationByDocumentID(documentIDKey: findID)
           }
 
           withAnimation {
@@ -179,6 +184,9 @@ struct LocationDetailView: View {
 
                 Task {
                   await viewModel.submitRating(studyLocation: studyLocation, rating: newRating, ratingNum: num + 1)
+                  viewModel.fetchData()
+                  let findID = studyLocation?.documentID ?? ""
+                  studyLocation = viewModel.findLocationByDocumentID(documentIDKey: findID)
                 }
               }
               .padding(8)
@@ -188,8 +196,6 @@ struct LocationDetailView: View {
               
           }
           .padding(.horizontal, 40)
-
-
           
         CommentsView(comments: studyLocation?.comments ?? [])
       }
