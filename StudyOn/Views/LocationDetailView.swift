@@ -95,8 +95,11 @@ struct LocationDetailView: View {
           "\(crowdnessLevelToText(userCrowdness: userCrowdness, dataCrowdness: studyLocation?.envFactor.dynamicData["crowdedness"] ?? -1))"
         ) {
           Button("Sparse") { userCrowdness = 1 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
           Button("Crowded") { userCrowdness = 2 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
           Button("Full") { userCrowdness = 3 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
         }
         .buttonStyle(.bordered)
 
@@ -104,8 +107,11 @@ struct LocationDetailView: View {
           "\(noiseLevelToText(userNoise: userNoise, dataNoise: studyLocation?.envFactor.dynamicData["noise"] ?? -1))"
         ) {
           Button("Quiet") { userNoise = 1 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
           Button("Audible") { userNoise = 2 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
           Button("Loud") { userNoise = 3 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
         }
         .buttonStyle(.bordered)
  
