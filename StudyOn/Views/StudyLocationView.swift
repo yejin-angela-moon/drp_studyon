@@ -5,7 +5,7 @@ struct StudyLocationView: View {
     @EnvironmentObject var viewModel: StudyLocationViewModel
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var notificationHandler: NotificationHandlerModel
-    @Binding var studyLocation: StudyLocation?
+    @State var studyLocation: StudyLocation?
     @Binding var show: Bool
     @Binding var showDetails: Bool
     @Binding var userFavorites: Set<String>
@@ -48,6 +48,13 @@ struct StudyLocationView: View {
 //                              .padding(10)
     //                        Text("\(score) / 5.0")
                         }
+                        .onChange(of: showDetails) { _, doShow in
+                            if !doShow {
+                                viewModel.fetchData()
+                                let docID = studyLocation?.documentID ?? ""
+                                studyLocation = viewModel.findLocationByDocumentID(documentIDKey: docID)
+                            }
+                        }
                     }
                 }
                 .padding(20)
@@ -70,7 +77,7 @@ struct StudyLocationView: View {
                 }
                 .fullScreenCover(isPresented: $showDetails) {
                     if let studyLocation = studyLocation {
-                        LocationDetailView(studyLocation: .constant(studyLocation), show: $showDetails, userFavorites: $userFavorites)
+                        LocationDetailView(studyLocation: studyLocation, show: $showDetails, userFavorites: $userFavorites)
                             .environmentObject(viewModel)
                             .environmentObject(userViewModel)
                     }
@@ -79,6 +86,9 @@ struct StudyLocationView: View {
                 Spacer()
             }
             .navigationBarHidden(true)
+        }
+        .onAppear {
+            viewModel.fetchData()
         }
     }
 }

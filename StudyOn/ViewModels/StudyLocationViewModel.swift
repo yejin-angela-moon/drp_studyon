@@ -180,6 +180,12 @@ class StudyLocationViewModel: ObservableObject {
           return
         }
     }
+    
+    func findLocationByDocumentID(documentIDKey: String) -> StudyLocation? {
+        return allStudyLocations.filter { location in
+            location.documentID == documentIDKey
+        }.first
+    }
 }
 
 func encodeReview(crowdness: Double, noise: Double) -> String {
