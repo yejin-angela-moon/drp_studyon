@@ -112,47 +112,53 @@ func addSampleData() {
         }
         
         let existingDocuments = documents.reduce(into: [String: DocumentSnapshot]()) { result, document in
-                    if let name = document.data()["name"] as? String {
-                        result[name] = document
-                    }
-                }
+            if let name = document.data()["name"] as? String {
+                result[name] = document
+            }
+        }
             
-            let sampleEnvFactors = EnvFactor(
-                dynamicData: [
-                    "crowdedness": 2.5,
-                    "noise": 3.0,
-                ], 
-                staticData: [
-                    "wifi speed": 4.0,
-                    "# tables": 5,
-                    "socket no": 5.0,
-                    "# PCs": 10,
-                    "# meeting rooms": 1
-                ],
-                atmosphere: ["Calm", "Nice music", "Pet-friendly"]
-            )
+        let sampleEnvFactors = EnvFactor(
+            dynamicData: [
+                "crowdedness": 1.9,
+                "noise": 1.9,
+            ], 
+            staticData: [
+                "wifi speed": 4.0,
+                "# tables": 15,
+                "# sockets": 10,
+                "# PCs": 10,
+                "# meeting rooms": 2
+            ],
+            atmosphere: ["Calm", "Pet-friendly", "Wi-fi"]
+        )
 
-            let sampleEnvFactors2 = EnvFactor(
-                dynamicData: [
-                    "crowdedness": 1.5,
-                    "noise": 5.0
-                ],
-                staticData: [
-                    "wifi speed": 5.0,
-                    "# tables": 3,
-                    "socket no": 10.0,
-                    "# PCs": 6,
-                    "# meeting rooms": 2
-                ],
-                atmosphere: ["Lively", "Cozy", "Pet-friendly"]
-            )
-        
-//            let sampleEnvFactors3 = EnvFactor(
-//                dynamicData: ["crowdedness": averageOfFirstFive(values: crowdednessReviews),
-//                              "noise": averageOfFirstFive(values: noiseReviews)],
-//                staticData: envFactorData["staticData"] as? [String: Double] ?? [:],
-//                atmosphere: envFactorData["atmosphere"] as? [String] ?? []
-//              )
+        let sampleEnvFactors2 = EnvFactor(
+            dynamicData: [
+                "crowdedness": 1.1,
+                "noise": 1.1
+            ],
+            staticData: [
+                "wifi speed": 5.0,
+                "# tables": 7,
+                "# sockets": 10.0,
+                "Cheapest Menu (£)": 2.90,
+                "# toilets": 2
+            ],
+            atmosphere: ["Lively", "Nice music", "Pet-friendly", "Wi-fi"]
+        )
+
+        let sampleEnvFactors3 = EnvFactor(
+            dynamicData: [
+                "crowdedness": 2.9,
+                "noise": 2.9
+            ],
+            staticData: [
+                "wifi speed": 5.0,
+                "# tables": 4,
+                "# sockets": 3.0
+            ], 
+            atmosphere: ["Antique", "Clean", "Buggy-friendly", "Comfortable"]
+        )
             
             let sampleComments = [
                 Comment(name: "Alice", content: "Great place to study!", date: Date()),
@@ -180,7 +186,7 @@ func addSampleData() {
                     comments: sampleComments, 
                     images: ["imperial1", "imperial2", "imperial3"], 
                     hours: sampleHours, 
-                    envFactor: EnvFactor(dynamicData: ["crowdedness": 2.5, "noise": 3.0], staticData: ["wifi speed": 4.0, "spaciousness": 4.5, "socket no": 5.0], atmosphere: ["Calm", "Quiet"]),
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
@@ -193,7 +199,7 @@ func addSampleData() {
                     comments: [],
                     images: ["theLondonLibrary1", "theLondonLibrary2", "theLondonLibrary3"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors2, 
+                    envFactor: sampleEnvFactors, 
                     num: 4, 
                     category: "library"
                 ),
@@ -219,7 +225,7 @@ func addSampleData() {
                     comments: [],
                     images: ["fulhamLibrary1", "fulhamLibrary2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors2, 
+                    envFactor: sampleEnvFactors, 
                     num: 4, 
                     category: "library"
                 ),
@@ -245,7 +251,7 @@ func addSampleData() {
                     comments: [],
                     images: ["avonmoreLibrary1"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors2,
+                    envFactor: sampleEnvFactors,
                     num: 4, 
                     category: "library"
                 ),
@@ -284,7 +290,7 @@ func addSampleData() {
                     comments: [],
                     images: ["theMaughanLibrary1", "theMaughanLibrary2", "theMaughanLibrary3"],
                     hours: sampleHours,
-                    envFactor: EnvFactor(dynamicData: ["crowdedness": 2.5, "noise": 3.0], staticData: ["wifi speed": 4.0, "spaciousness": 4.5, "socket no": 5.0], atmosphere: ["University", "Antique"]),
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
@@ -297,7 +303,7 @@ func addSampleData() {
                     comments: [],
                     images: ["CHSPublicLibrary1"],
                     hours: sampleHours,
-                    envFactor: EnvFactor(dynamicData: ["crowdedness": 2.5, "noise": 3.0], staticData: ["wifi speed": 4.0, "spaciousness": 4.5, "socket no": 5.0], atmosphere: ["Quiet", "Antique"]),
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
@@ -311,7 +317,7 @@ func addSampleData() {
                     comments: sampleComments,
                     images: ["imperialMedicalLibrary1", "imperialMedicalLibrary2"],
                     hours: sampleHours,
-                    envFactor: EnvFactor(dynamicData: ["crowdedness": 2.5, "noise": 3.0], staticData: ["wifi speed": 4.0, "spaciousness": 4.5, "socket no": 5.0], atmosphere: ["University", "Locked"]),
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
@@ -324,7 +330,7 @@ func addSampleData() {
                     comments: [],
                     images: ["shepherdsBushLibrary1", "shepherdsBushLibrary2", "shepherdsBushLibrary3"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors2,
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
@@ -350,7 +356,7 @@ func addSampleData() {
                     comments: [],
                     images: ["actonLibrary"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors2,
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
@@ -376,7 +382,7 @@ func addSampleData() {
                     comments: [],
                     images: ["queensParkLibrary1"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors2,
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
@@ -415,7 +421,7 @@ func addSampleData() {
                     comments: [],
                     images: ["roehamptonUniversityLibrary1", "roehamptonUniversityLibrary2", "roehamptonUniversityLibrary3"],
                     hours: sampleHours,
-                    envFactor: EnvFactor(dynamicData: ["crowdedness": 2.5, "noise": 3.0], staticData: ["wifi speed": 4.0, "spaciousness": 4.5, "socket no": 5.0], atmosphere: ["University", "Antique"]),
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
@@ -428,11 +434,11 @@ func addSampleData() {
                     comments: [],
                     images: ["brunelUniversityLibrary1", "brunelUniversityLibrary2", "brunelUniversityLibrary3"],
                     hours: sampleHours,
-                    envFactor: EnvFactor(dynamicData: ["crowdedness": 2.5, "noise": 3.0], staticData: ["wifi speed": 4.0, "spaciousness": 4.5, "socket no": 5.0], atmosphere: ["University", "Antique"]),
+                    envFactor: sampleEnvFactors,
                     num: 4,
                     category: "library"
                 ),
-// 20 libraries
+// 10 cafe
                 StudyLocation(
                     name: "Starbucks - South Kensington",
                     title: "19 Old Brompton Rd, London SW7 3HZ",
@@ -442,7 +448,7 @@ func addSampleData() {
                     comments: [],
                     images: ["starbucksSouthKensington1", "starbucksSouthKensington2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors2,
                     num: 4,
                     category: "cafe"
                 ),
@@ -455,7 +461,7 @@ func addSampleData() {
                     comments: [],
                     images: ["caffeNeroGloucester1", "caffeNeroGloucester2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors2,
+                    envFactor: sampleEnvFactors3,
                     num: 4,
                     category: "cafe"
                 ),
@@ -468,7 +474,7 @@ func addSampleData() {
                     comments: [],
                     images: ["pretGloucester1", "pretGloucester2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors2,
                     num: 4,
                     category: "cafe"
                 ),
@@ -481,7 +487,7 @@ func addSampleData() {
                     comments: [],
                     images: ["pretEarlsCourt1", "pretEarlsCourt2", "pretEarlsCourt3"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors2,
                     num: 4,
                     category: "cafe"
                 ),
@@ -507,7 +513,7 @@ func addSampleData() {
                     comments: [],
                     images: ["caffeNeroSouthernInterchange1", "caffeNeroSouthernInterchange2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors3,
                     num: 4,
                     category: "cafe"
                 ),
@@ -533,7 +539,7 @@ func addSampleData() {
                     comments: [],
                     images: ["parisBaguetteKensingtonHighSt1", "parisBaguetteKensingtonHighSt2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors3,
                     num: 4,
                     category: "cafe"
                 ),
@@ -546,7 +552,7 @@ func addSampleData() {
                     comments: [],
                     images: ["caffeNeroOldBromptonRd1", "caffeNeroOldBromptonRd2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors3,
                     num: 4,
                     category: "cafe"
                 ),
@@ -573,7 +579,7 @@ func addSampleData() {
                     comments: [],
                     images: ["starbucksGloucester1", "starbucksGloucester2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors2,
                     num: 4,
                     category: "cafe"
                 ),
@@ -586,12 +592,10 @@ func addSampleData() {
                     comments: [],
                     images: ["starbucksEarlsCourt1", "starbucksEarlsCourt2"],
                     hours: sampleHours,
-                    envFactor: sampleEnvFactors,
+                    envFactor: sampleEnvFactors2,
                     num: 4,
                     category: "cafe"
                 )
-
-                
             ]
             
             let group = DispatchGroup()
