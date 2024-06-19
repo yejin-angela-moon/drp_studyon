@@ -40,9 +40,11 @@ struct AuthView: View {
     @EnvironmentObject var studyLocationViewModel: StudyLocationViewModel
     var body: some View {
         NavigationStack {
-           
+            if userViewModel.isUserLoggedIn {
+                LocationsView().environmentObject(studyLocationViewModel).environmentObject(userViewModel).environmentObject(NotificationHandlerModel.shared)
+            } else {
                 LoginView(isUserLoggedIn: $isUserLoggedIn).environmentObject(studyLocationViewModel).environmentObject(userViewModel)
-            
+            }
         }
     }
 }
