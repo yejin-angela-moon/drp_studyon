@@ -30,7 +30,7 @@ class LocationServiceManager: NSObject, CLLocationManagerDelegate {
                     locationStayStartTime = Date()
                 } else if let startTime = locationStayStartTime {
                     let duration = Date().timeIntervalSince(startTime)
-                    if duration > 1 { // 30
+                    if duration > 30 { // 30
                         nearbyStudyLocation = studyLocationViewModel.findNearbyStudyLocation(from: lastLocation, within: CLLocationDistance(50)) // within 50m range
                         if let nearbyLocation = nearbyStudyLocation {
                             print(nearbyLocation.name)
