@@ -6,7 +6,7 @@ struct LocationsView: View {
     @EnvironmentObject var viewModel: StudyLocationViewModel
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var notificationHandler: NotificationHandlerModel
-    @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
+    @StateObject private var cameraViewModel: CameraPositionViewModel = CameraPositionViewModel()
     @State private var searchText = ""  // Search text in the search text field
     @State private var results = [MKMapItem]()
     @State private var locationSelection: StudyLocation?
@@ -40,8 +40,18 @@ struct LocationsView: View {
         }
     }
 
+    // private func saveCameraPosition() {
+    //     if let region = cameraViewModel.cameraPosition.region {
+    //         cameraViewModel.saveCameraPosition(region: region)
+    //     }
+    // }
+
+    // private func restoreCameraPosition() {
+    //     cameraViewModel.initializeCameraPosition()
+    // }
+
     private var mapLayer: some View {
-        Map(position: $cameraPosition, selection: $locationSelection) {
+        Map(position: $cameraViewModel.cameraPosition, selection: $locationSelection) {
             UserAnnotation()
             
             if hasResults {
@@ -220,6 +230,16 @@ struct LocationsView: View {
         .onTapGesture {
             isInputActive = false
             self.hideKeyboard()
+        }
+        .onChange(of: listDisplay) { newValue in
+            // if newValue {
+            //     saveCameraPosition()  // Save the current camera position
+            // } else {
+            //     restoreCameraPosition()  // Restore the saved camera position
+            // }
+            if !newValue {
+                cameraViewModel.resetCameraPosition()  // Reset camera position when switching back to map view
+            }
         }
     }
     
