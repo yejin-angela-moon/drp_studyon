@@ -196,7 +196,7 @@ struct LocationsView: View {
             if showPopup {
                 VStack {
                     Spacer()
-                    StudyLocationView(studyLocation: $locationSelection, show: $showPopup, showDetails: $showDetails, userFavorites: $userFavorites)
+                    StudyLocationView(studyLocation: locationSelection, show: $showPopup, showDetails: $showDetails, userFavorites: $userFavorites)
                         .frame(height: UIScreen.main.bounds.height / 2 - 60)
                         .background(Color.white)
                         .cornerRadius(12)

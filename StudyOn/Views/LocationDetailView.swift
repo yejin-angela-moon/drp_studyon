@@ -4,7 +4,7 @@ import Firebase
 
 struct LocationDetailView: View {
   @EnvironmentObject var viewModel: StudyLocationViewModel
-  @Binding var studyLocation: StudyLocation?
+  @State var studyLocation: StudyLocation?
   @Binding var show: Bool
   @Binding var userFavorites: Set<String>
 
@@ -17,6 +17,9 @@ struct LocationDetailView: View {
   @EnvironmentObject var fontSizeManager: FontSizeManager
   @State private var showConfirmation: Bool = false
   @State private var userRating: Double = 2.5
+  @State private var commentContent: String = ""
+  @State private var userName: String = ""
+
 
 
 
@@ -51,9 +54,13 @@ struct LocationDetailView: View {
         }
         .padding(.trailing, 15)
         .onAppear(){
+            viewModel.fetchData()
             userViewModel.fetchUserFavorites() {
                 self.isFavorite = userViewModel.userFavorites.contains(studyLocation?.name ?? "")
             }
+            Task {
+                    await viewModel.fetchComments(for: studyLocation)
+                }
         }
       }
 
@@ -88,8 +95,11 @@ struct LocationDetailView: View {
           "\(crowdnessLevelToText(userCrowdness: userCrowdness, dataCrowdness: studyLocation?.envFactor.dynamicData["crowdedness"] ?? -1))"
         ) {
           Button("Sparse") { userCrowdness = 1 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
           Button("Crowded") { userCrowdness = 2 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
           Button("Full") { userCrowdness = 3 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
         }
         .buttonStyle(.bordered)
 
@@ -97,8 +107,11 @@ struct LocationDetailView: View {
           "\(noiseLevelToText(userNoise: userNoise, dataNoise: studyLocation?.envFactor.dynamicData["noise"] ?? -1))"
         ) {
           Button("Quiet") { userNoise = 1 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
           Button("Audible") { userNoise = 2 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
           Button("Loud") { userNoise = 3 }
+                .disabled(!NotificationHandlerModel.shared.allowDynamicDataSubmit)
         }
         .buttonStyle(.bordered)
  
@@ -117,6 +130,10 @@ struct LocationDetailView: View {
           Task {
             await viewModel.submitDynamicData(
               studyLocation: studyLocation, crowdness: crowdness, noise: noise)
+              
+            viewModel.fetchData()
+            let findID = studyLocation?.documentID ?? ""
+            studyLocation = viewModel.findLocationByDocumentID(documentIDKey: findID)
           }
 
           withAnimation {
@@ -179,6 +196,9 @@ struct LocationDetailView: View {
 
                 Task {
                   await viewModel.submitRating(studyLocation: studyLocation, rating: newRating, ratingNum: num + 1)
+                  viewModel.fetchData()
+                  let findID = studyLocation?.documentID ?? ""
+                  studyLocation = viewModel.findLocationByDocumentID(documentIDKey: findID)
                 }
               }
               .padding(8)
@@ -188,13 +208,48 @@ struct LocationDetailView: View {
               
           }
           .padding(.horizontal, 40)
-
-
           
         CommentsView(comments: studyLocation?.comments ?? [])
+          VStack(alignment: .leading) {
+                              TextField("Your name", text: $userName)
+                                  .textFieldStyle(RoundedBorderTextFieldStyle())
+                                  .padding(.horizontal)
+                                  .disabled(true)
+
+                              TextField("Add a comment", text: $commentContent)
+                                  .textFieldStyle(RoundedBorderTextFieldStyle())
+                                  .padding(.horizontal)
+
+                              Button("Submit Comment") {
+                                  if !commentContent.isEmpty {
+                                      let newComment = Comment(name: userName, content: commentContent)
+
+                                      Task {
+                                          await viewModel.submitComment(studyLocation: studyLocation, comment: newComment)
+                                          await viewModel.fetchComments(for: studyLocation)
+                                          let findID = studyLocation?.documentID ?? ""
+                                          studyLocation = viewModel.findLocationByDocumentID(documentIDKey: findID)
+                                          commentContent = ""
+                                      }
+                                  }
+                              }
+                              .padding()
+                              .background(Color.blue)
+                              .foregroundColor(.white)
+                              .cornerRadius(8)
+                              .padding(.horizontal)
+                          }
       }
       .padding(.bottom, 20)
     }
+    .onAppear {
+                if let currentUser = userViewModel.currentUser {
+                    userName = currentUser.name
+                }
+                Task {
+                    await viewModel.fetchComments(for: studyLocation)
+                }
+            }
     .overlay(
       VStack {
         if showConfirmation {

@@ -6,6 +6,7 @@ struct SignupView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var errorMessage = ""
+    @State private var name = ""
     @Binding var isUserLoggedIn: Bool
     @EnvironmentObject var userViewModel: UserViewModel
     
@@ -18,6 +19,11 @@ struct SignupView: View {
                 .padding(.horizontal, 15)
             
             SecureField("Password", text: $password)
+                .padding()
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(5)
+                .padding(.horizontal, 15)
+            TextField("Name", text: $name)
                 .padding()
                 .background(Color(.secondarySystemBackground))
                 .cornerRadius(5)
@@ -52,7 +58,8 @@ struct SignupView: View {
                 let newUser = User(
                     id: authResult.user.uid,
                     email: email,
-                    password: password
+                    password: password,
+                    name: name
                 )
                 userViewModel.saveUser(newUser)
                 isUserLoggedIn = true

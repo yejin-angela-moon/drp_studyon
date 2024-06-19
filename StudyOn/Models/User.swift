@@ -13,12 +13,14 @@ struct User: Identifiable, Codable {
     var email: String
     var password: String
     var favoriteLocations: [String]
+    var name: String
     
-    init(id: String, email: String, password: String, favoriteLocations: [String] = []) {
+    init(id: String, email: String, password: String, favoriteLocations: [String] = [], name: String) {
         self.id = id
         self.email = email
         self.password = password
         self.favoriteLocations = favoriteLocations
+        self.name = name
     }
 }
 

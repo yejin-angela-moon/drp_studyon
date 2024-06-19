@@ -25,12 +25,15 @@ struct ListView: View {
                 .contentShape(Rectangle())
             }
             .fullScreenCover(isPresented: $showDetails) {
-                LocationDetailView(studyLocation: $selectedLocation, show: $showDetails, userFavorites: $userFavorites)
+                LocationDetailView(studyLocation: selectedLocation, show: $showDetails, userFavorites: $userFavorites)
                     .environmentObject(viewModel)
                     .environmentObject(userViewModel)
                     .environmentObject(fontSizeManager)
             }
             .listStyle(PlainListStyle())
+        }
+        .onAppear {
+            viewModel.fetchData()
         }
     }
 
